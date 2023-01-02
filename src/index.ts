@@ -1,6 +1,7 @@
 import express from "express";
+import * as dotenv from "dotenv";
+dotenv.config();
 const app = express();
-require("dotenv").config();
 
 app.get("/", (req, res) => {
   res.send("Hello World!");
