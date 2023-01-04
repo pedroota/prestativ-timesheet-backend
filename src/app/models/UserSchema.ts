@@ -1,4 +1,5 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
+// const Role = require('./RoleSchema');
 
 const Schema = mongoose.Schema;
 
@@ -7,6 +8,7 @@ interface IUser {
   surname: string;
   email: string;
   password: string;
+  role: Schema.Types.ObjectId; // qual é o tipo adequado???????????????????????
 }
 
 const UserSchema = new Schema<IUser>({
@@ -31,7 +33,11 @@ const UserSchema = new Schema<IUser>({
     required: true,
     trim: true,
   },
-  // Adicionar o relacionamento entre a tabela de atividades e de ROLES
+  role: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Roles",
+    required: true,
+  },
 });
 
 const User = mongoose.model<IUser>("User", UserSchema);
