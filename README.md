@@ -1,6 +1,8 @@
 # Regras para criar Controllers:
 
-Somente em caso das rotas de autenticação que tem os métodos register() e login(), um controller deve ser obrigatoriamente uma classe com os métodos index, show, store, update e delete. Respectivamente, estes métodos significam:
+Somente em caso das rotas de autenticação que tem os métodos register() e login(),
+um controller deve ser obrigatoriamente uma classe com os métodos index, show,
+store, update e delete. Respectivamente, estes métodos significam:
 
 index: Listar todos os registros do banco
 show: Listar UM registro do banco
