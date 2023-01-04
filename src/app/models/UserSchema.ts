@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 // const Role = require('./RoleSchema');
 
 const Schema = mongoose.Schema;
@@ -8,7 +8,7 @@ interface IUser {
   surname: string;
   email: string;
   password: string;
-  role: Schema.Types.ObjectId; // qual é o tipo adequado???????????????????????
+  role: mongoose.Schema.Types.ObjectId; // qual é o tipo adequado???????????????????????
 }
 
 const UserSchema = new Schema<IUser>({
