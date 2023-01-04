@@ -4,7 +4,6 @@ Somente em caso das rotas de autenticação que tem os métodos register() e log
 um controller deve ser obrigatoriamente uma classe com os métodos index, show,
 store, update e delete. Respectivamente, estes métodos significam:
 
-
 index: Listar todos os registros do banco
 show: Listar UM registro do banco
 store: Criar um novo registro no banco
