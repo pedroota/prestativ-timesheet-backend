@@ -20,6 +20,7 @@ export function verifyTokenJwt(
 
     next();
   } catch (err) {
+    response.clearCookie("token");
     response.status(400).json({ message: "Este token é inválido!" });
   }
 }

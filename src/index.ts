@@ -1,12 +1,14 @@
 import express from "express";
 import * as dotenv from "dotenv";
 dotenv.config();
-import { errorHandler } from "./app/middlewares/errorHandler";
+const cookieParser = require("cookie-parser");
+// import { errorHandler } from "./app/middlewares/errorHandler";
 import "./database/db";
 const routes = require("./routes");
 const app = express();
 
 app.use(express.json());
+app.use(cookieParser());
 // app.use(errorHandler);
 app.use(routes);
 

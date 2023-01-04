@@ -67,11 +67,15 @@ class UsersController {
         {
           id: user._id,
         },
-        JWT_SECRET
+        JWT_SECRET,
+        {
+          expiresIn: "24h",
+        }
       );
 
       response
         .status(200)
+        .cookie("token", token, { httpOnly: true })
         .json({ message: "Usuário logado com sucesso", token });
     } catch (err) {
       response.send(500).json("Ops! Algo deu errado.");

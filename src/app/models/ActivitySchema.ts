@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 interface IActivity {
   title: string;
-  project: mongoose.Schema.Types.ObjectId; // qual é o tipo adequado???????????????????????
+  project: mongoose.Schema.Types.ObjectId;
   valueActivity: number;
   gpActivity: string;
   callNumber: string;
@@ -37,9 +37,11 @@ const ActivitySchema = new Schema<IActivity>({
   },
   createdAt: {
     type: Number,
+    required: true,
   },
   updatedAt: {
     type: Number,
+    required: true,
   },
 });
 
