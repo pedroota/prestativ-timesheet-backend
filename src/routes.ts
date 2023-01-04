@@ -8,7 +8,7 @@ const router = Router();
 // User Routes
 router.post("/auth/register", UsersController.register);
 router.post("/auth/login", UsersController.login);
-router.get("/auth/users", verifyTokenJwt, UsersController.index);
+router.get("/auth/users", UsersController.index);
 
 // Role Routes
 router.get("/roles", RoleController.index); // inserir novamente o middleware JWT aqui e em baixo

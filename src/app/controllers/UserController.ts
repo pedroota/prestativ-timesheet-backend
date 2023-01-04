@@ -11,7 +11,7 @@ class UsersController {
   }
 
   async register(request: Request, response: Response) {
-    const { name, surname, email, password } = request.body;
+    const { name, surname, email, password, role } = request.body;
 
     // Search if the user already exists
     const isUserAlreadyRegistered = await UserRepository.findByEmail(email);
@@ -29,6 +29,7 @@ class UsersController {
       surname,
       email,
       password: passwordHash,
+      role,
     });
 
     return response
