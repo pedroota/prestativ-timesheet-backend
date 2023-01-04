@@ -34,8 +34,8 @@ const UserSchema = new Schema<IUser>({
     trim: true,
   },
   role: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "Roles",
+    type: mongoose.Schema.Types.String,
+    ref: "Role",
     required: true,
   },
 });
