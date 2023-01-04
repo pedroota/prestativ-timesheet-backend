@@ -17,7 +17,7 @@ class RoleController {
 
     if (isRoleAlreadyRegistered)
       return response.status(422).json({
-        message: "Uma categoria de usuário com este nome já foi cadastrado",
+        message: "Um tipo de usuário já foi cadastrado com este nome",
       });
 
     const role = await RoleRepository.create({
@@ -27,9 +27,34 @@ class RoleController {
     return response.status(200).json(role);
   }
 
-  // update(request: Request, response: Response) {}
+  async update(request: Request, response: Response) {
+    const id = request.params.id;
+    const { name } = request.body;
+    const role = { name };
+    const updatedRole = await RoleRepository.updateOne({ _id: id }, role);
+    if (updatedRole.matchedCount === 0) {
+      response.status(422).json({
+        error: "é obrigatório informar um novo nome para o tipo de usuário",
+      });
+      return;
+    }
+    response.status(200).json(role);
+  }
 
-  // delete(request: Request, response: Response) {}
+  async delete(request: Request, response: Response) {
+    const id = request.params.id;
+    const role = await RoleRepository.findOne({ _id: id });
+    if (!role) {
+      response
+        .status(422)
+        .json({ message: "o tipo de usuário não foi encontrada!" });
+      return;
+    }
+    await RoleRepository.deleteOne({ _id: id });
+    response
+      .status(200)
+      .json({ message: "esse tipo usuário foi removido com sucesso" });
+  }
 }
 
 module.exports = new RoleController();

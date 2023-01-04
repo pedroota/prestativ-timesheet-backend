@@ -30,10 +30,6 @@ const ActivitySchema = new Schema<IActivity>({
     required: true,
     trim: true,
   },
-  // deixei esses comentários aqui, porém vão ser deletados assim que eu esclarecer isso com o Pietro ;)
-  // DASHBOARD apenas ADM pode visualizar ou outro nivel de usuario também?
-  // dúvida para tirar com o pietro: o numero do chamado é unico para cada atividade
-  // ou pode ser vário numeros de chamados diferentes conforme as horas são lançadas? ---> CAMPO ABAIXO
   callNumber: {
     type: String,
     required: true,

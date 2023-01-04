@@ -11,8 +11,10 @@ router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
 
 // Role Routes
-router.get("/roles", verifyTokenJwt, RoleController.index); // inserir novamente o middleware JWT aqui e em baixo
+router.get("/roles", verifyTokenJwt, RoleController.index);
 router.post("/roles", verifyTokenJwt, RoleController.store);
+router.patch("/roles/:id", verifyTokenJwt, RoleController.update);
+router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
 // Client Routes
 router.get("/clients", verifyTokenJwt, ClientController.index);
