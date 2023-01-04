@@ -17,43 +17,43 @@ class RoleController {
 
     if (isRoleAlreadyRegistered)
       return response.status(422).json({
-        message: "Um tipo de usuário já foi cadastrado com este nome",
+        message: "Um cargo com este nome já foi cadastrado",
       });
 
-    const role = await RoleRepository.create({
-      name,
-    });
+    const role = await RoleRepository.create(name);
 
     return response.status(200).json(role);
   }
 
   async update(request: Request, response: Response) {
-    const id = request.params.id;
+    const { id } = request.params;
     const { name } = request.body;
-    const role = { name };
-    const updatedRole = await RoleRepository.updateOne({ _id: id }, role);
-    if (updatedRole.matchedCount === 0) {
-      response.status(422).json({
-        error: "é obrigatório informar um novo nome para o tipo de usuário",
-      });
-      return;
-    }
-    response.status(200).json(role);
+
+    if (!name)
+      return response
+        .status(404)
+        .json({ message: "O campo de nome é obrigatório." });
+
+    const updatedRole = await RoleRepository.findByIdAndUpdate(id, name);
+
+    return response
+      .status(200)
+      .json({ message: "Cargo atualizado com sucesso.", updatedRole });
   }
 
   async delete(request: Request, response: Response) {
-    const id = request.params.id;
-    const role = await RoleRepository.findOne({ _id: id });
-    if (!role) {
-      response
-        .status(422)
-        .json({ message: "o tipo de usuário não foi encontrada!" });
-      return;
-    }
-    await RoleRepository.deleteOne({ _id: id });
-    response
-      .status(200)
-      .json({ message: "esse tipo usuário foi removido com sucesso" });
+    const { id } = request.params;
+
+    const role = await RoleRepository.findById(id);
+
+    if (!role)
+      return response
+        .status(404)
+        .json({ message: "Este cargo não foi encontrado." });
+
+    await RoleRepository.delete(id);
+
+    return response.status(204).json({ message: "Cargo apagado com sucesso." });
   }
 }
 

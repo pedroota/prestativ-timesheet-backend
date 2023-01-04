@@ -7,5 +7,7 @@ export function errorHandler(
 ) {
   console.log(error);
 
-  return response.sendStatus(500);
+  return response
+    .status(500)
+    .json({ message: "Ops! Ocorreu um erro ao executar a ação." });
 }

@@ -8,12 +8,24 @@ class RoleRepository {
   }
 
   async findByName(name: string) {
-    const role = Role.findOne({ name: name });
+    const role = await Role.findOne({ name: name });
 
     return role;
   }
 
-  async create({ name }) {
+  async findById(id: string) {
+    const role = await Role.findOne({ _id: id });
+
+    return role;
+  }
+
+  async findByIdAndUpdate(id: string, name: string) {
+    const role = await Role.findOneAndUpdate({ _id: id }, { name: name });
+
+    return role;
+  }
+
+  async create(name: string) {
     const role = new Role({
       name,
     });
@@ -21,6 +33,11 @@ class RoleRepository {
     await role.save();
 
     return role;
+  }
+
+  async delete(id: string) {
+    await Role.findOneAndDelete({ _id: id });
+    return;
   }
 }
 

@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 const UserRepository = require("../repositories/UserRepository");
+const RoleRepository = require("../repositories/RoleRepository");
 
 class UsersController {
   async index(request: Request, response: Response) {
@@ -15,11 +16,17 @@ class UsersController {
 
     // Search if the user already exists
     const isUserAlreadyRegistered = await UserRepository.findByEmail(email);
+    const isRoleValid = await RoleRepository.findByName(role);
 
     if (isUserAlreadyRegistered)
       return response
         .status(422)
         .json({ message: "Esse usuário já foi cadastrado" });
+
+    if (!isRoleValid)
+      return response
+        .status(404)
+        .json({ message: "O cargo definido é inválido." });
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
@@ -33,7 +40,7 @@ class UsersController {
     });
 
     return response
-      .status(204)
+      .status(200)
       .json({ message: "Usuário criado com sucesso", user });
   }
 
