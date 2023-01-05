@@ -3,7 +3,11 @@ const User = require("../models/UserSchema");
 class UserRepository {
   async findAll() {
     const users = await User.find();
+    return users;
+  }
 
+  async findTypeOfUsers(userType: string) {
+    const users = await User.findMany({ role: userType });
     return users;
   }
 

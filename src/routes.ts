@@ -18,6 +18,7 @@ router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
 // Client Routes
 router.get("/clients", verifyTokenJwt, ClientController.index);
+router.get("/clients/:userType", verifyTokenJwt, ClientController.index); // ROTA CRIADA PARA O PARAMETRO DO TIPO DE USUARIO / USANDO A MESMA FUNÇÃO DO CONTROLLER
 router.post("/clients", verifyTokenJwt, ClientController.store);
 
 module.exports = router;
