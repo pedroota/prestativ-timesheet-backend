@@ -12,6 +12,7 @@ class ClientController {
 
   async store(request: Request, response: Response) {
     const {
+      code,
       name,
       cnpj,
       cep,
@@ -37,6 +38,7 @@ class ClientController {
         .json({ message: "Um cliente com este nome já foi cadastrado" });
 
     const client = await ClientRepository.create({
+      code,
       name,
       cnpj,
       cep,
