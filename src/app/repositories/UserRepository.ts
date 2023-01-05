@@ -7,7 +7,7 @@ class UserRepository {
   }
 
   async findUsersByRole(role: string) {
-    const users = await User.findMany({ role: role });
+    const users = await User.find({ role: role });
     return users;
   }
 
