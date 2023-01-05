@@ -9,7 +9,6 @@ const router = Router();
 router.post("/auth/register", verifyTokenJwt, UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
-router.get("/auth/users?role=consultor", verifyTokenJwt, UsersController.index);
 
 // Role Routes
 router.get("/roles", verifyTokenJwt, RoleController.index);
