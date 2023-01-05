@@ -6,7 +6,7 @@ const RoleRepository = require("../repositories/RoleRepository");
 
 class UsersController {
   async index(request: Request, response: Response) {
-    const { user } = request.query;
+    const user = request.query;
     if (user) {
       const users = await UserRepository.findTypeOfUsers(user);
       return response.json(users);

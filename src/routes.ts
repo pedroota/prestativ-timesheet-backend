@@ -9,6 +9,7 @@ const router = Router();
 router.post("/auth/register", verifyTokenJwt, UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
+router.get("/auth/users?role=consultor", verifyTokenJwt, UsersController.index);
 
 // Role Routes
 router.get("/roles", verifyTokenJwt, RoleController.index);
@@ -18,7 +19,6 @@ router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
 // Client Routes
 router.get("/clients", verifyTokenJwt, ClientController.index);
-router.get("/clients/:userType", verifyTokenJwt, ClientController.index); // ROTA CRIADA PARA O PARAMETRO DO TIPO DE USUARIO / USANDO A MESMA FUNÇÃO DO CONTROLLER
 router.post("/clients", verifyTokenJwt, ClientController.store);
 
 module.exports = router;
