@@ -6,7 +6,7 @@ import { verifyTokenJwt } from "./app/middlewares/verifyTokenJwt";
 const router = Router();
 
 // User Routes
-router.post("/auth/register", UsersController.register);
+router.post("/auth/register", verifyTokenJwt, UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
 
