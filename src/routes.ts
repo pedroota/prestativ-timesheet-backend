@@ -17,7 +17,9 @@ router.patch("/roles/:id", verifyTokenJwt, RoleController.update);
 router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
 // Client Routes
-router.get("/clients", verifyTokenJwt, ClientController.index);
-router.post("/clients", verifyTokenJwt, ClientController.store);
+router.get("/clients", ClientController.index);
+router.post("/clients", ClientController.store);
+router.patch("/clients/:id", ClientController.update);
+router.delete("/clients/:id", ClientController.delete);
 
 module.exports = router;
