@@ -8,7 +8,7 @@ interface IUser {
   surname: string;
   email: string;
   password: string;
-  role: mongoose.Schema.Types.ObjectId; // qual é o tipo adequado???????????????????????
+  role: mongoose.Schema.Types.ObjectId;
 }
 
 const UserSchema = new Schema<IUser>({

@@ -13,6 +13,17 @@ class RoleController {
   async store(request: Request, response: Response) {
     const { name } = request.body;
 
+    if (
+      name !== "Administrador" ||
+      name !== "Consultor" ||
+      name !== "Operacional" ||
+      name !== "Gerente-De-Projetos"
+    ) {
+      return response
+        .status(404)
+        .json({ message: "O nome solicitado não é válido" });
+    }
+
     const isRoleAlreadyRegistered = await RoleRepository.findByName(name);
 
     if (isRoleAlreadyRegistered)
