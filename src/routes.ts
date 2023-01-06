@@ -3,6 +3,7 @@ const UsersController = require("./app/controllers/UserController");
 const RoleController = require("./app/controllers/RoleController");
 const ClientController = require("./app/controllers/ClientController");
 const ProjectController = require("./app/controllers/ProjectController");
+const ActivityController = require("./app/controllers/ActivityController");
 import { verifyTokenJwt } from "./app/middlewares/verifyTokenJwt";
 const router = Router();
 
@@ -24,9 +25,15 @@ router.put("/clients/:id", verifyTokenJwt, ClientController.update);
 router.delete("/clients/:id", verifyTokenJwt, ClientController.delete);
 
 // Project Routes
-router.get("/projects", ProjectController.index);
-router.post("/projects", ProjectController.store);
-router.put("/projects/:id", ProjectController.update);
-router.delete("/projects/:id", ProjectController.delete);
+router.get("/projects", verifyTokenJwt, ProjectController.index);
+router.post("/projects", verifyTokenJwt, ProjectController.store);
+router.put("/projects/:id", verifyTokenJwt, ProjectController.update);
+router.delete("/projects/:id", verifyTokenJwt, ProjectController.delete);
+
+// Activity Routes
+router.get("/activities", verifyTokenJwt, ActivityController.index);
+router.post("/activities", verifyTokenJwt, ActivityController.store);
+router.put("/activities/:id", verifyTokenJwt, ActivityController.update);
+router.delete("/activities/:id", verifyTokenJwt, ActivityController.delete);
 
 module.exports = router;
