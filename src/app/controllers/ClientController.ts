@@ -82,7 +82,7 @@ class ClientController {
       gpClient,
     } = request.body;
 
-    const updatedClient = await ClientRepository.findByIdAndUpdate(
+    const updatedClient = await ClientRepository.findByIdAndUpdate({
       id,
       code,
       name,
@@ -99,8 +99,8 @@ class ClientController {
       billingLimit,
       payDay,
       valueClient,
-      gpClient
-    );
+      gpClient,
+    });
 
     return response
       .status(200)

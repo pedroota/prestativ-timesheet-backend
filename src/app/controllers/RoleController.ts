@@ -45,7 +45,7 @@ class RoleController {
         .status(404)
         .json({ message: "O campo de nome é obrigatório." });
 
-    const updatedRole = await RoleRepository.findByIdAndUpdate(id, name);
+    const updatedRole = await RoleRepository.findByIdAndUpdate({ id, name });
 
     return response
       .status(200)
