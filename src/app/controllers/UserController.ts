@@ -41,6 +41,8 @@ class UsersController {
       email,
       password: passwordHash,
       role,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
 
     return response

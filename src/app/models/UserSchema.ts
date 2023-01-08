@@ -9,6 +9,8 @@ interface IUser {
   email: string;
   password: string;
   role: mongoose.Schema.Types.ObjectId;
+  createdAt: number;
+  updatedAt: number;
 }
 
 const UserSchema = new Schema<IUser>({
@@ -36,6 +38,14 @@ const UserSchema = new Schema<IUser>({
   role: {
     type: mongoose.Schema.Types.String,
     ref: "Role",
+    required: true,
+  },
+  createdAt: {
+    type: Number,
+    required: true,
+  },
+  updatedAt: {
+    type: Number,
     required: true,
   },
 });

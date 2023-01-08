@@ -17,13 +17,15 @@ class UserRepository {
     return user;
   }
 
-  async create({ name, surname, email, password, role }) {
+  async create({ name, surname, email, password, role, createdAt, updatedAt }) {
     const user = new User({
       name,
       surname,
       email,
       password,
       role,
+      createdAt,
+      updatedAt,
     });
 
     await user.save();
