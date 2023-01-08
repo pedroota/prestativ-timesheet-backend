@@ -18,7 +18,7 @@ class ActivityRepository {
     project,
     valueActivity,
     gpActivity,
-    callNumber,
+    description,
     createdAt,
     updatedAt,
   }) {
@@ -27,7 +27,7 @@ class ActivityRepository {
       project,
       valueActivity,
       gpActivity,
-      callNumber,
+      description,
       createdAt,
       updatedAt,
     });
@@ -42,7 +42,7 @@ class ActivityRepository {
     project,
     valueActivity,
     gpActivity,
-    callNumber,
+    description,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -51,7 +51,7 @@ class ActivityRepository {
         project: project,
         valueActivity: valueActivity,
         gpActivity: gpActivity,
-        callNumber: callNumber,
+        description: description,
         updatedAt: Date.now(),
       }
     );

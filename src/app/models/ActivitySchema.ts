@@ -7,7 +7,7 @@ interface IActivity {
   project: mongoose.Schema.Types.ObjectId;
   valueActivity: number;
   gpActivity: string;
-  callNumber: string;
+  description: string;
   createdAt: number;
   updatedAt: number;
 }
@@ -30,7 +30,7 @@ const ActivitySchema = new Schema<IActivity>({
     required: true,
     trim: true,
   },
-  callNumber: {
+  description: {
     type: String,
     required: true,
     trim: true,
