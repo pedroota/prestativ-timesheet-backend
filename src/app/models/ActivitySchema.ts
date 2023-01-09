@@ -8,6 +8,7 @@ interface IActivity {
   valueActivity: number;
   gpActivity: string;
   description: string;
+  userString: [string];
   createdAt: number;
   updatedAt: number;
 }
@@ -18,7 +19,7 @@ const ActivitySchema = new Schema<IActivity>({
     required: true,
   },
   project: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: mongoose.Schema.Types.String,
     ref: "Project",
     required: true,
   },
@@ -32,6 +33,11 @@ const ActivitySchema = new Schema<IActivity>({
   },
   description: {
     type: String,
+    required: true,
+    trim: true,
+  },
+  userString: {
+    type: [String],
     required: true,
     trim: true,
   },

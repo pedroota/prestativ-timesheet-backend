@@ -19,6 +19,7 @@ class ActivityRepository {
     valueActivity,
     gpActivity,
     description,
+    userString,
     createdAt,
     updatedAt,
   }) {
@@ -28,6 +29,7 @@ class ActivityRepository {
       valueActivity,
       gpActivity,
       description,
+      userString,
       createdAt,
       updatedAt,
     });
@@ -43,6 +45,7 @@ class ActivityRepository {
     valueActivity,
     gpActivity,
     description,
+    userString,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -52,6 +55,7 @@ class ActivityRepository {
         valueActivity: valueActivity,
         gpActivity: gpActivity,
         description: description,
+        userString: userString,
         updatedAt: Date.now(),
       }
     );

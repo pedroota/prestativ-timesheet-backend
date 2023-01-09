@@ -21,6 +21,7 @@ class UsersController {
     // Search if the user already exists
     const isUserAlreadyRegistered = await UserRepository.findByEmail(email);
     const isRoleValid = await RoleRepository.findByName(role);
+    console.log(name, surname, email, password, role);
 
     if (isUserAlreadyRegistered)
       return response
