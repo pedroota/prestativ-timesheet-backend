@@ -88,6 +88,44 @@ class UsersController {
       response.send(500).json("Ops! Algo deu errado.");
     }
   }
+
+  async update(request: Request, response: Response) {
+    const { id } = request.params;
+    const { name, surname, email, password, role } = request.body;
+
+    const salt = await bcrypt.genSalt(12);
+    const passwordHash = await bcrypt.hash(password, salt);
+
+    const updatedUser = await UserRepository.findByIdAndUpdate({
+      id,
+      name,
+      surname,
+      email,
+      passwordHash,
+      role,
+    });
+
+    return response
+      .status(200)
+      .json({ message: "Usuário atualizado com sucesso.", updatedUser });
+  }
+
+  async delete(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const user = await UserRepository.findById(id);
+
+    if (!user)
+      return response
+        .status(404)
+        .json({ message: "Este usuário não foi encontrado." });
+
+    await UserRepository.delete(id);
+
+    return response
+      .status(204)
+      .json({ message: "Usuário deletado com sucesso." });
+  }
 }
 
 module.exports = new UsersController();

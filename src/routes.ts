@@ -11,6 +11,8 @@ const router = Router();
 router.post("/auth/register", verifyTokenJwt, UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
+router.put("/auth/users/:id", verifyTokenJwt, UsersController.update);
+router.delete("/auth/users/:id", verifyTokenJwt, UsersController.delete);
 
 // Role Routes
 router.get("/roles", verifyTokenJwt, RoleController.index);
