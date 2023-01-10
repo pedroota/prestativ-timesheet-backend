@@ -4,6 +4,7 @@ const RoleController = require("./app/controllers/RoleController");
 const ClientController = require("./app/controllers/ClientController");
 const ProjectController = require("./app/controllers/ProjectController");
 const ActivityController = require("./app/controllers/ActivityController");
+const HoursController = require("./app/controllers/HoursController");
 import { verifyTokenJwt } from "./app/middlewares/verifyTokenJwt";
 const router = Router();
 
@@ -38,5 +39,11 @@ router.get("/activities", verifyTokenJwt, ActivityController.index);
 router.post("/activities", verifyTokenJwt, ActivityController.store);
 router.put("/activities/:id", verifyTokenJwt, ActivityController.update);
 router.delete("/activities/:id", verifyTokenJwt, ActivityController.delete);
+
+// Hours Routes
+router.get("/hours", verifyTokenJwt, HoursController.index);
+router.post("/hours", verifyTokenJwt, HoursController.store);
+router.put("/hours/:id", verifyTokenJwt, HoursController.update);
+router.delete("/hours/:id", verifyTokenJwt, HoursController.delete);
 
 module.exports = router;
