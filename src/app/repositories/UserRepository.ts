@@ -47,6 +47,17 @@ class UserRepository {
     return user;
   }
 
+  async findByIdAndUpdateToken({ id, token, expiration }) {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      {
+        passwordResetToken: token,
+        passwordResetExpires: expiration,
+      }
+    );
+    return user;
+  }
+
   async findById(id: string) {
     const user = await User.findOne({ _id: id });
 

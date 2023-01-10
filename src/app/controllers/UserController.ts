@@ -1,8 +1,10 @@
 import { Request, Response } from "express";
 import bcrypt from "bcrypt";
+import crypto from "crypto";
 import jwt from "jsonwebtoken";
 const UserRepository = require("../repositories/UserRepository");
 const RoleRepository = require("../repositories/RoleRepository");
+const mailer = require("../modules/mailer");
 
 class UsersController {
   async index(request: Request, response: Response) {
@@ -125,6 +127,46 @@ class UsersController {
     return response
       .status(204)
       .json({ message: "Usuário deletado com sucesso." });
+  }
+
+  async forgot(request: Request, response: Response) {
+    const { email } = request.body;
+
+    try {
+      const user = await UserRepository.findByEmail(email);
+
+      if (!user) {
+        response.status(400).send({ error: "User not Found" });
+      }
+      const token = crypto.randomBytes(20).toString("hex");
+
+      const now = new Date();
+      now.setHours(now.getHours() + 1);
+
+      await UserRepository.findByIdAndUpdateToken(user.id, token, now);
+      console.log(token, now);
+      mailer.sendEmail(
+        {
+          to: email,
+          from: "filipebacof@gmail.com",
+          template: "mail/forgotPassword",
+          context: { token },
+        },
+        (err) => {
+          if (err) {
+            return response
+              .status(400)
+              .send({ error: "Não foi enviado email com token" });
+          }
+          return response.send();
+        }
+      );
+    } catch (err) {
+      console.log(err);
+      response
+        .status(400)
+        .send({ error: "Error on forgot password, try again" });
+    }
   }
 }
 
