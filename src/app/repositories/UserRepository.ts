@@ -31,6 +31,43 @@ class UserRepository {
     await user.save();
     return user;
   }
+
+  async findByIdAndUpdate({ id, name, surname, email, password, role }) {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      {
+        name: name,
+        surname: surname,
+        email: email,
+        password: password,
+        role: role,
+        updatedAt: Date.now(),
+      }
+    );
+    return user;
+  }
+
+  async findByIdAndUpdateToken({ id, token, expiration }) {
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      {
+        passwordResetToken: token,
+        passwordResetExpires: expiration,
+      }
+    );
+    return user;
+  }
+
+  async findById(id: string) {
+    const user = await User.findOne({ _id: id });
+
+    return user;
+  }
+
+  async delete(id: string) {
+    await User.findOneAndDelete({ _id: id });
+    return;
+  }
 }
 
 module.exports = new UserRepository();

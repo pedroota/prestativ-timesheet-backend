@@ -51,12 +51,10 @@ const ClientSchema = new Schema<IClient>({
   },
   streetNumber: {
     type: String,
-    required: true,
     trim: true,
   },
   complement: {
     type: String,
-    required: true,
     trim: true,
   },
   district: {

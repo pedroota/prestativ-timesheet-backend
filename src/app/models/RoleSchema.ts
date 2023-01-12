@@ -9,9 +9,9 @@ interface IRole {
 const RoleSchema = new Schema<IRole>({
   name: {
     type: String,
-    enum: ["Administrador", "Operação", "Gestor de Projetos", "Consultor"],
-    default: "Consultor",
+    enum: ["Administrador", "Operacional", "Gerente de Projetos", "Consultor"],
     required: true,
+    unique: true,
   },
 });
 

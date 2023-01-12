@@ -11,8 +11,14 @@ class ActivityController {
   // show(request: Request, response: Response) {}
 
   async store(request: Request, response: Response) {
-    const { title, project, valueActivity, gpActivity, description } =
-      request.body;
+    const {
+      title,
+      project,
+      valueActivity,
+      gpActivity,
+      description,
+      userString,
+    } = request.body;
 
     const isActivityAlreadyRegistered = await ActivityRepository.findByName(
       title
@@ -29,6 +35,7 @@ class ActivityController {
       valueActivity,
       gpActivity,
       description,
+      userString,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -38,8 +45,14 @@ class ActivityController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { title, project, valueActivity, gpActivity, description } =
-      request.body;
+    const {
+      title,
+      project,
+      valueActivity,
+      gpActivity,
+      description,
+      userString,
+    } = request.body;
 
     const updatedActivity = await ActivityRepository.findByIdAndUpdate({
       id,
@@ -48,6 +61,7 @@ class ActivityController {
       valueActivity,
       gpActivity,
       description,
+      userString,
     });
 
     return response
