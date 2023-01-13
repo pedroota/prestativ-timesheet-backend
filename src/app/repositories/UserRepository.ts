@@ -58,6 +58,14 @@ class UserRepository {
     return user;
   }
 
+  async findByEmailAndUpdatePassword({ email, password }) {
+    const user = await User.findOneAndUpdate(
+      { email: email },
+      { password: password, updatedAt: Date.now() }
+    );
+    return user;
+  }
+
   async findById(id: string) {
     const user = await User.findOne({ _id: id });
 
