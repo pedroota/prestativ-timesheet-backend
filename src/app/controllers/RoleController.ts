@@ -12,8 +12,22 @@ class RoleController {
 
   async store(request: Request, response: Response) {
     const { name } = request.body;
-    console.log(name);
     const isRoleAlreadyRegistered = await RoleRepository.findByName(name);
+
+    const roles = [
+      "Administrador",
+      "Operacional",
+      "Gerente de Projetos",
+      "Consultor",
+    ];
+
+    const isRoleNameValid = (name: string) => roles.includes(name);
+
+    if (!isRoleNameValid(name)) {
+      return response.status(404).json({
+        message: "Nome de cargo inválido para cadastro.",
+      });
+    }
 
     if (isRoleAlreadyRegistered)
       return response.status(422).json({
