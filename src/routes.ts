@@ -12,6 +12,7 @@ const router = Router();
 router.post("/auth/register", verifyTokenJwt, UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
+router.get("/auth/users/:id", verifyTokenJwt, UsersController.show);
 router.put("/auth/users/:id", verifyTokenJwt, UsersController.update);
 router.delete("/auth/users/:id", verifyTokenJwt, UsersController.delete);
 router.post("/auth/forgot", UsersController.forgot);

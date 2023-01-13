@@ -17,6 +17,21 @@ class UsersController {
     return response.json(users);
   }
 
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const user = await UserRepository.findById(id);
+
+    if (!user)
+      return response
+        .status(400)
+        .json({ message: "Nenhum usuário encontrado." });
+
+    return response
+      .status(200)
+      .json({ message: "Usuário encontrado com sucesso", user });
+  }
+
   async register(request: Request, response: Response) {
     const { name, surname, email, password, role } = request.body;
 
