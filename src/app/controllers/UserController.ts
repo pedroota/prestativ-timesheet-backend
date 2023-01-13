@@ -159,21 +159,26 @@ class UsersController {
       const now = new Date();
       now.setHours(now.getHours() + 1);
 
-      await UserRepository.findByIdAndUpdateToken(user.id, token, now);
-      console.log(token, now);
-      mailer.sendEmail(
+      const idUser = user.id;
+
+      await UserRepository.findByIdAndUpdateToken({
+        idUser,
+        token,
+        now,
+      });
+      mailer.sendMail(
         {
           to: email,
-          from: "filipebacof@gmail.com",
-          template: "mail/forgotPassword",
-          context: { token },
+          from: "'Timesheet Prestativ' <filipe.bacof@prestativ.com.br>",
+          subject: "Token para resetar a senha",
+          html: `<h1>Recuperação de Senha Timesheet Prestativ</h1> <p>Para redefinir sua senha, utilize este token: ${token}</p>`,
         },
         (err) => {
-          if (err) {
+          if (err)
             return response
               .status(400)
-              .send({ error: "Não foi enviado email com token" });
-          }
+              .send({ error: "Não foi enviado email com token", err });
+
           return response.send();
         }
       );
