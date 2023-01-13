@@ -2,7 +2,6 @@ import express from "express";
 import * as dotenv from "dotenv";
 dotenv.config();
 const cookieParser = require("cookie-parser");
-const bodyParser = require("body-parser");
 // import { errorHandler } from "./app/middlewares/errorHandler";
 import "./database/db";
 const cors = require("cors");
@@ -10,8 +9,7 @@ const routes = require("./routes");
 const app = express();
 
 app.use(express.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(express.urlencoded());
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 // app.use(errorHandler);
 app.use(cors());
