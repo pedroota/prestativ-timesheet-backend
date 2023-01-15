@@ -8,7 +8,7 @@ const passEnv = process.env.MAIL_PASSWORD;
 // estou utilizando com GMAIL para envio de SMTP
 // se quiser testar insira o seu gmail no .env e depois habilite
 // "senhas para apps" na sua conta google, vai gerar uma senha para você
-// inserir no .env para utilizar no hotmail as configs do SMTP são diferentes ;)
+// inserir no .env ------- para utilizar no hotmail as configs do SMTP são diferentes ;)
 const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
   port: 465,

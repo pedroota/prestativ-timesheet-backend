@@ -40,11 +40,11 @@ const UserSchema = new Schema<IUser>({
   },
   passwordResetToken: {
     type: String,
-    select: false,
+    trim: true,
   },
   passwordResetExpires: {
     type: Date,
-    select: false,
+    trim: true,
   },
   role: {
     type: mongoose.Schema.Types.String,

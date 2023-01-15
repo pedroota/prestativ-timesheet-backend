@@ -38,7 +38,6 @@ class UsersController {
     // Search if the user already exists
     const isUserAlreadyRegistered = await UserRepository.findByEmail(email);
     const isRoleValid = await RoleRepository.findByName(role);
-    console.log(name, surname, email, password, role);
 
     if (isUserAlreadyRegistered)
       return response
@@ -152,23 +151,19 @@ class UsersController {
       const user = await UserRepository.findByEmail(email);
 
       if (!user) {
-        response.status(400).send({ error: "Usuário não encontrado" });
+        response.status(400).json({ message: "Usuário não encontrado" });
       }
       const token = crypto.randomBytes(20).toString("hex");
 
-      const now = new Date();
-      now.setHours(now.getHours() + 1);
-
-      const idUser = user.id;
-
-      await UserRepository.findByIdAndUpdateToken({
-        idUser,
+      await UserRepository.findByEmailAndUpdateToken({
+        email,
         token,
-        now,
       });
+
       mailer.sendMail(
         {
-          to: "filipebacof@gmail.com",
+          // coloque seu email aqui para testar, mas por padrão é a variavel "email"
+          to: email,
           from: "'Timesheet Prestativ' <filipebacof@gmail.com>",
           subject: "Token para resetar a senha",
           html: `<h1>Recuperação de Senha Timesheet Prestativ</h1> <p>Para redefinir sua senha, utilize este token: ${token}</p>`,
@@ -177,53 +172,43 @@ class UsersController {
           if (err)
             return response
               .status(400)
-              .send({ error: "Não foi enviado o email com o token", err });
+              .json({ message: "Não foi enviado o email com o token", err });
 
-          return response.send();
+          return response.status(204).json({ message: "Email Enviado" });
         }
       );
     } catch (err) {
       console.log(err);
-      response
-        .status(400)
-        .send({ error: "Erro ao tentar recuperar a senha, tente novamente!" });
+      response.status(400).json({
+        message: "Erro ao tentar recuperar a senha, tente novamente!",
+      });
     }
   }
 
   async newPass(request: Request, response: Response) {
-    const { email, token, password } = request.body;
+    const { email, password } = request.body;
 
     try {
       const user = await UserRepository.findByEmail(email);
 
       if (!user) {
-        response.status(400).send({ error: "Usuário não encontrado" });
+        response.status(400).json({ message: "Usuário não encontrado" });
       }
-
-      if (user.passwordResetToken !== token)
-        response
-          .status(400)
-          .send({ error: "O token informado está incorreto" });
-
-      const now = new Date();
-      if (user.passwordResetExpires < now)
-        response
-          .status(400)
-          .send({ error: "O token informado expirou, tente gerar novamente." });
 
       const salt = await bcrypt.genSalt(12);
       const passwordHash = await bcrypt.hash(password, salt);
 
       await UserRepository.findByEmailAndUpdatePassword({
         email,
-        passwordHash,
-        now,
+        password: passwordHash,
       });
+
+      return response.status(204).json({ message: "Senha atualizada." });
     } catch (err) {
       console.log(err);
-      response
-        .status(400)
-        .send({ error: "Erro ao tentar recuperar a senha, tente novamente!" });
+      response.status(400).json({
+        message: "Erro ao tentar recuperar a senha, tente novamente!",
+      });
     }
   }
 }

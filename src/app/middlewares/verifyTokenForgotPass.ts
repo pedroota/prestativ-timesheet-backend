@@ -1,26 +1,41 @@
-import * as dotenv from "dotenv";
-dotenv.config();
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+const UserRepository = require("../repositories/UserRepository");
 
-export function verifyTokenForgotPass(
+export async function verifyTokenForgotPass(
   request: Request,
   response: Response,
   next: NextFunction
 ) {
-  const authHeader = request.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const { email, password, token } = request.body;
 
-  if (!token) return response.status(401).json({ message: "Acesso negado!" });
-
+  if (!token)
+    return response
+      .status(401)
+      .json({ message: "O campo do Token não pode estar vazio" });
+  if (!email)
+    return response
+      .status(401)
+      .json({ message: "O campo do E-mail não pode estar vazio." });
+  if (!password)
+    return response
+      .status(401)
+      .json({ message: "Os campos de senha não podem estar vazios" });
   try {
-    const { JWT_SECRET } = process.env;
+    const user = await UserRepository.findByEmail(email);
 
-    jwt.verify(token, JWT_SECRET);
+    if (!user) {
+      response.status(400).send({ error: "Usuário não encontrado" });
+    }
+    if (user.passwordResetToken !== token)
+      response.status(400).send({ error: "O token informado está incorreto" });
+
+    if (user.passwordResetExpires < new Date())
+      response
+        .status(400)
+        .send({ error: "O token informado expirou, tente gerar novamente." });
 
     next();
   } catch (err) {
-    response.clearCookie("token");
     response.status(400).json({ message: "Este token é inválido!" });
   }
 }

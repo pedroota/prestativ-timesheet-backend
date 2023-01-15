@@ -47,12 +47,17 @@ class UserRepository {
     return user;
   }
 
-  async findByIdAndUpdateToken({ id, token, expiration }) {
+  async findByEmailAndUpdateToken({ email, token }) {
+    const now = new Date();
+
     const user = await User.findOneAndUpdate(
-      { _id: id },
+      { email: email },
       {
         passwordResetToken: token,
-        passwordResetExpires: expiration,
+        passwordResetExpires: now.setHours(now.getHours() + 1),
+      },
+      {
+        returnOriginal: false,
       }
     );
     return user;
@@ -61,7 +66,10 @@ class UserRepository {
   async findByEmailAndUpdatePassword({ email, password }) {
     const user = await User.findOneAndUpdate(
       { email: email },
-      { password: password, updatedAt: Date.now() }
+      {
+        password: password,
+        updatedAt: Date.now(),
+      }
     );
     return user;
   }

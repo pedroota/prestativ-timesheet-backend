@@ -17,7 +17,7 @@ router.get("/auth/users/:id", verifyTokenJwt, UsersController.show);
 router.put("/auth/users/:id", verifyTokenJwt, UsersController.update);
 router.delete("/auth/users/:id", verifyTokenJwt, UsersController.delete);
 router.post("/auth/forgot", UsersController.forgot);
-router.post("/auth/newpass", verifyTokenForgotPass, UsersController.forgot);
+router.post("/auth/newpass", verifyTokenForgotPass, UsersController.newPass);
 
 // Role Routes
 router.get("/roles", verifyTokenJwt, RoleController.index);
