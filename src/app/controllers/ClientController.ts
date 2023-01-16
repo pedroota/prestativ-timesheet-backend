@@ -2,13 +2,26 @@ import { Request, Response } from "express";
 const ClientRepository = require("../repositories/ClientRepository");
 
 class ClientController {
-  async index(request: Request, response: Response) {
+  async index(_request: Request, response: Response) {
     const clients = await ClientRepository.findAll();
 
     return response.json(clients);
   }
 
-  // show(request: Request, response: Response) {}
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const client = await ClientRepository.findById(id);
+
+    if (!client)
+      return response
+        .status(400)
+        .json({ message: "Nenhum cliente encontrado." });
+
+    return response
+      .status(200)
+      .json({ message: "Cliente encontrado com sucesso", client });
+  }
 
   async store(request: Request, response: Response) {
     const {

@@ -119,7 +119,7 @@ class UsersController {
       name,
       surname,
       email,
-      passwordHash,
+      password: passwordHash,
       role,
       activities,
     });
