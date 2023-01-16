@@ -153,35 +153,64 @@ class UsersController {
       const user = await UserRepository.findByEmail(email);
 
       if (!user) {
-        response.status(400).send({ error: "User not Found" });
+        response.status(400).json({ message: "Usuário não encontrado" });
       }
       const token = crypto.randomBytes(20).toString("hex");
 
-      const now = new Date();
-      now.setHours(now.getHours() + 1);
+      await UserRepository.findByEmailAndUpdateToken({
+        email,
+        token,
+      });
 
-      await UserRepository.findByIdAndUpdateToken(user.id, token, now);
-      mailer.sendEmail(
+      mailer.sendMail(
         {
+          // coloque seu email aqui para testar, mas por padrão é a variavel "email"
           to: email,
-          from: "filipebacof@gmail.com",
-          template: "mail/forgotPassword",
-          context: { token },
+          from: "'Timesheet Prestativ' <filipebacof@gmail.com>",
+          subject: "Token para resetar a senha",
+          html: `<h1>Recuperação de Senha Timesheet Prestativ</h1> <p>Para redefinir sua senha, utilize este token: ${token}</p>`,
         },
         (err) => {
-          if (err) {
+          if (err)
             return response
               .status(400)
-              .send({ error: "Não foi enviado email com token" });
-          }
-          return response.send();
+              .json({ message: "Não foi enviado o email com o token", err });
+
+          return response.status(204).json({ message: "Email Enviado" });
         }
       );
     } catch (err) {
       console.log(err);
-      response
-        .status(400)
-        .send({ error: "Error on forgot password, try again" });
+      response.status(400).json({
+        message: "Erro ao tentar recuperar a senha, tente novamente!",
+      });
+    }
+  }
+
+  async newPass(request: Request, response: Response) {
+    const { email, password } = request.body;
+
+    try {
+      const user = await UserRepository.findByEmail(email);
+
+      if (!user) {
+        response.status(400).json({ message: "Usuário não encontrado" });
+      }
+
+      const salt = await bcrypt.genSalt(12);
+      const passwordHash = await bcrypt.hash(password, salt);
+
+      await UserRepository.findByEmailAndUpdatePassword({
+        email,
+        password: passwordHash,
+      });
+
+      return response.status(204).json({ message: "Senha atualizada." });
+    } catch (err) {
+      console.log(err);
+      response.status(400).json({
+        message: "Erro ao tentar recuperar a senha, tente novamente!",
+      });
     }
   }
 }
