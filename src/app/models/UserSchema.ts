@@ -11,6 +11,7 @@ interface IUser {
   passwordResetToken: string;
   passwordResetExpires: Date;
   role: mongoose.Schema.Types.ObjectId;
+  activities: mongoose.Schema.Types.ObjectId;
   createdAt: number;
   updatedAt: number;
 }
@@ -51,6 +52,13 @@ const UserSchema = new Schema<IUser>({
     ref: "Role",
     required: true,
   },
+  activities: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Activity",
+      default: [],
+    },
+  ],
   createdAt: {
     type: Number,
     required: true,

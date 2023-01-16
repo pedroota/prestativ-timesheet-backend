@@ -2,17 +2,25 @@ const User = require("../models/UserSchema");
 
 class UserRepository {
   async findAll() {
-    const users = await User.find();
+    const users = await User.find().populate("activities").lean().exec();
+
     return users;
   }
 
   async findUsersByRole(role: string) {
-    const users = await User.find({ role: role });
+    const users = await User.find({ role: role })
+      .populate("activities")
+      .lean()
+      .exec();
+
     return users;
   }
 
   async findByEmail(email: string) {
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email: email })
+      .populate("activities")
+      .lean()
+      .exec();
 
     return user;
   }
@@ -43,7 +51,11 @@ class UserRepository {
         role: role,
         updatedAt: Date.now(),
       }
-    );
+    )
+      .populate("activities")
+      .lean()
+      .exec();
+
     return user;
   }
 
@@ -70,12 +82,19 @@ class UserRepository {
         password: password,
         updatedAt: Date.now(),
       }
-    );
+    )
+      .populate("activities")
+      .lean()
+      .exec();
+
     return user;
   }
 
   async findById(id: string) {
-    const user = await User.findOne({ _id: id });
+    const user = await User.findOne({ _id: id })
+      .populate("activities")
+      .lean()
+      .exec();
 
     return user;
   }

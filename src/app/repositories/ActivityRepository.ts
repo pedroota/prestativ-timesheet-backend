@@ -2,13 +2,16 @@ const Activity = require("../models/ActivitySchema");
 
 class ActivityRepository {
   async findAll() {
-    const activities = await Activity.find();
+    const activities = await Activity.find().populate("users").lean().exec();
 
     return activities;
   }
 
-  async findByName(name: string) {
-    const activity = Activity.findOne({ name: name });
+  async findByName(title: string) {
+    const activity = Activity.findOne({ title: title })
+      .populate("users")
+      .lean()
+      .exec();
 
     return activity;
   }
@@ -19,7 +22,7 @@ class ActivityRepository {
     valueActivity,
     gpActivity,
     description,
-    userString,
+    users,
     createdAt,
     updatedAt,
   }) {
@@ -29,7 +32,7 @@ class ActivityRepository {
       valueActivity,
       gpActivity,
       description,
-      userString,
+      users,
       createdAt,
       updatedAt,
     });
@@ -45,7 +48,7 @@ class ActivityRepository {
     valueActivity,
     gpActivity,
     description,
-    userString,
+    users,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -55,15 +58,22 @@ class ActivityRepository {
         valueActivity: valueActivity,
         gpActivity: gpActivity,
         description: description,
-        userString: userString,
+        users: users,
         updatedAt: Date.now(),
       }
-    );
+    )
+      .populate("users")
+      .lean()
+      .exec();
+
     return activity;
   }
 
   async findById(id: string) {
-    const activity = await Activity.findOne({ _id: id });
+    const activity = await Activity.findOne({ _id: id })
+      .populate("users")
+      .lean()
+      .exec();
 
     return activity;
   }
