@@ -2,13 +2,26 @@ import { Request, Response } from "express";
 const HoursRepository = require("../repositories/HoursRepository");
 
 class HoursController {
-  async index(request: Request, response: Response) {
+  async index(_request: Request, response: Response) {
     const hours = await HoursRepository.findAll();
 
     return response.json(hours);
   }
 
-  // show(request: Request, response: Response) {}
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const hours = await HoursRepository.findById(id);
+
+    if (!hours)
+      return response
+        .status(400)
+        .json({ message: "Nenhum lançamento encontrado." });
+
+    return response
+      .status(200)
+      .json({ message: "Lançamento encontrado com sucesso", hours });
+  }
 
   async store(request: Request, response: Response) {
     const {

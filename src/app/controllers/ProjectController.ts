@@ -2,13 +2,26 @@ import { Request, Response } from "express";
 const ProjectRepository = require("../repositories/ProjectRepository");
 
 class ProjectController {
-  async index(request: Request, response: Response) {
+  async index(_request: Request, response: Response) {
     const projects = await ProjectRepository.findAll();
 
     return response.json(projects);
   }
 
-  // show(request: Request, response: Response) {}
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const project = await ProjectRepository.findById(id);
+
+    if (!project)
+      return response
+        .status(400)
+        .json({ message: "Nenhum projeto encontrado." });
+
+    return response
+      .status(200)
+      .json({ message: "Projeto encontrado com sucesso", project });
+  }
 
   async store(request: Request, response: Response) {
     const { title, idClient, valueProject, gpProject, description } =

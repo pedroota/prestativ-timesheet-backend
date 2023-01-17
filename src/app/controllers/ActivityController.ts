@@ -3,13 +3,26 @@ const ActivityRepository = require("../repositories/ActivityRepository");
 const User = require("../models/UserSchema");
 
 class ActivityController {
-  async index(request: Request, response: Response) {
+  async index(_request: Request, response: Response) {
     const activities = await ActivityRepository.findAll();
 
     return response.json(activities);
   }
 
-  // show(request: Request, response: Response) {}
+  async show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const activity = await ActivityRepository.findById(id);
+
+    if (!activity)
+      return response
+        .status(400)
+        .json({ message: "Nenhuma atividade encontrada." });
+
+    return response
+      .status(200)
+      .json({ message: "Atividade encontrada com sucesso", activity });
+  }
 
   async store(request: Request, response: Response) {
     const { title, project, valueActivity, gpActivity, description, users } =

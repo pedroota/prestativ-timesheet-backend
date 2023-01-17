@@ -27,24 +27,28 @@ router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
 // Client Routes
 router.get("/clients", verifyTokenJwt, ClientController.index);
+router.get("/clients/:id", verifyTokenJwt, ClientController.show);
 router.post("/clients", verifyTokenJwt, ClientController.store);
 router.put("/clients/:id", verifyTokenJwt, ClientController.update);
 router.delete("/clients/:id", verifyTokenJwt, ClientController.delete);
 
 // Project Routes
 router.get("/projects", verifyTokenJwt, ProjectController.index);
+router.get("/projects/:id", verifyTokenJwt, ProjectController.show);
 router.post("/projects", verifyTokenJwt, ProjectController.store);
 router.put("/projects/:id", verifyTokenJwt, ProjectController.update);
 router.delete("/projects/:id", verifyTokenJwt, ProjectController.delete);
 
 // Activity Routes
 router.get("/activities", verifyTokenJwt, ActivityController.index);
+router.get("/activities/:id", verifyTokenJwt, ActivityController.show);
 router.post("/activities", verifyTokenJwt, ActivityController.store);
 router.put("/activities/:id", verifyTokenJwt, ActivityController.update);
 router.delete("/activities/:id", verifyTokenJwt, ActivityController.delete);
 
 // Hours Routes
 router.get("/hours", verifyTokenJwt, HoursController.index);
+router.get("/hours/:id", verifyTokenJwt, HoursController.show);
 router.post("/hours", verifyTokenJwt, HoursController.store);
 router.put("/hours/:id", verifyTokenJwt, HoursController.update);
 router.delete("/hours/:id", verifyTokenJwt, HoursController.delete);
