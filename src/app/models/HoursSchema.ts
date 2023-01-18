@@ -32,22 +32,22 @@ const HoursSchema = new Schema<IHours>({
     type: Number,
   },
   relClient: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Client",
     required: true,
   },
   relProject: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Project",
     required: true,
   },
   relActivity: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Activity",
     required: true,
   },
   relUser: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "User",
     required: true,
   },
