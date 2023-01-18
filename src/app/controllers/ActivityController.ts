@@ -9,6 +9,16 @@ class ActivityController {
     return response.json(activities);
   }
 
+  async findByProject(request: Request, response: Response) {
+    const { project } = request.params;
+
+    const activities = await ActivityRepository.findAllActivitiesByProject(
+      project
+    );
+
+    return response.json(activities);
+  }
+
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
