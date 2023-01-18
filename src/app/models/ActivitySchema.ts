@@ -19,7 +19,7 @@ const ActivitySchema = new Schema<IActivity>({
     required: true,
   },
   project: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Project",
     required: true,
   },

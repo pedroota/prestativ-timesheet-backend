@@ -18,7 +18,7 @@ const ProjectSchema = new Schema<IProject>({
     required: true,
   },
   idClient: {
-    type: mongoose.Schema.Types.String,
+    type: mongoose.Schema.Types.ObjectId,
     ref: "Client",
     required: true,
   },
