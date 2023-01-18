@@ -35,11 +35,6 @@ router.delete("/clients/:id", verifyTokenJwt, ClientController.delete);
 // Project Routes
 router.get("/projects", verifyTokenJwt, ProjectController.index);
 router.get("/projects/:id", verifyTokenJwt, ProjectController.show);
-router.get(
-  "/projects/client/:id",
-  verifyTokenJwt,
-  ProjectController.findByClient
-);
 router.post("/projects", verifyTokenJwt, ProjectController.store);
 router.put("/projects/:id", verifyTokenJwt, ProjectController.update);
 router.delete("/projects/:id", verifyTokenJwt, ProjectController.delete);
@@ -47,11 +42,6 @@ router.delete("/projects/:id", verifyTokenJwt, ProjectController.delete);
 // Activity Routes
 router.get("/activities", verifyTokenJwt, ActivityController.index);
 router.get("/activities/:id", verifyTokenJwt, ActivityController.show);
-router.get(
-  "/activities/project/:id",
-  verifyTokenJwt,
-  ActivityController.findByProject
-);
 router.post("/activities", verifyTokenJwt, ActivityController.store);
 router.put("/activities/:id", verifyTokenJwt, ActivityController.update);
 router.delete("/activities/:id", verifyTokenJwt, ActivityController.delete);

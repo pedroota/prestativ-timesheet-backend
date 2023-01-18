@@ -64,12 +64,6 @@ class ProjectRepository {
     return project;
   }
 
-  async findAllProjectsByClient(idClient: string) {
-    const projects = await Project.find({ idClient: idClient });
-
-    return projects;
-  }
-
   async delete(id: string) {
     await Project.findOneAndDelete({ _id: id });
     return;

@@ -8,14 +8,6 @@ class ProjectController {
     return response.json(projects);
   }
 
-  async findByClient(request: Request, response: Response) {
-    const { idClient } = request.params;
-
-    const projects = await ProjectRepository.findAllProjectsByClient(idClient);
-
-    return response.json(projects);
-  }
-
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
