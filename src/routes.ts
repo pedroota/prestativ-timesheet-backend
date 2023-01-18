@@ -10,7 +10,7 @@ import { verifyTokenJwt } from "./app/middlewares/verifyTokenJwt";
 const router = Router();
 
 // User Routes
-router.post("/auth/register", UsersController.register);
+router.post("/auth/register", verifyTokenJwt, UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
 router.get("/auth/users/:id", verifyTokenJwt, UsersController.show);
@@ -21,7 +21,7 @@ router.post("/auth/newpass", verifyTokenForgotPass, UsersController.newPass);
 
 // Role Routes
 router.get("/roles", verifyTokenJwt, RoleController.index);
-router.post("/roles", RoleController.store);
+router.post("/roles", verifyTokenJwt, RoleController.store);
 router.put("/roles/:id", verifyTokenJwt, RoleController.update);
 router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
@@ -35,6 +35,11 @@ router.delete("/clients/:id", verifyTokenJwt, ClientController.delete);
 // Project Routes
 router.get("/projects", verifyTokenJwt, ProjectController.index);
 router.get("/projects/:id", verifyTokenJwt, ProjectController.show);
+router.get(
+  "/projects/client/:id",
+  verifyTokenJwt,
+  ProjectController.findByClient
+);
 router.post("/projects", verifyTokenJwt, ProjectController.store);
 router.put("/projects/:id", verifyTokenJwt, ProjectController.update);
 router.delete("/projects/:id", verifyTokenJwt, ProjectController.delete);
@@ -42,6 +47,11 @@ router.delete("/projects/:id", verifyTokenJwt, ProjectController.delete);
 // Activity Routes
 router.get("/activities", verifyTokenJwt, ActivityController.index);
 router.get("/activities/:id", verifyTokenJwt, ActivityController.show);
+router.get(
+  "/activities/project/:id",
+  verifyTokenJwt,
+  ActivityController.findByProject
+);
 router.post("/activities", verifyTokenJwt, ActivityController.store);
 router.put("/activities/:id", verifyTokenJwt, ActivityController.update);
 router.delete("/activities/:id", verifyTokenJwt, ActivityController.delete);

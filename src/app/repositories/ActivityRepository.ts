@@ -78,6 +78,12 @@ class ActivityRepository {
     return activity;
   }
 
+  async findAllActivitiesByProject(project: string) {
+    const activities = await Activity.findMany({ project: project });
+
+    return activities;
+  }
+
   async delete(id: string) {
     await Activity.findOneAndDelete({ _id: id });
     return;
