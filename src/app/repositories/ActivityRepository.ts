@@ -79,7 +79,10 @@ class ActivityRepository {
   }
 
   async findAllActivitiesByProject(project: string) {
-    const activities = await Activity.findMany({ project: project });
+    const activities = await Activity.find({ project: project })
+      .populate("users")
+      .lean()
+      .exec();
 
     return activities;
   }

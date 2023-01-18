@@ -65,7 +65,7 @@ class ProjectRepository {
   }
 
   async findAllProjectsByClient(idClient: string) {
-    const projects = await Project.findMany({ idClient: idClient });
+    const projects = await Project.find({ idClient: idClient });
 
     return projects;
   }
