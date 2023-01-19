@@ -1,17 +1,10 @@
 import { Request, Response } from "express";
 const ProjectRepository = require("../repositories/ProjectRepository");
+const Client = require("../models/ClientSchema");
 
 class ProjectController {
   async index(_request: Request, response: Response) {
     const projects = await ProjectRepository.findAll();
-
-    return response.json(projects);
-  }
-
-  async findByClient(request: Request, response: Response) {
-    const { idClient } = request.params;
-
-    const projects = await ProjectRepository.findAllProjectsByClient(idClient);
 
     return response.json(projects);
   }
@@ -53,6 +46,15 @@ class ProjectController {
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
+
+    // Populate the projects property inside the Client Schema with the actual id from the project
+    const client = await Client.findById(idClient);
+    if (!client)
+      return response
+        .status(404)
+        .json({ message: "O cliente especificado não foi encontrado" });
+    client.projects.push(project._id);
+    client.save();
 
     return response.status(200).json(project);
   }

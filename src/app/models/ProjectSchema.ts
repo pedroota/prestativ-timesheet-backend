@@ -10,6 +10,7 @@ interface IProject {
   description: string;
   createdAt: number;
   updatedAt: number;
+  activities: mongoose.Types.ObjectId;
 }
 
 const ProjectSchema = new Schema<IProject>({
@@ -42,6 +43,13 @@ const ProjectSchema = new Schema<IProject>({
     type: Number,
     required: true,
   },
+  activities: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Activity",
+      default: [],
+    },
+  ],
 });
 
 const Project = mongoose.model<IProject>("Project", ProjectSchema);

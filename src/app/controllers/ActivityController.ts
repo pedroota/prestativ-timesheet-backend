@@ -1,20 +1,11 @@
 import { Request, Response } from "express";
 const ActivityRepository = require("../repositories/ActivityRepository");
 const User = require("../models/UserSchema");
+const Project = require("../models/ProjectSchema");
 
 class ActivityController {
   async index(_request: Request, response: Response) {
     const activities = await ActivityRepository.findAll();
-
-    return response.json(activities);
-  }
-
-  async findByProject(request: Request, response: Response) {
-    const { project } = request.params;
-
-    const activities = await ActivityRepository.findAllActivitiesByProject(
-      project
-    );
 
     return response.json(activities);
   }
@@ -70,6 +61,15 @@ class ActivityController {
       user.activities.push(activity._id);
       user.save();
     }
+
+    // Populate the activities property inside the Project Schema with the actual id from the activity
+    const actualProject = await Project.findById(project);
+    if (!actualProject)
+      return response
+        .status(404)
+        .json({ message: "O projeto especificado não foi encontrado" });
+    actualProject.activities.push(activity._id);
+    actualProject.save();
 
     return response.status(200).json(activity);
   }
