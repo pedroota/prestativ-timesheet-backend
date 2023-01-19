@@ -2,14 +2,17 @@ const Client = require("../models/ClientSchema");
 
 class ClientRepository {
   async findAll() {
-    const clients = await Client.find().populate("projects").lean().exec();
+    const clients = await Client.find()
+      .populate({ path: "projects", populate: { path: "activities" } })
+      .lean()
+      .exec();
 
     return clients;
   }
 
   async findByName(name: string) {
     const client = Client.findOne({ name: name })
-      .populate("projects")
+      .populate({ path: "projects", populate: { path: "activities" } })
       .lean()
       .exec();
 
@@ -105,7 +108,7 @@ class ClientRepository {
         projects,
       }
     )
-      .populate("projects")
+      .populate({ path: "projects", populate: { path: "activities" } })
       .lean()
       .exec();
 
@@ -114,7 +117,7 @@ class ClientRepository {
 
   async findById(id: string) {
     const client = await Client.findOne({ _id: id })
-      .populate("projects")
+      .populate({ path: "projects", populate: { path: "activities" } })
       .lean()
       .exec();
 
