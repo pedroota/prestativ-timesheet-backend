@@ -2,13 +2,16 @@ const Project = require("../models/ProjectSchema");
 
 class ProjectRepository {
   async findAll() {
-    const projects = await Project.find();
+    const projects = await Project.find().populate("activities").lean().exec();
 
     return projects;
   }
 
   async findByName(name: string) {
-    const project = Project.findOne({ name: name });
+    const project = Project.findOne({ name: name })
+      .populate("activities")
+      .lean()
+      .exec();
 
     return project;
   }
@@ -36,6 +39,7 @@ class ProjectRepository {
 
     return project;
   }
+
   async findByIdAndUpdate({
     id,
     title,
@@ -43,6 +47,7 @@ class ProjectRepository {
     valueProject,
     gpProject,
     description,
+    activities,
   }) {
     const project = await Project.findOneAndUpdate(
       { _id: id },
@@ -53,13 +58,20 @@ class ProjectRepository {
         gpProject: gpProject,
         description: description,
         updatedAt: Date.now(),
+        activities,
       }
-    );
+    )
+      .populate("activities")
+      .lean()
+      .exec();
     return project;
   }
 
   async findById(id: string) {
-    const project = await Project.findOne({ _id: id });
+    const project = await Project.findOne({ _id: id })
+      .populate("activities")
+      .lean()
+      .exec();
 
     return project;
   }

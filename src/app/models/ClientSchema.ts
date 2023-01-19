@@ -21,6 +21,7 @@ interface IClient {
   payDay: number;
   valueClient: number;
   gpClient: string;
+  projects: mongoose.Types.ObjectId;
 }
 
 const ClientSchema = new Schema<IClient>({
@@ -106,6 +107,13 @@ const ClientSchema = new Schema<IClient>({
     required: true,
     trim: true,
   },
+  projects: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "Project",
+      default: [],
+    },
+  ],
 });
 
 const Client = mongoose.model<IClient>("Client", ClientSchema);
