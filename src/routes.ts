@@ -10,7 +10,7 @@ import { verifyTokenJwt } from "./app/middlewares/verifyTokenJwt";
 const router = Router();
 
 // User Routes
-router.post("/auth/register", verifyTokenJwt, UsersController.register);
+router.post("/auth/register", UsersController.register);
 router.post("/auth/login", UsersController.login);
 router.get("/auth/users", verifyTokenJwt, UsersController.index);
 router.get("/auth/users/:id", verifyTokenJwt, UsersController.show);
@@ -21,7 +21,7 @@ router.post("/auth/newpass", verifyTokenForgotPass, UsersController.newPass);
 
 // Role Routes
 router.get("/roles", verifyTokenJwt, RoleController.index);
-router.post("/roles", verifyTokenJwt, RoleController.store);
+router.post("/roles", RoleController.store);
 router.put("/roles/:id", verifyTokenJwt, RoleController.update);
 router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
 
