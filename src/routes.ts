@@ -20,7 +20,7 @@ router.post("/auth/forgot", UsersController.forgot);
 router.post("/auth/newpass", verifyTokenForgotPass, UsersController.newPass);
 
 // Role Routes
-router.get("/roles", verifyTokenJwt, RoleController.index);
+router.get("/roles", RoleController.index);
 router.post("/roles", RoleController.store);
 router.put("/roles/:id", verifyTokenJwt, RoleController.update);
 router.delete("/roles/:id", verifyTokenJwt, RoleController.delete);
