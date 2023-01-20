@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const { DB_USER, DB_PASS, DB_HOST, DB_PORT, DB_NAME } = process.env;
+const { DB_URL } = process.env;
 
 mongoose.set("strictQuery", false);
 
@@ -13,9 +13,7 @@ class Database {
 
   connect() {
     mongoose
-      .connect(
-        `mongodb://${DB_USER}:${DB_PASS}@${DB_HOST}:${DB_PORT}/${DB_NAME}?authSource=admin`
-      )
+      .connect(`${DB_URL}`)
       .then(() => {
         console.log("Database connected");
       })
