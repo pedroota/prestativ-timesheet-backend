@@ -15,6 +15,6 @@ app.use(cookieParser());
 app.use(cors());
 app.use(routes);
 
-app.listen(process.env.SERVER_PORT, () => {
-  return console.log(`🚀 Server is running at ${process.env.SERVER_PORT}`);
+app.listen(process.env.PORT, () => {
+  return console.log(`🚀 Server is running at ${process.env.PORT}`);
 });
