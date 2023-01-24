@@ -4,7 +4,7 @@ class HoursRepository {
   async findAll() {
     const hours = await Hours.find()
       .populate([
-        { path: "relUser", select: "_id name" },
+        { path: "relUser", select: "_id name surname" },
         { path: "relClient", select: "_id name" },
         { path: "relProject", select: "_id title" },
         { path: "relActivity", select: "_id title" },
