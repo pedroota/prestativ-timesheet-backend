@@ -2,13 +2,29 @@ const Hours = require("../models/HoursSchema");
 
 class HoursRepository {
   async findAll() {
-    const hours = await Hours.find();
+    const hours = await Hours.find()
+      .populate([
+        { path: "relUser", select: "_id name" },
+        { path: "relClient", select: "_id name" },
+        { path: "relProject", select: "_id title" },
+        { path: "relActivity", select: "_id title" },
+      ])
+      .lean()
+      .exec();
 
     return hours;
   }
 
   async findById(id: string) {
-    const hours = Hours.findOne({ _id: id });
+    const hours = Hours.findOne({ _id: id })
+      .populate([
+        { path: "relUser", select: "_id name" },
+        { path: "relClient", select: "_id name" },
+        { path: "relProject", select: "_id title" },
+        { path: "relActivity", select: "_id title" },
+      ])
+      .lean()
+      .exec();
 
     return hours;
   }
@@ -74,7 +90,16 @@ class HoursRepository {
         callNumber: callNumber,
         updatedAt: Date.now(),
       }
-    );
+    )
+      .populate([
+        { path: "relUser", select: "_id name" },
+        { path: "relClient", select: "_id name" },
+        { path: "relProject", select: "_id title" },
+        { path: "relActivity", select: "_id title" },
+      ])
+      .lean()
+      .exec();
+
     return hours;
   }
 
