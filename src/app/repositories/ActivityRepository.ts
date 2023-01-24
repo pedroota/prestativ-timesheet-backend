@@ -2,7 +2,13 @@ const Activity = require("../models/ActivitySchema");
 
 class ActivityRepository {
   async findAll() {
-    const activities = await Activity.find().populate("users").lean().exec();
+    const activities = await Activity.find()
+      .populate([
+        { path: "project", select: "_id title" },
+        { path: "gpActivity", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
 
     return activities;
   }

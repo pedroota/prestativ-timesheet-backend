@@ -2,7 +2,13 @@ const Project = require("../models/ProjectSchema");
 
 class ProjectRepository {
   async findAll() {
-    const projects = await Project.find().populate("activities").lean().exec();
+    const projects = await Project.find()
+      .populate([
+        { path: "idClient", select: "_id name" },
+        { path: "gpProject", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
 
     return projects;
   }

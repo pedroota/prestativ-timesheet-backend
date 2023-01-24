@@ -6,7 +6,7 @@ interface IProject {
   title: string;
   idClient: mongoose.Schema.Types.ObjectId;
   valueProject: number;
-  gpProject: string;
+  gpProject: mongoose.Schema.Types.ObjectId;
   description: string;
   createdAt: number;
   updatedAt: number;
@@ -25,11 +25,10 @@ const ProjectSchema = new Schema<IProject>({
   },
   valueProject: {
     type: Number,
-    required: true,
   },
   gpProject: {
-    type: String,
-    required: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
   description: {
     type: String,
