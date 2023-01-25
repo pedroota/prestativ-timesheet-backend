@@ -29,6 +29,7 @@ class ActivityRepository {
     gpActivity,
     description,
     users,
+    closedScope,
     createdAt,
     updatedAt,
   }) {
@@ -39,6 +40,7 @@ class ActivityRepository {
       gpActivity,
       description,
       users,
+      closedScope,
       createdAt,
       updatedAt,
     });
@@ -55,6 +57,7 @@ class ActivityRepository {
     gpActivity,
     description,
     users,
+    closedScope,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -66,6 +69,7 @@ class ActivityRepository {
         description: description,
         users: users,
         updatedAt: Date.now(),
+        closedScope: closedScope,
       }
     )
       .populate("users")

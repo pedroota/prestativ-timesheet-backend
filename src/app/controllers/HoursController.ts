@@ -32,7 +32,7 @@ class HoursController {
       relProject,
       relActivity,
       relUser,
-      callNumber,
+      activityDesc,
     } = request.body;
 
     const hours = await HoursRepository.create({
@@ -43,7 +43,7 @@ class HoursController {
       relProject,
       relActivity,
       relUser,
-      callNumber,
+      activityDesc,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -61,11 +61,11 @@ class HoursController {
       relProject,
       relActivity,
       relUser,
-      closedScope,
+      approvedGP,
       billable,
       released,
       approved,
-      callNumber,
+      activityDesc,
     } = request.body;
 
     const updatedHours = await HoursRepository.findByIdAndUpdate({
@@ -77,11 +77,11 @@ class HoursController {
       relProject,
       relActivity,
       relUser,
-      closedScope,
+      approvedGP,
       billable,
       released,
       approved,
-      callNumber,
+      activityDesc,
     });
 
     return response.status(200).json({
