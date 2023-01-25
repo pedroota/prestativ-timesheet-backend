@@ -10,11 +10,11 @@ interface IHours {
   relProject: mongoose.Schema.Types.ObjectId;
   relActivity: mongoose.Schema.Types.ObjectId;
   relUser: mongoose.Schema.Types.ObjectId;
-  closedScope: boolean;
+  approvedGP: boolean;
   billable: boolean;
   released: boolean;
   approved: boolean;
-  callNumber: string;
+  activityDesc: string;
   createdAt: number;
   updatedAt: number;
 }
@@ -51,7 +51,7 @@ const HoursSchema = new Schema<IHours>({
     ref: "User",
     required: true,
   },
-  closedScope: {
+  approvedGP: {
     type: Boolean,
     default: false,
   },
@@ -67,7 +67,7 @@ const HoursSchema = new Schema<IHours>({
     type: Boolean,
     default: false,
   },
-  callNumber: {
+  activityDesc: {
     type: String,
     required: true,
   },

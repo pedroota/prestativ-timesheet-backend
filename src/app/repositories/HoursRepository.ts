@@ -37,7 +37,7 @@ class HoursRepository {
     relProject,
     relActivity,
     relUser,
-    callNumber,
+    activityDesc,
     createdAt,
     updatedAt,
   }) {
@@ -49,7 +49,7 @@ class HoursRepository {
       relProject,
       relActivity,
       relUser,
-      callNumber,
+      activityDesc,
       createdAt,
       updatedAt,
     });
@@ -67,11 +67,11 @@ class HoursRepository {
     relProject,
     relActivity,
     relUser,
-    closedScope,
+    approvedGP,
     billable,
     released,
     approved,
-    callNumber,
+    activityDesc,
   }) {
     const hours = await Hours.findOneAndUpdate(
       { _id: id },
@@ -83,11 +83,11 @@ class HoursRepository {
         relProject: relProject,
         relActivity: relActivity,
         relUser: relUser,
-        closedScope: closedScope,
+        approvedGP: approvedGP,
         billable: billable,
         released: released,
         approved: approved,
-        callNumber: callNumber,
+        activityDesc: activityDesc,
         updatedAt: Date.now(),
       }
     )
