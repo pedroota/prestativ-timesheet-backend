@@ -6,7 +6,7 @@ interface IActivity {
   title: string;
   project: mongoose.Schema.Types.ObjectId;
   valueActivity: number;
-  gpActivity: string;
+  gpActivity: mongoose.Schema.Types.ObjectId;
   description: string;
   users: mongoose.Schema.Types.ObjectId;
   createdAt: number;
@@ -27,9 +27,8 @@ const ActivitySchema = new Schema<IActivity>({
     type: Number,
   },
   gpActivity: {
-    type: String,
-    required: true,
-    trim: true,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
   },
   description: {
     type: String,
