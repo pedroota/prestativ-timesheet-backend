@@ -28,10 +28,16 @@ const UserSchema = new Schema<IUser>({
   },
   email: {
     type: String,
-    required: true,
+    required: [true, "Email not provided"],
     trim: true,
     unique: true,
     lowercase: true,
+    validate: {
+      validator: function (value: string) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+      },
+      message: "{VALUE} is not a valid email!",
+    },
   },
   password: {
     type: String,
@@ -49,7 +55,7 @@ const UserSchema = new Schema<IUser>({
   role: {
     type: mongoose.Schema.Types.String,
     ref: "Role",
-    required: true,
+    required: [true, "Please specify a user role for user"],
   },
   activities: [
     {
