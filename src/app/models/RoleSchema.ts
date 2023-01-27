@@ -1,17 +1,23 @@
 import mongoose from "mongoose";
+import { Permission } from "../enum/Permissions";
 
 const Schema = mongoose.Schema;
 
 interface IRole {
   name: string;
+  permissions: string[];
 }
 
 const RoleSchema = new Schema<IRole>({
   name: {
     type: String,
-    enum: ["Administrador", "Operacional", "Gerente de Projetos", "Consultor"],
     required: true,
     unique: true,
+  },
+  permissions: {
+    type: [String],
+    enum: Object.values(Permission),
+    required: true,
   },
 });
 

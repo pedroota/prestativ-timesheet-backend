@@ -19,15 +19,19 @@ class RoleRepository {
     return role;
   }
 
-  async findByIdAndUpdate(id: string, name: string) {
-    const role = await Role.findOneAndUpdate({ _id: id }, { name: name });
+  async findByIdAndUpdate(id: string, { name, permissions }) {
+    const role = await Role.findOneAndUpdate(
+      { _id: id },
+      { name: name, permissions: permissions }
+    );
 
     return role;
   }
 
-  async create(name: string) {
+  async create({ name, permissions }) {
     const role = new Role({
       name,
+      permissions,
     });
 
     await role.save();

@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import { Permission } from "../enum/Permissions";
 const RoleRepository = require("../repositories/RoleRepository");
 
 class RoleController {
@@ -11,30 +12,36 @@ class RoleController {
   // show(request: Request, response: Response) {}
 
   async store(request: Request, response: Response) {
-    const { name } = request.body;
+    const { name, permissions } = request.body;
     const isRoleAlreadyRegistered = await RoleRepository.findByName(name);
 
-    const roles = [
-      "Administrador",
-      "Operacional",
-      "Gerente de Projetos",
-      "Consultor",
-    ];
+    if (!name || !permissions)
+      return response
+        .status(400)
+        .json({ message: "Campos faltando no cadastro de cargos" });
 
-    const isRoleNameValid = (name: string) => roles.includes(name);
+    /**
+     * Validates if the user has sent the correct permissions.
+     * If you want to add more permissions to the app, please, change it at enum/Permissions.ts
+     * and add the validations at your frontend code
+     */
+    const isPermissionsValid = permissions.every((permission) =>
+      Object.values(Permission).includes(permission)
+    );
 
-    if (!isRoleNameValid(name)) {
-      return response.status(404).json({
-        message: "Nome de cargo inválido para cadastro.",
-      });
+    if (!isPermissionsValid) {
+      return response
+        .status(400)
+        .json({ message: "As permissões cadastradas estão incorretas." });
     }
 
+    // Verify if a role is already registered
     if (isRoleAlreadyRegistered)
       return response.status(422).json({
-        message: "Um cargo com este nome já foi cadastrado",
+        message: "Um cargo com este nome já foi cadastrado.",
       });
 
-    const role = await RoleRepository.create(name);
+    const role = await RoleRepository.create({ name, permissions });
 
     return response.status(200).json(role);
   }
