@@ -7,6 +7,12 @@ class UserRepository {
     return users;
   }
 
+  async findSome(startIndex) {
+    const users = await User.find().limit(10).skip(startIndex).exec();
+
+    return users;
+  }
+
   async findUsersByRole(role: string) {
     const users = await User.find({ role: role })
       .populate("activities")

@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 const ClientRepository = require("../repositories/ClientRepository");
 
 class ClientController {
-  async index(_request: Request, response: Response) {
+  async index(request: Request, response: Response) {
+    const page = Number(request.query.page);
+
+    if (page) {
+      const startIndex = (page - 1) * 10;
+      const clients = await ClientRepository.findSome(startIndex);
+      return response.json(clients);
+    }
+
     const clients = await ClientRepository.findAll();
 
     return response.json(clients);

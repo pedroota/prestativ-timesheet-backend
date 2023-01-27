@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 const HoursRepository = require("../repositories/HoursRepository");
 
 class HoursController {
-  async index(_request: Request, response: Response) {
+  async index(request: Request, response: Response) {
+    const page = Number(request.query.page);
+
+    if (page) {
+      const startIndex = (page - 1) * 10;
+      const hours = await HoursRepository.findSome(startIndex);
+      return response.json(hours);
+    }
+
     const hours = await HoursRepository.findAll();
 
     return response.json(hours);

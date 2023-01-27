@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 const LogRepository = require("../repositories/LogRepository");
 
 class LogController {
-  async index(_request: Request, response: Response) {
+  async index(request: Request, response: Response) {
+    const page = Number(request.query.page);
+
+    if (page) {
+      const startIndex = (page - 1) * 10;
+      const logs = await LogRepository.findSome(startIndex);
+      return response.json(logs);
+    }
+
     const logs = await LogRepository.findAll();
 
     return response.json(logs);

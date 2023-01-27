@@ -4,7 +4,15 @@ const User = require("../models/UserSchema");
 const Project = require("../models/ProjectSchema");
 
 class ActivityController {
-  async index(_request: Request, response: Response) {
+  async index(request: Request, response: Response) {
+    const page = Number(request.query.page);
+
+    if (page) {
+      const startIndex = (page - 1) * 10;
+      const activities = await ActivityRepository.findSome(startIndex);
+      return response.json(activities);
+    }
+
     const activities = await ActivityRepository.findAll();
 
     return response.json(activities);

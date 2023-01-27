@@ -3,7 +3,15 @@ const ProjectRepository = require("../repositories/ProjectRepository");
 const Client = require("../models/ClientSchema");
 
 class ProjectController {
-  async index(_request: Request, response: Response) {
+  async index(request: Request, response: Response) {
+    const page = Number(request.query.page);
+
+    if (page) {
+      const startIndex = (page - 1) * 10;
+      const projects = await ProjectRepository.findSome(startIndex);
+      return response.json(projects);
+    }
+
     const projects = await ProjectRepository.findAll();
 
     return response.json(projects);
