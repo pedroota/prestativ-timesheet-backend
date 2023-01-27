@@ -10,6 +10,17 @@ class ClientRepository {
     return clients;
   }
 
+  async findSome(startIndex) {
+    const clients = await Client.find()
+      .limit(10)
+      .skip(startIndex)
+      .populate({ path: "projects", populate: { path: "activities" } })
+      .lean()
+      .exec();
+
+    return clients;
+  }
+
   async findByName(name: string) {
     const client = Client.findOne({ name: name })
       .populate({ path: "projects", populate: { path: "activities" } })

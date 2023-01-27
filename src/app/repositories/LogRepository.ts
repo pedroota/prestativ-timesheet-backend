@@ -7,6 +7,12 @@ class LogRepository {
     return logs;
   }
 
+  async findSome(startIndex) {
+    const logs = await Log.find().limit(10).skip(startIndex).exec();
+
+    return logs;
+  }
+
   async findByIdAndUpdate({ id, name, surname, action }) {
     const log = await Log.findOneAndUpdate(
       { _id: id },

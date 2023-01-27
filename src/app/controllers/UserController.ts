@@ -9,6 +9,9 @@ const mailer = require("../modules/mailer");
 class UsersController {
   async index(request: Request, response: Response) {
     const { role } = request.query;
+
+    // como implementar paginação nesse caso?
+
     if (role) {
       const users = await UserRepository.findUsersByRole(role);
       return response.json(users);

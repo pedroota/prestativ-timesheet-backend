@@ -15,6 +15,22 @@ class HoursRepository {
     return hours;
   }
 
+  async findSome(startIndex) {
+    const hours = await Hours.find()
+      .limit(10)
+      .skip(startIndex)
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        { path: "relClient", select: "_id name" },
+        { path: "relProject", select: "_id title" },
+        { path: "relActivity", select: "_id title" },
+      ])
+      .lean()
+      .exec();
+
+    return hours;
+  }
+
   async findById(id: string) {
     const hours = Hours.findOne({ _id: id })
       .populate([

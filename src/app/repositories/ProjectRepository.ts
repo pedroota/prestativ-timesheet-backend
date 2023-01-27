@@ -13,6 +13,20 @@ class ProjectRepository {
     return projects;
   }
 
+  async findSome(startIndex) {
+    const projects = await Project.find()
+      .limit(10)
+      .skip(startIndex)
+      .populate([
+        { path: "idClient", select: "_id name" },
+        { path: "gpProject", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
+
+    return projects;
+  }
+
   async findByName(name: string) {
     const project = Project.findOne({ name: name })
       .populate("activities")
