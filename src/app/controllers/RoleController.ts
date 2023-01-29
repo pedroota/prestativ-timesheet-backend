@@ -9,7 +9,18 @@ class RoleController {
     return response.json(roles);
   }
 
-  // show(request: Request, response: Response) {}
+  show(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const role = RoleRepository.findById(id);
+
+    if (!role)
+      return response
+        .status(400)
+        .json({ message: "Nenhum cargo foi encontrado" });
+
+    return response.json(role);
+  }
 
   async store(request: Request, response: Response) {
     const { name, permissions } = request.body;
