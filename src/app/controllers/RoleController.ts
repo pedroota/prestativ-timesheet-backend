@@ -9,10 +9,10 @@ class RoleController {
     return response.json(roles);
   }
 
-  show(request: Request, response: Response) {
+  async show(request: Request, response: Response) {
     const { id } = request.params;
 
-    const role = RoleRepository.findById(id);
+    const role = await RoleRepository.findById(id);
 
     if (!role)
       return response
