@@ -15,6 +15,20 @@ class HoursRepository {
     return hours;
   }
 
+  async findLatest(timestamp: number) {
+    const hours = await Hours.find({ initial: { $gte: timestamp } })
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        { path: "relClient", select: "_id name" },
+        { path: "relProject", select: "_id title" },
+        { path: "relActivity", select: "_id title" },
+      ])
+      .lean()
+      .exec();
+
+    return hours;
+  }
+
   async findSome(startIndex) {
     const hours = await Hours.find()
       .limit(10)

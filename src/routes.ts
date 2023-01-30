@@ -96,6 +96,7 @@ router.delete(
 
 // Hours Routes
 router.get("/hours", verifyTokenJwt, HoursController.index);
+router.get("/hours/latest", verifyTokenJwt, HoursController.latest);
 router.get("/hours/:id", verifyTokenJwt, HoursController.show);
 router.post("/hours", verifyTokenJwt, createLogs, HoursController.store);
 router.put("/hours/:id", verifyTokenJwt, createLogs, HoursController.update);
