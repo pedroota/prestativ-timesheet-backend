@@ -16,12 +16,9 @@ class HoursController {
     return response.json(hours);
   }
 
-  async latest(request: Request, response: Response) {
+  async latest(_request: Request, response: Response) {
     const today = new Date();
     today.setMonth(-1);
-    if (today.getMonth() < 0) {
-      today.setMonth(11);
-    }
     const timestamp = today.getTime();
 
     const hours = await HoursRepository.findLatest(timestamp);
