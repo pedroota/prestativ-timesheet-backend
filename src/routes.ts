@@ -101,6 +101,12 @@ router.get("/hours/:id", verifyTokenJwt, HoursController.show);
 router.post("/hours", verifyTokenJwt, createLogs, HoursController.store);
 router.put("/hours/:id", verifyTokenJwt, createLogs, HoursController.update);
 router.delete("/hours/:id", verifyTokenJwt, createLogs, HoursController.delete);
+router.patch(
+  "/hours/check/:id",
+  verifyTokenJwt,
+  createLogs,
+  HoursController.check
+);
 
 // Logs
 router.get("/logs", verifyTokenJwt, LogController.index);

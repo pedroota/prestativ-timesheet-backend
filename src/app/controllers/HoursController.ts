@@ -124,6 +124,21 @@ class HoursController {
       .status(204)
       .json({ message: "Este Lançamento de Horas foi deletado com sucesso." });
   }
+
+  async check(request: Request, response: Response) {
+    const { id } = request.params;
+    const { field, value } = request.body;
+
+    const updatedHours = await HoursRepository.findByIdAndCheck({
+      id,
+      field,
+      value,
+    });
+
+    return response.status(200).json({
+      message: `O campo ${field} foi marcado como ${value}`,
+    });
+  }
 }
 
 module.exports = new HoursController();
