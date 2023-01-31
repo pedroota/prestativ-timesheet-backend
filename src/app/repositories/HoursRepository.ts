@@ -17,7 +17,6 @@ class HoursRepository {
 
   async findWithFilters(filters) {
     // APIURL/hours/filter ? data = 27/01/2023 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
-    // se o filter estiver vazio ele irá retornar tudo
     console.log(filters);
 
     if (filters.data) {
