@@ -16,6 +16,16 @@ class HoursController {
     return response.json(hours);
   }
 
+  async latest(_request: Request, response: Response) {
+    const today = new Date();
+    today.setMonth(-1);
+    const timestamp = today.getTime();
+
+    const hours = await HoursRepository.findLatest(timestamp);
+
+    return response.json(hours);
+  }
+
   async show(request: Request, response: Response) {
     const { id } = request.params;
 
