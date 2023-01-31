@@ -15,6 +15,75 @@ class HoursRepository {
     return hours;
   }
 
+  async findWithFilters(filters) {
+    // APIURL/hours/filter ? data = 27/01/2023 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
+    // se o filter estiver vazio ele irá retornar tudo
+    console.log(filters);
+
+    if (filters.data) {
+      const dateFormated = filters.data.split("/");
+      const timeINI = new Date(
+        Number(dateFormated[2]),
+        Number(dateFormated[1]) - 1,
+        Number(dateFormated[0]),
+        0,
+        0
+      ).getTime();
+      const timeEND = new Date(
+        Number(dateFormated[2]),
+        Number(dateFormated[1]) - 1,
+        Number(dateFormated[0]),
+        23,
+        59
+      ).getTime();
+
+      delete filters.data;
+
+      if (Object.keys(filters).length === 0 || !filters) {
+        const hours = await Hours.find({
+          $and: [{ initial: { $gt: timeINI } }, { final: { $lt: timeEND } }],
+        })
+          .populate([
+            { path: "relUser", select: "_id name surname" },
+            { path: "relClient", select: "_id name" },
+            { path: "relProject", select: "_id title" },
+            { path: "relActivity", select: "_id title" },
+          ])
+          .lean()
+          .exec();
+
+        return hours;
+      } else {
+        const hours = await Hours.find({
+          $and: [{ initial: { $gt: timeINI } }, { final: { $lt: timeEND } }],
+          ...filters,
+        })
+          .populate([
+            { path: "relUser", select: "_id name surname" },
+            { path: "relClient", select: "_id name" },
+            { path: "relProject", select: "_id title" },
+            { path: "relActivity", select: "_id title" },
+          ])
+          .lean()
+          .exec();
+
+        return hours;
+      }
+    } else {
+      const hours = await Hours.find(filters)
+        .populate([
+          { path: "relUser", select: "_id name surname" },
+          { path: "relClient", select: "_id name" },
+          { path: "relProject", select: "_id title" },
+          { path: "relActivity", select: "_id title" },
+        ])
+        .lean()
+        .exec();
+
+      return hours;
+    }
+  }
+
   async findLatest(timestamp: number) {
     const hours = await Hours.find({ initial: { $gte: timestamp } })
       .populate([

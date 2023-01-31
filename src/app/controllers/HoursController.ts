@@ -16,6 +16,21 @@ class HoursController {
     return response.json(hours);
   }
 
+  async filter(request: Request, response: Response) {
+    const filters = request.query;
+    console.log(filters);
+    // APIURL/hours/filter ? data = 27/01/2023 & cliente = 63d3ea3bbc9cf01242e73c50 & projeto = id & atividade = id & consultor = id
+    // se o filter estiver vazio ele irá retornar tudo
+
+    if (Object.keys(filters).length === 0 || !filters) {
+      const hours = await HoursRepository.findAll();
+      return response.json(hours);
+    } else {
+      const hours = await HoursRepository.findWithFilters(filters);
+      return response.json(hours);
+    }
+  }
+
   async latest(_request: Request, response: Response) {
     const today = new Date();
     today.setMonth(-1);
