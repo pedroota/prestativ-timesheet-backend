@@ -59,18 +59,21 @@ class RoleController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name } = request.body;
+    const { name, permissions } = request.body;
 
     if (!name)
       return response
         .status(404)
         .json({ message: "O campo de nome é obrigatório." });
 
-    const updatedRole = await RoleRepository.findByIdAndUpdate({ id, name });
+    await RoleRepository.findByIdAndUpdate(id, {
+      name,
+      permissions,
+    });
 
     return response
-      .status(200)
-      .json({ message: "Cargo atualizado com sucesso.", updatedRole });
+      .status(204)
+      .json({ message: "Cargo atualizado com sucesso." });
   }
 
   async delete(request: Request, response: Response) {

@@ -22,7 +22,7 @@ class RoleRepository {
   async findByIdAndUpdate(id: string, { name, permissions }) {
     const role = await Role.findOneAndUpdate(
       { _id: id },
-      { name: name, permissions: permissions }
+      { name, permissions }
     );
 
     return role;
