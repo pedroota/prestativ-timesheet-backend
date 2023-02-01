@@ -102,6 +102,21 @@ class ActivityRepository {
     return activity;
   }
 
+  async findByIdAndCheck({ id, value }) {
+    const activity = await Activity.findOneAndUpdate(
+      { _id: id },
+      {
+        updatedAt: Date.now(),
+        closedScope: value,
+      }
+    )
+      .populate("users")
+      .lean()
+      .exec();
+
+    return activity;
+  }
+
   async delete(id: string) {
     await Activity.findOneAndDelete({ _id: id });
     return;
