@@ -134,6 +134,20 @@ class ActivityController {
       .status(204)
       .json({ message: "Atividade deletada com sucesso." });
   }
+
+  async check(request: Request, response: Response) {
+    const { id } = request.params;
+    const { value } = request.body;
+
+    const marked = await ActivityRepository.findByIdAndCheck({
+      id,
+      value,
+    });
+
+    return response.status(200).json({
+      message: `Escopo Fechado foi marcado como ${value}`,
+    });
+  }
 }
 
 module.exports = new ActivityController();

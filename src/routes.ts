@@ -93,6 +93,12 @@ router.delete(
   createLogs,
   ActivityController.delete
 );
+router.patch(
+  "/activities/closedscope/:id",
+  verifyTokenJwt,
+  createLogs,
+  ActivityController.check
+);
 
 // Hours Routes
 router.get("/hours", verifyTokenJwt, HoursController.index);
