@@ -7,7 +7,7 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         { path: "relClient", select: "_id name" },
         { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title" },
+        { path: "relActivity", select: "_id title closedScope" },
       ])
       .lean()
       .exec();
@@ -44,7 +44,7 @@ class HoursRepository {
             { path: "relUser", select: "_id name surname" },
             { path: "relClient", select: "_id name" },
             { path: "relProject", select: "_id title" },
-            { path: "relActivity", select: "_id title" },
+            { path: "relActivity", select: "_id title closedScope" },
           ])
           .lean()
           .exec();
@@ -59,7 +59,7 @@ class HoursRepository {
             { path: "relUser", select: "_id name surname" },
             { path: "relClient", select: "_id name" },
             { path: "relProject", select: "_id title" },
-            { path: "relActivity", select: "_id title" },
+            { path: "relActivity", select: "_id title closedScope" },
           ])
           .lean()
           .exec();
@@ -72,7 +72,7 @@ class HoursRepository {
           { path: "relUser", select: "_id name surname" },
           { path: "relClient", select: "_id name" },
           { path: "relProject", select: "_id title" },
-          { path: "relActivity", select: "_id title" },
+          { path: "relActivity", select: "_id title closedScope" },
         ])
         .lean()
         .exec();
@@ -87,7 +87,7 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         { path: "relClient", select: "_id name" },
         { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title" },
+        { path: "relActivity", select: "_id title closedScope" },
       ])
       .lean()
       .exec();
@@ -103,7 +103,7 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         { path: "relClient", select: "_id name" },
         { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title" },
+        { path: "relActivity", select: "_id title closedScope" },
       ])
       .lean()
       .exec();
@@ -117,7 +117,7 @@ class HoursRepository {
         { path: "relUser", select: "_id name" },
         { path: "relClient", select: "_id name" },
         { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title" },
+        { path: "relActivity", select: "_id title closedScope" },
       ])
       .lean()
       .exec();
@@ -191,7 +191,7 @@ class HoursRepository {
         { path: "relUser", select: "_id name" },
         { path: "relClient", select: "_id name" },
         { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title" },
+        { path: "relActivity", select: "_id title closedScope" },
       ])
       .lean()
       .exec();
