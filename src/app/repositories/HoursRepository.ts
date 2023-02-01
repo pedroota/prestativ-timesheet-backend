@@ -137,6 +137,56 @@ class HoursRepository {
     await Hours.findOneAndDelete({ _id: id });
     return;
   }
+
+  async findByIdAndCheck({ id, field, value }) {
+    if (field == "approvedGP") {
+      const hours = await Hours.findOneAndUpdate(
+        { _id: id },
+        {
+          approvedGP: value,
+          updatedAt: Date.now(),
+        }
+      )
+        .lean()
+        .exec();
+      return hours;
+    } else if (field == "billable") {
+      const hours = await Hours.findOneAndUpdate(
+        { _id: id },
+        {
+          billable: value,
+          updatedAt: Date.now(),
+        }
+      )
+        .lean()
+        .exec();
+      return hours;
+    } else if (field == "released") {
+      const hours = await Hours.findOneAndUpdate(
+        { _id: id },
+        {
+          released: value,
+          updatedAt: Date.now(),
+        }
+      )
+        .lean()
+        .exec();
+      return hours;
+    } else if (field == "approved") {
+      const hours = await Hours.findOneAndUpdate(
+        { _id: id },
+        {
+          approved: value,
+          updatedAt: Date.now(),
+        }
+      )
+        .lean()
+        .exec();
+      return hours;
+    } else {
+      return;
+    }
+  }
 }
 
 module.exports = new HoursRepository();
