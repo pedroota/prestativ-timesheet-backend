@@ -24,6 +24,8 @@ class HoursRepository {
         Number(dateFormated[1]) - 1,
         Number(dateFormated[2]),
         0,
+        0,
+        0,
         0
       ).getTime();
       const timeEND = new Date(
@@ -31,14 +33,16 @@ class HoursRepository {
         Number(dateFormated[1]) - 1,
         Number(dateFormated[2]),
         23,
-        59
+        59,
+        59,
+        999
       ).getTime();
 
       delete filters.data;
 
       if (Object.keys(filters).length === 0 || !filters) {
         const hours = await Hours.find({
-          $and: [{ initial: { $gt: timeINI } }, { initial: { $lt: timeEND } }],
+          $and: [{ initial: { $gte: timeINI } }, { initial: { $lte: timeEND } }],
         })
           .populate([
             { path: "relUser", select: "_id name surname" },
