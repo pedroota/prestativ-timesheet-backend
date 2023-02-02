@@ -18,7 +18,7 @@ class HoursController {
 
   async filter(request: Request, response: Response) {
     const filters = request.query;
-    // APIURL/hours/filter ? data = 27/01/2023 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
+    // APIURL/hours/filter ? data = 2023-01-27 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
     // se o filter estiver vazio ele irá retornar tudo
     if (Object.keys(filters).length === 0 || !filters) {
       const hours = await HoursRepository.findAll();
