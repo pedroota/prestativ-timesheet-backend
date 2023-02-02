@@ -38,7 +38,7 @@ class HoursRepository {
 
       if (Object.keys(filters).length === 0 || !filters) {
         const hours = await Hours.find({
-          $and: [{ initial: { $gt: timeINI } }, { final: { $lt: timeEND } }],
+          $and: [{ initial: { $gt: timeINI } }, { initial: { $lt: timeEND } }],
         })
           .populate([
             { path: "relUser", select: "_id name surname" },
