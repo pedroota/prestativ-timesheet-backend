@@ -14,6 +14,7 @@ interface IHours {
   billable: boolean;
   released: boolean;
   approved: boolean;
+  releasedCall: string;
   activityDesc: string;
   createdAt: number;
   updatedAt: number;
@@ -66,6 +67,9 @@ const HoursSchema = new Schema<IHours>({
   approved: {
     type: Boolean,
     default: false,
+  },
+  releasedCall: {
+    type: String,
   },
   activityDesc: {
     type: String,

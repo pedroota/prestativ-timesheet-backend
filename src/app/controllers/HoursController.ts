@@ -96,6 +96,7 @@ class HoursController {
       billable,
       released,
       approved,
+      releasedCall,
       activityDesc,
     } = request.body;
 
@@ -112,6 +113,7 @@ class HoursController {
       billable,
       released,
       approved,
+      releasedCall,
       activityDesc,
     });
 

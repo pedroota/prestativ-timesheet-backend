@@ -195,6 +195,7 @@ class HoursRepository {
     billable,
     released,
     approved,
+    releasedCall,
     activityDesc,
   }) {
     const hours = await Hours.findOneAndUpdate(
@@ -211,6 +212,7 @@ class HoursRepository {
         billable: billable,
         released: released,
         approved: approved,
+        releasedCall: releasedCall,
         activityDesc: activityDesc,
         updatedAt: Date.now(),
       }
