@@ -20,7 +20,7 @@ interface IClient {
   billingLimit: string;
   payDay: number;
   valueClient: number;
-  gpClient: string;
+  gpClient: mongoose.Schema.Types.ObjectId;
   projects: mongoose.Types.ObjectId;
 }
 
@@ -103,9 +103,9 @@ const ClientSchema = new Schema<IClient>({
     required: true,
   },
   gpClient: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
     required: true,
-    trim: true,
   },
   projects: [
     {
