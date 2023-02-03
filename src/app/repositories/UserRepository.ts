@@ -17,7 +17,7 @@ class UserRepository {
   }
 
   async findUsersByRole(role: string) {
-    const users = await User.find({ role: role })
+    const users = await User.find({ "role.name": role })
       .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();

@@ -14,6 +14,7 @@ class UsersController {
       const users = await UserRepository.findUsersByRole(role);
       return response.json(users);
     }
+
     const users = await UserRepository.findAll();
     return response.json(users);
   }
