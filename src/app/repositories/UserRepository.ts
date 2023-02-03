@@ -2,7 +2,10 @@ const User = require("../models/UserSchema");
 
 class UserRepository {
   async findAll() {
-    const users = await User.find().populate("activities").lean().exec();
+    const users = await User.find()
+      .populate([{ path: "activities" }, { path: "role" }])
+      .lean()
+      .exec();
 
     return users;
   }
@@ -15,7 +18,7 @@ class UserRepository {
 
   async findUsersByRole(role: string) {
     const users = await User.find({ role: role })
-      .populate("activities")
+      .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();
 
@@ -24,7 +27,7 @@ class UserRepository {
 
   async findByEmail(email: string) {
     const user = await User.findOne({ email: email })
-      .populate("activities")
+      .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();
 
@@ -58,7 +61,7 @@ class UserRepository {
         updatedAt: Date.now(),
       }
     )
-      .populate("activities")
+      .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();
 
@@ -89,7 +92,7 @@ class UserRepository {
         updatedAt: Date.now(),
       }
     )
-      .populate("activities")
+      .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();
 
@@ -98,7 +101,7 @@ class UserRepository {
 
   async findById(id: string) {
     const user = await User.findOne({ _id: id })
-      .populate("activities")
+      .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();
 

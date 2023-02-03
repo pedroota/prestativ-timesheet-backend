@@ -10,8 +10,6 @@ class UsersController {
   async index(request: Request, response: Response) {
     const { role } = request.query;
 
-    // como implementar paginação nesse caso?
-
     if (role) {
       const users = await UserRepository.findUsersByRole(role);
       return response.json(users);
@@ -40,7 +38,9 @@ class UsersController {
 
     // Search if the user already exists
     const isUserAlreadyRegistered = await UserRepository.findByEmail(email);
-    const isRoleValid = await RoleRepository.findByName(role);
+
+    // Search if the given role is valid
+    const isRoleValid = await RoleRepository.findById(role);
 
     if (isUserAlreadyRegistered)
       return response
