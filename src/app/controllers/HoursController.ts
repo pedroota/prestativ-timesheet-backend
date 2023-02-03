@@ -144,7 +144,7 @@ class HoursController {
     const { id } = request.params;
     const { field, value } = request.body;
 
-    const updatedHours = await HoursRepository.findByIdAndCheck({
+    await HoursRepository.findByIdAndCheck({
       id,
       field,
       value,

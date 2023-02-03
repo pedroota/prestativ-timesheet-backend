@@ -139,7 +139,7 @@ class ActivityController {
     const { id } = request.params;
     const { value } = request.body;
 
-    const marked = await ActivityRepository.findByIdAndCheck({
+    await ActivityRepository.findByIdAndCheck({
       id,
       value,
     });
