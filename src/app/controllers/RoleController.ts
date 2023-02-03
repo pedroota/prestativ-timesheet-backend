@@ -3,7 +3,7 @@ import { Permission } from "../enum/Permissions";
 const RoleRepository = require("../repositories/RoleRepository");
 
 class RoleController {
-  async index(request: Request, response: Response) {
+  async index(_request: Request, response: Response) {
     const roles = await RoleRepository.findAll();
 
     return response.json(roles);

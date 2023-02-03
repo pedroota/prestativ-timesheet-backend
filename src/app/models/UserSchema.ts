@@ -10,6 +10,7 @@ interface IUser {
   passwordResetToken: string;
   passwordResetExpires: Date;
   role: mongoose.Schema.Types.ObjectId;
+  typeField: string;
   activities: mongoose.Schema.Types.ObjectId;
   createdAt: number;
   updatedAt: number;
@@ -56,6 +57,11 @@ const UserSchema = new Schema<IUser>({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Role",
     required: [true, "Please specify a user role for user"],
+  },
+  typeField: {
+    type: String,
+    default: "",
+    trim: true,
   },
   activities: [
     {

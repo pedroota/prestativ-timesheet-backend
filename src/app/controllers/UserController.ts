@@ -35,7 +35,8 @@ class UsersController {
   }
 
   async register(request: Request, response: Response) {
-    const { name, surname, email, password, role, activities } = request.body;
+    const { name, surname, email, password, role, typeField, activities } =
+      request.body;
 
     // Search if the user already exists
     const isUserAlreadyRegistered = await UserRepository.findByEmail(email);
@@ -62,6 +63,7 @@ class UsersController {
       email,
       password: passwordHash,
       role,
+      typeField,
       activities,
       createdAt: Date.now(),
       updatedAt: Date.now(),
@@ -113,7 +115,8 @@ class UsersController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { name, surname, email, password, role, activities } = request.body;
+    const { name, surname, email, password, role, typeField, activities } =
+      request.body;
 
     const salt = await bcrypt.genSalt(12);
     const passwordHash = await bcrypt.hash(password, salt);
@@ -125,6 +128,7 @@ class UsersController {
       email,
       password: passwordHash,
       role,
+      typeField,
       activities,
     });
 
