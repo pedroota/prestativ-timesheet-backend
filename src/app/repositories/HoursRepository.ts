@@ -5,9 +5,12 @@ class HoursRepository {
     const hours = await Hours.find()
       .populate([
         { path: "relUser", select: "_id name surname" },
-        { path: "relClient", select: "_id name" },
-        { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title closedScope" },
+        { path: "relClient", select: "_id name valueClient gpClient" },
+        { path: "relProject", select: "_id title valueProject gpProject" },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+        },
       ])
       .lean()
       .exec();
@@ -16,35 +19,45 @@ class HoursRepository {
   }
 
   async findWithFilters(filters) {
-    // APIURL/hours/filter ? data = 27/01/2023 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
+    // APIURL/hours/filter ? data = 2023-01-27 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
     if (filters.data) {
-      const dateFormated = filters.data.split("/");
+      const dateFormated = filters.data.split("-");
       const timeINI = new Date(
-        Number(dateFormated[2]),
-        Number(dateFormated[1]) - 1,
         Number(dateFormated[0]),
+        Number(dateFormated[1]) - 1,
+        Number(dateFormated[2]),
+        0,
+        0,
         0,
         0
       ).getTime();
       const timeEND = new Date(
-        Number(dateFormated[2]),
-        Number(dateFormated[1]) - 1,
         Number(dateFormated[0]),
+        Number(dateFormated[1]) - 1,
+        Number(dateFormated[2]),
         23,
-        59
+        59,
+        59,
+        999
       ).getTime();
 
       delete filters.data;
 
       if (Object.keys(filters).length === 0 || !filters) {
         const hours = await Hours.find({
-          $and: [{ initial: { $gt: timeINI } }, { final: { $lt: timeEND } }],
+          $and: [
+            { initial: { $gte: timeINI } },
+            { initial: { $lte: timeEND } },
+          ],
         })
           .populate([
             { path: "relUser", select: "_id name surname" },
-            { path: "relClient", select: "_id name" },
-            { path: "relProject", select: "_id title" },
-            { path: "relActivity", select: "_id title closedScope" },
+            { path: "relClient", select: "_id name valueClient gpClient" },
+            { path: "relProject", select: "_id title valueProject gpProject" },
+            {
+              path: "relActivity",
+              select: "_id title valueActivity gpActivity closedScope",
+            },
           ])
           .lean()
           .exec();
@@ -57,9 +70,12 @@ class HoursRepository {
         })
           .populate([
             { path: "relUser", select: "_id name surname" },
-            { path: "relClient", select: "_id name" },
-            { path: "relProject", select: "_id title" },
-            { path: "relActivity", select: "_id title closedScope" },
+            { path: "relClient", select: "_id name valueClient gpClient" },
+            { path: "relProject", select: "_id title valueProject gpProject" },
+            {
+              path: "relActivity",
+              select: "_id title valueActivity gpActivity closedScope",
+            },
           ])
           .lean()
           .exec();
@@ -70,9 +86,12 @@ class HoursRepository {
       const hours = await Hours.find(filters)
         .populate([
           { path: "relUser", select: "_id name surname" },
-          { path: "relClient", select: "_id name" },
-          { path: "relProject", select: "_id title" },
-          { path: "relActivity", select: "_id title closedScope" },
+          { path: "relClient", select: "_id name valueClient gpClient" },
+          { path: "relProject", select: "_id title valueProject gpProject" },
+          {
+            path: "relActivity",
+            select: "_id title valueActivity gpActivity closedScope",
+          },
         ])
         .lean()
         .exec();
@@ -85,9 +104,12 @@ class HoursRepository {
     const hours = await Hours.find({ initial: { $gte: timestamp } })
       .populate([
         { path: "relUser", select: "_id name surname" },
-        { path: "relClient", select: "_id name" },
-        { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title closedScope" },
+        { path: "relClient", select: "_id name valueClient gpClient" },
+        { path: "relProject", select: "_id title valueProject gpProject" },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+        },
       ])
       .lean()
       .exec();
@@ -101,9 +123,12 @@ class HoursRepository {
       .skip(startIndex)
       .populate([
         { path: "relUser", select: "_id name surname" },
-        { path: "relClient", select: "_id name" },
-        { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title closedScope" },
+        { path: "relClient", select: "_id name valueClient gpClient" },
+        { path: "relProject", select: "_id title valueProject gpProject" },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+        },
       ])
       .lean()
       .exec();
@@ -114,10 +139,13 @@ class HoursRepository {
   async findById(id: string) {
     const hours = Hours.findOne({ _id: id })
       .populate([
-        { path: "relUser", select: "_id name" },
-        { path: "relClient", select: "_id name" },
-        { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title closedScope" },
+        { path: "relUser", select: "_id name surname" },
+        { path: "relClient", select: "_id name valueClient gpClient" },
+        { path: "relProject", select: "_id title valueProject gpProject" },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+        },
       ])
       .lean()
       .exec();
@@ -167,6 +195,7 @@ class HoursRepository {
     billable,
     released,
     approved,
+    releasedCall,
     activityDesc,
   }) {
     const hours = await Hours.findOneAndUpdate(
@@ -183,15 +212,19 @@ class HoursRepository {
         billable: billable,
         released: released,
         approved: approved,
+        releasedCall: releasedCall,
         activityDesc: activityDesc,
         updatedAt: Date.now(),
       }
     )
       .populate([
-        { path: "relUser", select: "_id name" },
-        { path: "relClient", select: "_id name" },
-        { path: "relProject", select: "_id title" },
-        { path: "relActivity", select: "_id title closedScope" },
+        { path: "relUser", select: "_id name surname" },
+        { path: "relClient", select: "_id name valueClient gpClient" },
+        { path: "relProject", select: "_id title valueProject gpProject" },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+        },
       ])
       .lean()
       .exec();

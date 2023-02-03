@@ -3,7 +3,10 @@ const Client = require("../models/ClientSchema");
 class ClientRepository {
   async findAll() {
     const clients = await Client.find()
-      .populate({ path: "projects", populate: { path: "activities" } })
+      .populate([
+        { path: "projects", populate: { path: "activities" } },
+        { path: "gpClient", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -14,7 +17,10 @@ class ClientRepository {
     const clients = await Client.find()
       .limit(10)
       .skip(startIndex)
-      .populate({ path: "projects", populate: { path: "activities" } })
+      .populate([
+        { path: "projects", populate: { path: "activities" } },
+        { path: "gpClient", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -23,7 +29,10 @@ class ClientRepository {
 
   async findByName(name: string) {
     const client = Client.findOne({ name: name })
-      .populate({ path: "projects", populate: { path: "activities" } })
+      .populate([
+        { path: "projects", populate: { path: "activities" } },
+        { path: "gpClient", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -119,7 +128,10 @@ class ClientRepository {
         projects,
       }
     )
-      .populate({ path: "projects", populate: { path: "activities" } })
+      .populate([
+        { path: "projects", populate: { path: "activities" } },
+        { path: "gpClient", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -128,7 +140,10 @@ class ClientRepository {
 
   async findById(id: string) {
     const client = await Client.findOne({ _id: id })
-      .populate({ path: "projects", populate: { path: "activities" } })
+      .populate([
+        { path: "projects", populate: { path: "activities" } },
+        { path: "gpClient", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
