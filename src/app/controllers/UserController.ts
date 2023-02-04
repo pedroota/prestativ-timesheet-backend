@@ -104,10 +104,19 @@ class UsersController {
         }
       );
 
-      response
-        .status(200)
-        .cookie("token", token, { httpOnly: true })
-        .json({ message: "Usuário logado com sucesso", token });
+      const { _id, name, surname, email, role } = user;
+
+      response.status(200).cookie("token", token, { httpOnly: true }).json({
+        message: "Usuário logado com sucesso",
+        user: {
+          _id,
+          name,
+          surname,
+          email,
+          role,
+        },
+        token,
+      });
     } catch (err) {
       response.send(500).json("Ops! Algo deu errado.");
     }
