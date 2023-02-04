@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 interface ILogs {
   name: string;
   surname: string;
-  role: string;
+  role: mongoose.Schema.Types.ObjectId;
   action: string;
   createdAt: number;
   updatedAt: number;
@@ -23,9 +23,9 @@ const LogsSchema = new Schema<ILogs>({
     trim: true,
   },
   role: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Role",
     required: true,
-    trim: true,
   },
   action: {
     type: String,

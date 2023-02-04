@@ -2,7 +2,10 @@ const Log = require("../models/LogsSchema");
 
 class LogRepository {
   async findAll() {
-    const logs = await Log.find();
+    const logs = await Log.find()
+      .populate([{ path: "role", select: "name" }])
+      .lean()
+      .exec();
 
     return logs;
   }
