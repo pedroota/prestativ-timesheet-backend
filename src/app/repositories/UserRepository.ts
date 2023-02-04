@@ -17,7 +17,7 @@ class UserRepository {
   }
 
   async findUsersByRole(role: string) {
-    const users = await User.find({ "role.name": role })
+    const users = await User.find({ typeField: role })
       .populate([{ path: "activities" }, { path: "role" }])
       .lean()
       .exec();
@@ -34,13 +34,23 @@ class UserRepository {
     return user;
   }
 
-  async create({ name, surname, email, password, role, createdAt, updatedAt }) {
+  async create({
+    name,
+    surname,
+    email,
+    password,
+    role,
+    typeField,
+    createdAt,
+    updatedAt,
+  }) {
     const user = new User({
       name,
       surname,
       email,
       password,
       role,
+      typeField,
       createdAt,
       updatedAt,
     });
@@ -49,7 +59,15 @@ class UserRepository {
     return user;
   }
 
-  async findByIdAndUpdate({ id, name, surname, email, password, role }) {
+  async findByIdAndUpdate({
+    id,
+    name,
+    surname,
+    email,
+    password,
+    role,
+    typeField,
+  }) {
     const user = await User.findOneAndUpdate(
       { _id: id },
       {
@@ -58,6 +76,7 @@ class UserRepository {
         email: email,
         password: password,
         role: role,
+        typeField: typeField,
         updatedAt: Date.now(),
       }
     )

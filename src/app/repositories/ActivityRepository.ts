@@ -4,7 +4,7 @@ class ActivityRepository {
   async findAll() {
     const activities = await Activity.find()
       .populate([
-        { path: "project", select: "_id title" },
+        { path: "project", select: "_id title idClient" },
         { path: "gpActivity", select: "_id name surname" },
       ])
       .lean()
