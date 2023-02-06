@@ -324,56 +324,56 @@ class HoursRepository {
     releasedCall,
     activityDesc,
   }) {
-    const hours = await Hours.findOneAndUpdate(
-      { _id: id },
-      {
-        initial: initial,
-        final: final,
-        adjustment: adjustment,
-        relClient: relClient,
-        relProject: relProject,
-        relActivity: relActivity,
-        relUser: relUser,
-        approvedGP: approvedGP,
-        billable: billable,
-        released: released,
-        approved: approved,
-        releasedCall: releasedCall,
-        activityDesc: activityDesc,
-        updatedAt: Date.now(),
+    if (!initial && !final && !relClient) {
+      if (adjustment) {
+        const hours = await Hours.findOneAndUpdate(
+          { _id: id },
+          {
+            adjustment: adjustment,
+            updatedAt: Date.now(),
+          }
+        )
+          .lean()
+          .exec();
+        return hours;
       }
-    )
-      .populate([
-        { path: "relUser", select: "_id name surname" },
+      if (releasedCall) {
+        const hours = await Hours.findOneAndUpdate(
+          { _id: id },
+          {
+            releasedCall: releasedCall,
+            updatedAt: Date.now(),
+          }
+        )
+          .lean()
+          .exec();
+        return hours;
+      }
+    } else {
+      const hours = await Hours.findOneAndUpdate(
+        { _id: id },
         {
-          path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name",
-          },
-        },
-        {
-          path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name",
-          },
-        },
-        {
-          path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name",
-          },
-        },
-      ])
-      .lean()
-      .exec();
+          initial: initial,
+          final: final,
+          adjustment: adjustment,
+          relClient: relClient,
+          relProject: relProject,
+          relActivity: relActivity,
+          relUser: relUser,
+          approvedGP: approvedGP,
+          billable: billable,
+          released: released,
+          approved: approved,
+          releasedCall: releasedCall,
+          activityDesc: activityDesc,
+          updatedAt: Date.now(),
+        }
+      )
+        .lean()
+        .exec();
 
-    return hours;
+      return hours;
+    }
   }
 
   async delete(id: string) {
