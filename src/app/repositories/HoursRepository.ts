@@ -325,18 +325,6 @@ class HoursRepository {
     activityDesc,
   }) {
     if (!initial && !final && !relClient) {
-      if (adjustment) {
-        const hours = await Hours.findOneAndUpdate(
-          { _id: id },
-          {
-            adjustment: adjustment,
-            updatedAt: Date.now(),
-          }
-        )
-          .lean()
-          .exec();
-        return hours;
-      }
       if (releasedCall) {
         const hours = await Hours.findOneAndUpdate(
           { _id: id },
