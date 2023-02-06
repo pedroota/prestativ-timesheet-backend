@@ -110,7 +110,6 @@ router.put("/hours/:id", verifyTokenJwt, createLogs, HoursController.update);
 router.patch(
   "/hours/releasedcall/:id",
   verifyTokenJwt,
-  createLogs,
   HoursController.updateReleasedCall
 );
 router.delete("/hours/:id", verifyTokenJwt, createLogs, HoursController.delete);

@@ -347,7 +347,7 @@ class HoursRepository {
       .exec();
     return hours;
   }
-  async findByIdAndUpdateReleasedCall({ id, releasedCall }) {
+  async findByIdAndUpdateReleasedCall(id: string, releasedCall: string) {
     const hours = await Hours.findOneAndUpdate(
       { _id: id },
       {

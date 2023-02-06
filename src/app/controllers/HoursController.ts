@@ -129,10 +129,10 @@ class HoursController {
     const { id } = request.params;
     const { releasedCall } = request.body;
 
-    const updatedHours = await HoursRepository.findByIdAndUpdateReleasedCall({
+    const updatedHours = await HoursRepository.findByIdAndUpdateReleasedCall(
       id,
-      releasedCall,
-    });
+      releasedCall
+    );
 
     return response.status(200).json({
       message: "Este Lançamento de horas foi atualizado com sucesso.",
