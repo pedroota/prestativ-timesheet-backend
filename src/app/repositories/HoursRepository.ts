@@ -324,44 +324,40 @@ class HoursRepository {
     releasedCall,
     activityDesc,
   }) {
-    if (!initial && !final && !relClient) {
-      if (releasedCall) {
-        const hours = await Hours.findOneAndUpdate(
-          { _id: id },
-          {
-            releasedCall: releasedCall,
-            updatedAt: Date.now(),
-          }
-        )
-          .lean()
-          .exec();
-        return hours;
+    const hours = await Hours.findOneAndUpdate(
+      { _id: id },
+      {
+        initial: initial,
+        final: final,
+        adjustment: adjustment,
+        relClient: relClient,
+        relProject: relProject,
+        relActivity: relActivity,
+        relUser: relUser,
+        approvedGP: approvedGP,
+        billable: billable,
+        released: released,
+        approved: approved,
+        releasedCall: releasedCall,
+        activityDesc: activityDesc,
+        updatedAt: Date.now(),
       }
-    } else {
-      const hours = await Hours.findOneAndUpdate(
-        { _id: id },
-        {
-          initial: initial,
-          final: final,
-          adjustment: adjustment,
-          relClient: relClient,
-          relProject: relProject,
-          relActivity: relActivity,
-          relUser: relUser,
-          approvedGP: approvedGP,
-          billable: billable,
-          released: released,
-          approved: approved,
-          releasedCall: releasedCall,
-          activityDesc: activityDesc,
-          updatedAt: Date.now(),
-        }
-      )
-        .lean()
-        .exec();
-
-      return hours;
-    }
+    )
+      .lean()
+      .exec();
+    return hours;
+  }
+  async findByIdAndUpdateReleasedCall({ id, releasedCall }) {
+    const hours = await Hours.findOneAndUpdate(
+      { _id: id },
+      {
+        releasedCall: releasedCall,
+        updatedAt: Date.now(),
+      }
+    )
+      .lean()
+      .exec();
+    return hours;
   }
 
   async delete(id: string) {

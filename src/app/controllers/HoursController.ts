@@ -125,6 +125,20 @@ class HoursController {
       updatedHours,
     });
   }
+  async updateReleasedCall(request: Request, response: Response) {
+    const { id } = request.params;
+    const { releasedCall } = request.body;
+
+    const updatedHours = await HoursRepository.findByIdAndUpdateReleasedCall({
+      id,
+      releasedCall,
+    });
+
+    return response.status(200).json({
+      message: "Este Lançamento de horas foi atualizado com sucesso.",
+      updatedHours,
+    });
+  }
 
   async delete(request: Request, response: Response) {
     const { id } = request.params;
