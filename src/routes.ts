@@ -107,6 +107,11 @@ router.get("/hours/latest", verifyTokenJwt, HoursController.latest);
 router.get("/hours/:id", verifyTokenJwt, HoursController.show);
 router.post("/hours", verifyTokenJwt, createLogs, HoursController.store);
 router.put("/hours/:id", verifyTokenJwt, createLogs, HoursController.update);
+router.patch(
+  "/hours/releasedcall/:id",
+  verifyTokenJwt,
+  HoursController.updateReleasedCall
+);
 router.delete("/hours/:id", verifyTokenJwt, createLogs, HoursController.delete);
 router.patch(
   "/hours/check/:id",

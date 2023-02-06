@@ -343,36 +343,20 @@ class HoursRepository {
         updatedAt: Date.now(),
       }
     )
-      .populate([
-        { path: "relUser", select: "_id name surname" },
-        {
-          path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name",
-          },
-        },
-        {
-          path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name",
-          },
-        },
-        {
-          path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name",
-          },
-        },
-      ])
       .lean()
       .exec();
-
+    return hours;
+  }
+  async findByIdAndUpdateReleasedCall(id: string, releasedCall: string) {
+    const hours = await Hours.findOneAndUpdate(
+      { _id: id },
+      {
+        releasedCall: releasedCall,
+        updatedAt: Date.now(),
+      }
+    )
+      .lean()
+      .exec();
     return hours;
   }
 
