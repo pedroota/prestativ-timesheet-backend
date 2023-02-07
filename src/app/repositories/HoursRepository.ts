@@ -457,6 +457,57 @@ class HoursRepository {
     return;
   }
 
+  async findHoursPostedInThatPeriod({ relActivity, relUser, initial, final }) {
+    const hours = await Hours.find({
+      relActivity: relActivity,
+      relUser: relUser,
+      $or: [
+        {
+          $and: [{ initial: { $lte: final } }, { final: { $gte: final } }],
+        },
+        {
+          $and: [{ initial: { $lte: initial } }, { final: { $gte: initial } }],
+        },
+      ],
+    })
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        {
+          path: "relClient",
+          select: "_id name valueClient gpClient",
+          populate: {
+            path: "gpClient",
+            select: "name",
+          },
+        },
+        {
+          path: "relProject",
+          select: "_id title valueProject gpProject",
+          populate: {
+            path: "gpProject",
+            select: "name",
+          },
+        },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+          populate: {
+            path: "gpActivity",
+            select: "name",
+          },
+        },
+      ])
+      .lean()
+      .exec();
+    console.log(hours);
+
+    if (hours.length > 0) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   async findByIdAndCheck({ id, field, value }) {
     if (field == "approvedGP") {
       const hours = await Hours.findOneAndUpdate(

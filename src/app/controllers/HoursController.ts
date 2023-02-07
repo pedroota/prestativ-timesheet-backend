@@ -69,6 +69,20 @@ class HoursController {
       activityDesc,
     } = request.body;
 
+    const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
+      relActivity,
+      relUser,
+      initial,
+      final,
+    });
+
+    console.log(alreadyReleased);
+
+    if (alreadyReleased)
+      return response
+        .status(400)
+        .json({ message: "Conflito no horário informado." });
+
     const hours = await HoursRepository.create({
       initial,
       final,
