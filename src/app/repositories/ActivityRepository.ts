@@ -6,6 +6,7 @@ class ActivityRepository {
       .populate([
         { path: "project", select: "_id title idClient" },
         { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
       ])
       .lean()
       .exec();
@@ -18,8 +19,9 @@ class ActivityRepository {
       .limit(10)
       .skip(startIndex)
       .populate([
-        { path: "project", select: "_id title" },
+        { path: "project", select: "_id title idClient" },
         { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
       ])
       .lean()
       .exec();
@@ -29,7 +31,11 @@ class ActivityRepository {
 
   async findByName(title: string) {
     const activity = Activity.findOne({ title: title })
-      .populate("users")
+      .populate([
+        { path: "project", select: "_id title idClient" },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -86,7 +92,11 @@ class ActivityRepository {
         closedScope: closedScope,
       }
     )
-      .populate("users")
+      .populate([
+        { path: "project", select: "_id title idClient" },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -110,7 +120,11 @@ class ActivityRepository {
         closedScope: value,
       }
     )
-      .populate("users")
+      .populate([
+        { path: "project", select: "_id title idClient" },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
