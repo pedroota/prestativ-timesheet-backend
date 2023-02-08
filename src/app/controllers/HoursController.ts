@@ -8,10 +8,19 @@ class HoursController {
     if (page) {
       const startIndex = (page - 1) * 10;
       const hours = await HoursRepository.findSome(startIndex);
+
+      hours.sort(function (x: { initial: number }, y: { initial: number }) {
+        return x.initial - y.initial;
+      });
+
       return response.json(hours);
     }
 
     const hours = await HoursRepository.findAll();
+
+    hours.sort(function (x: { initial: number }, y: { initial: number }) {
+      return x.initial - y.initial;
+    });
 
     return response.json(hours);
   }
@@ -25,9 +34,15 @@ class HoursController {
       today.setMonth(-1);
       const timestamp = today.getTime();
       const hours = await HoursRepository.findLatest(timestamp);
+      hours.sort(function (x: { initial: number }, y: { initial: number }) {
+        return x.initial - y.initial;
+      });
       return response.json(hours);
     } else {
       const hours = await HoursRepository.findWithFilters(filters);
+      hours.sort(function (x: { initial: number }, y: { initial: number }) {
+        return x.initial - y.initial;
+      });
       return response.json(hours);
     }
   }
@@ -38,6 +53,10 @@ class HoursController {
     const timestamp = today.getTime();
 
     const hours = await HoursRepository.findLatest(timestamp);
+
+    hours.sort(function (x: { initial: number }, y: { initial: number }) {
+      return x.initial - y.initial;
+    });
 
     return response.json(hours);
   }
