@@ -76,8 +76,6 @@ class HoursController {
       final,
     });
 
-    console.log(alreadyReleased);
-
     if (alreadyReleased)
       return response
         .status(400)

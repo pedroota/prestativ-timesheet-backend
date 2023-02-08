@@ -499,7 +499,6 @@ class HoursRepository {
       ])
       .lean()
       .exec();
-    console.log(hours);
 
     if (hours.length > 0) {
       return true;
