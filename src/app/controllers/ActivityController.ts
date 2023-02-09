@@ -181,6 +181,20 @@ class ActivityController {
       message: `Escopo Fechado foi marcado como ${value}`,
     });
   }
+
+  async validity(request: Request, response: Response) {
+    const { id } = request.params;
+    const { value } = request.body;
+
+    await ActivityRepository.findByIdAndUpdateValidity({
+      id,
+      value,
+    });
+
+    return response.status(200).json({
+      message: "A Validade foi atualizada com sucesso!",
+    });
+  }
 }
 
 module.exports = new ActivityController();

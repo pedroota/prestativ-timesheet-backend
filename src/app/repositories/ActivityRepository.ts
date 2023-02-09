@@ -150,6 +150,25 @@ class ActivityRepository {
     return activity;
   }
 
+  async findByIdAndUpdateValidity({ id, value }) {
+    const activity = await Activity.findOneAndUpdate(
+      { _id: id },
+      {
+        updatedAt: Date.now(),
+        activityValidity: value,
+      }
+    )
+      .populate([
+        { path: "project", select: "_id title idClient" },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
+
+    return activity;
+  }
+
   async delete(id: string) {
     await Activity.findOneAndDelete({ _id: id });
     return;
