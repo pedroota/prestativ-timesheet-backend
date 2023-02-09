@@ -4,7 +4,36 @@ class ActivityRepository {
   async findAll() {
     const activities = await Activity.find()
       .populate([
-        { path: "project", select: "_id title idClient" },
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
+
+    return activities;
+  }
+
+  async findActive() {
+    const activities = await Activity.find({
+      activityValidity: { $gte: Number(Date.now()) },
+    })
+      .populate([
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
       ])
@@ -19,7 +48,14 @@ class ActivityRepository {
       .limit(10)
       .skip(startIndex)
       .populate([
-        { path: "project", select: "_id title idClient" },
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
       ])
@@ -32,7 +68,14 @@ class ActivityRepository {
   async findByName(title: string) {
     const activity = Activity.findOne({ title: title })
       .populate([
-        { path: "project", select: "_id title idClient" },
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
       ])
@@ -50,6 +93,7 @@ class ActivityRepository {
     description,
     users,
     closedScope,
+    activityValidity,
     createdAt,
     updatedAt,
   }) {
@@ -61,6 +105,7 @@ class ActivityRepository {
       description,
       users,
       closedScope,
+      activityValidity,
       createdAt,
       updatedAt,
     });
@@ -78,6 +123,7 @@ class ActivityRepository {
     description,
     users,
     closedScope,
+    activityValidity,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -90,10 +136,18 @@ class ActivityRepository {
         users: users,
         updatedAt: Date.now(),
         closedScope: closedScope,
+        activityValidity: activityValidity,
       }
     )
       .populate([
-        { path: "project", select: "_id title idClient" },
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
       ])
@@ -121,7 +175,40 @@ class ActivityRepository {
       }
     )
       .populate([
-        { path: "project", select: "_id title idClient" },
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
+
+    return activity;
+  }
+
+  async findByIdAndUpdateValidity({ id, value }) {
+    const activity = await Activity.findOneAndUpdate(
+      { _id: id },
+      {
+        updatedAt: Date.now(),
+        activityValidity: value,
+      }
+    )
+      .populate([
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
       ])
