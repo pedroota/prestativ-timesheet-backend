@@ -75,6 +75,7 @@ router.delete(
 // Activity Routes
 router.get("/activities", verifyTokenJwt, ActivityController.index);
 router.get("/activities/:id", verifyTokenJwt, ActivityController.show);
+router.get("/active/activities", verifyTokenJwt, ActivityController.active);
 router.post(
   "/activities",
   verifyTokenJwt,

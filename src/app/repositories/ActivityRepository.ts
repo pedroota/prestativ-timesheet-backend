@@ -14,6 +14,21 @@ class ActivityRepository {
     return activities;
   }
 
+  async findActive() {
+    const activities = await Activity.find({
+      activityValidity: { $gte: Number(Date.now()) },
+    })
+      .populate([
+        { path: "project", select: "_id title idClient" },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
+      .lean()
+      .exec();
+
+    return activities;
+  }
+
   async findSome(startIndex) {
     const activities = await Activity.find()
       .limit(10)
@@ -50,6 +65,7 @@ class ActivityRepository {
     description,
     users,
     closedScope,
+    activityValidity,
     createdAt,
     updatedAt,
   }) {
@@ -61,6 +77,7 @@ class ActivityRepository {
       description,
       users,
       closedScope,
+      activityValidity,
       createdAt,
       updatedAt,
     });
@@ -78,6 +95,7 @@ class ActivityRepository {
     description,
     users,
     closedScope,
+    activityValidity,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -90,6 +108,7 @@ class ActivityRepository {
         users: users,
         updatedAt: Date.now(),
         closedScope: closedScope,
+        activityValidity: activityValidity,
       }
     )
       .populate([

@@ -10,6 +10,7 @@ interface IActivity {
   description: string;
   users: mongoose.Schema.Types.ObjectId;
   closedScope: boolean;
+  activityValidity: number;
   createdAt: number;
   updatedAt: number;
 }
@@ -46,6 +47,10 @@ const ActivitySchema = new Schema<IActivity>({
   closedScope: {
     type: Boolean,
     default: false,
+  },
+  activityValidity: {
+    type: Number,
+    required: true,
   },
   createdAt: {
     type: Number,

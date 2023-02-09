@@ -33,6 +33,29 @@ class ActivityController {
       .json({ message: "Atividade encontrada com sucesso", activity });
   }
 
+  async active(_request: Request, response: Response) {
+    const activity = await ActivityRepository.findActive();
+
+    if (!activity)
+      return response
+        .status(400)
+        .json({ message: "Nenhuma atividade ativa encontrada." });
+
+    if (activity.length === 0)
+      return response
+        .status(200)
+        .json({ message: "Nenhuma atividade ativa encontrada." });
+
+    return response.status(200).json({
+      message: `${activity.length} Atividade${
+        activity.length > 1 ? "s" : ""
+      } ativa${activity.length > 1 ? "s" : ""} encontrada${
+        activity.length > 1 ? "s" : ""
+      }`,
+      activity,
+    });
+  }
+
   async store(request: Request, response: Response) {
     const {
       title,
@@ -43,6 +66,7 @@ class ActivityController {
       users,
       closedScope,
     } = request.body;
+    let { activityValidity } = request.body;
 
     const isActivityAlreadyRegistered = await ActivityRepository.findByName(
       title
@@ -53,6 +77,12 @@ class ActivityController {
         .status(422)
         .json({ message: "Uma atividade com este nome já foi cadastrado" });
 
+    if (!activityValidity) {
+      const date = new Date();
+      date.setMonth(date.getMonth() + 1);
+      activityValidity = date.getTime();
+    }
+
     const activity = await ActivityRepository.create({
       title,
       project,
@@ -61,6 +91,7 @@ class ActivityController {
       description,
       users,
       closedScope,
+      activityValidity,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -100,6 +131,7 @@ class ActivityController {
       description,
       users,
       closedScope,
+      activityValidity,
     } = request.body;
 
     const updatedActivity = await ActivityRepository.findByIdAndUpdate({
@@ -111,6 +143,7 @@ class ActivityController {
       description,
       users,
       closedScope,
+      activityValidity,
     });
 
     return response
