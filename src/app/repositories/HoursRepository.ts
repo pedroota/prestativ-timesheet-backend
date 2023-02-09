@@ -10,7 +10,7 @@ class HoursRepository {
           select: "_id name valueClient gpClient",
           populate: {
             path: "gpClient",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -18,7 +18,7 @@ class HoursRepository {
           select: "_id title valueProject gpProject",
           populate: {
             path: "gpProject",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -26,7 +26,7 @@ class HoursRepository {
           select: "_id title valueActivity gpActivity closedScope",
           populate: {
             path: "gpActivity",
-            select: "name",
+            select: "name surname",
           },
         },
       ])
@@ -80,7 +80,7 @@ class HoursRepository {
                 select: "_id name valueClient gpClient",
                 populate: {
                   path: "gpClient",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -88,7 +88,7 @@ class HoursRepository {
                 select: "_id title valueProject gpProject",
                 populate: {
                   path: "gpProject",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -96,7 +96,7 @@ class HoursRepository {
                 select: "_id title valueActivity gpActivity closedScope",
                 populate: {
                   path: "gpActivity",
-                  select: "name",
+                  select: "name surname",
                 },
               },
             ])
@@ -116,7 +116,7 @@ class HoursRepository {
                 select: "_id name valueClient gpClient",
                 populate: {
                   path: "gpClient",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -124,7 +124,7 @@ class HoursRepository {
                 select: "_id title valueProject gpProject",
                 populate: {
                   path: "gpProject",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -132,7 +132,7 @@ class HoursRepository {
                 select: "_id title valueActivity gpActivity closedScope",
                 populate: {
                   path: "gpActivity",
-                  select: "name",
+                  select: "name surname",
                 },
               },
             ])
@@ -168,7 +168,7 @@ class HoursRepository {
                 select: "_id name valueClient gpClient",
                 populate: {
                   path: "gpClient",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -176,7 +176,7 @@ class HoursRepository {
                 select: "_id title valueProject gpProject",
                 populate: {
                   path: "gpProject",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -184,7 +184,7 @@ class HoursRepository {
                 select: "_id title valueActivity gpActivity closedScope",
                 populate: {
                   path: "gpActivity",
-                  select: "name",
+                  select: "name surname",
                 },
               },
             ])
@@ -204,7 +204,7 @@ class HoursRepository {
                 select: "_id name valueClient gpClient",
                 populate: {
                   path: "gpClient",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -212,7 +212,7 @@ class HoursRepository {
                 select: "_id title valueProject gpProject",
                 populate: {
                   path: "gpProject",
-                  select: "name",
+                  select: "name surname",
                 },
               },
               {
@@ -220,7 +220,7 @@ class HoursRepository {
                 select: "_id title valueActivity gpActivity closedScope",
                 populate: {
                   path: "gpActivity",
-                  select: "name",
+                  select: "name surname",
                 },
               },
             ])
@@ -239,7 +239,7 @@ class HoursRepository {
             select: "_id name valueClient gpClient",
             populate: {
               path: "gpClient",
-              select: "name",
+              select: "name surname",
             },
           },
           {
@@ -247,7 +247,7 @@ class HoursRepository {
             select: "_id title valueProject gpProject",
             populate: {
               path: "gpProject",
-              select: "name",
+              select: "name surname",
             },
           },
           {
@@ -255,7 +255,7 @@ class HoursRepository {
             select: "_id title valueActivity gpActivity closedScope",
             populate: {
               path: "gpActivity",
-              select: "name",
+              select: "name surname",
             },
           },
         ])
@@ -275,7 +275,7 @@ class HoursRepository {
           select: "_id name valueClient gpClient",
           populate: {
             path: "gpClient",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -283,7 +283,7 @@ class HoursRepository {
           select: "_id title valueProject gpProject",
           populate: {
             path: "gpProject",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -291,7 +291,7 @@ class HoursRepository {
           select: "_id title valueActivity gpActivity closedScope",
           populate: {
             path: "gpActivity",
-            select: "name",
+            select: "name surname",
           },
         },
       ])
@@ -312,7 +312,7 @@ class HoursRepository {
           select: "_id name valueClient gpClient",
           populate: {
             path: "gpClient",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -320,7 +320,7 @@ class HoursRepository {
           select: "_id title valueProject gpProject",
           populate: {
             path: "gpProject",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -328,7 +328,7 @@ class HoursRepository {
           select: "_id title valueActivity gpActivity closedScope",
           populate: {
             path: "gpActivity",
-            select: "name",
+            select: "name surname",
           },
         },
       ])
@@ -347,7 +347,7 @@ class HoursRepository {
           select: "_id name valueClient gpClient",
           populate: {
             path: "gpClient",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -355,7 +355,7 @@ class HoursRepository {
           select: "_id title valueProject gpProject",
           populate: {
             path: "gpProject",
-            select: "name",
+            select: "name surname",
           },
         },
         {
@@ -363,7 +363,7 @@ class HoursRepository {
           select: "_id title valueActivity gpActivity closedScope",
           populate: {
             path: "gpActivity",
-            select: "name",
+            select: "name surname",
           },
         },
       ])
