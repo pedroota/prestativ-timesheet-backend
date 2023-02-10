@@ -3,7 +3,21 @@ const User = require("../models/UserSchema");
 class UserRepository {
   async findAll() {
     const users = await User.find()
-      .populate([{ path: "activities" }, { path: "role" }])
+      .populate([
+        {
+          path: "activities",
+          populate: {
+            path: "project",
+            select: "_id title idClient",
+            populate: {
+              path: "idClient",
+              select: "name",
+            },
+          },
+        },
+        { path: "role" },
+      ])
+
       .lean()
       .exec();
 
@@ -18,7 +32,20 @@ class UserRepository {
 
   async findUsersByRole(role: string) {
     const users = await User.find({ typeField: role })
-      .populate([{ path: "activities" }, { path: "role" }])
+      .populate([
+        {
+          path: "activities",
+          populate: {
+            path: "project",
+            select: "_id title idClient",
+            populate: {
+              path: "idClient",
+              select: "name",
+            },
+          },
+        },
+        { path: "role" },
+      ])
       .lean()
       .exec();
 
@@ -27,7 +54,20 @@ class UserRepository {
 
   async findByEmail(email: string) {
     const user = await User.findOne({ email: email })
-      .populate([{ path: "activities" }, { path: "role" }])
+      .populate([
+        {
+          path: "activities",
+          populate: {
+            path: "project",
+            select: "_id title idClient",
+            populate: {
+              path: "idClient",
+              select: "name",
+            },
+          },
+        },
+        { path: "role" },
+      ])
       .lean()
       .exec();
 
@@ -80,7 +120,20 @@ class UserRepository {
         updatedAt: Date.now(),
       }
     )
-      .populate([{ path: "activities" }, { path: "role" }])
+      .populate([
+        {
+          path: "activities",
+          populate: {
+            path: "project",
+            select: "_id title idClient",
+            populate: {
+              path: "idClient",
+              select: "name",
+            },
+          },
+        },
+        { path: "role" },
+      ])
       .lean()
       .exec();
 
@@ -111,7 +164,20 @@ class UserRepository {
         updatedAt: Date.now(),
       }
     )
-      .populate([{ path: "activities" }, { path: "role" }])
+      .populate([
+        {
+          path: "activities",
+          populate: {
+            path: "project",
+            select: "_id title idClient",
+            populate: {
+              path: "idClient",
+              select: "name",
+            },
+          },
+        },
+        { path: "role" },
+      ])
       .lean()
       .exec();
 
@@ -120,7 +186,20 @@ class UserRepository {
 
   async findById(id: string) {
     const user = await User.findOne({ _id: id })
-      .populate([{ path: "activities" }, { path: "role" }])
+      .populate([
+        {
+          path: "activities",
+          populate: {
+            path: "project",
+            select: "_id title idClient",
+            populate: {
+              path: "idClient",
+              select: "name",
+            },
+          },
+        },
+        { path: "role" },
+      ])
       .lean()
       .exec();
 
