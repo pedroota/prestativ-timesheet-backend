@@ -25,6 +25,22 @@ class HoursController {
     return response.json(hours);
   }
 
+  async indexByUser(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const hours = await HoursRepository.findByUserId(id);
+
+    if (!hours) {
+      return response
+        .status(400)
+        .json({ message: "Nenhum lançamento encontrado para este usuário" });
+    }
+
+    return response
+      .status(200)
+      .json({ message: "Lançamentos encontrados com sucesso", hours });
+  }
+
   async filter(request: Request, response: Response) {
     const filters = request.query;
     // APIURL/hours/filter ? dataI = 2023-01-27 & dataF = 2023-01-28 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
@@ -154,6 +170,7 @@ class HoursController {
       updatedHours,
     });
   }
+
   async updateReleasedCall(request: Request, response: Response) {
     const { id } = request.params;
     const { releasedCall } = request.body;
