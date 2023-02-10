@@ -36,9 +36,11 @@ class HoursController {
         .json({ message: "Nenhum lançamento encontrado para este usuário" });
     }
 
-    return response
-      .status(200)
-      .json({ message: "Lançamentos encontrados com sucesso", hours });
+    hours.sort(function (x: { initial: number }, y: { initial: number }) {
+      return x.initial - y.initial;
+    });
+
+    return response.status(200).json(hours);
   }
 
   async filter(request: Request, response: Response) {
