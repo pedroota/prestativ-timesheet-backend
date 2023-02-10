@@ -38,7 +38,6 @@ class HoursRepository {
 
   async findWithFilters(filters) {
     // APIURL/hours/filter ? dataI = 2023-01-27 & dataF = 2023-01-28 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
-    console.log(filters);
     if (filters.dataI) {
       const dateIFormated = filters.dataI.split("-");
       const timeINI = new Date(
