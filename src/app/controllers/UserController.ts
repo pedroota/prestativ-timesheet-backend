@@ -103,7 +103,7 @@ class UsersController {
         }
       );
 
-      const { _id, name, surname, email, role } = user;
+      const { _id, name, surname, email, role, typeField } = user;
 
       response.status(200).cookie("token", token, { httpOnly: true }).json({
         message: "Usuário logado com sucesso",
@@ -113,6 +113,7 @@ class UsersController {
           surname,
           email,
           role,
+          typeField,
         },
         token,
       });
