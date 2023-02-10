@@ -89,14 +89,13 @@ class UsersController {
     if (!isPasswordCorrect)
       return response
         .status(422)
-        .json({ message: "E-mail ou senha podem estar errados." });
+        .json({ message: "E-mail ou senha podem estar incorretos." });
 
     try {
       const { JWT_SECRET } = process.env;
       const token = jwt.sign(
         {
           id: user._id,
-          role: user.role,
         },
         JWT_SECRET,
         {
