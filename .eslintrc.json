@@ -16,6 +16,7 @@
   },
   "plugins": ["@typescript-eslint", "prettier"],
   "rules": {
+    "require-yield": "off",
     "@typescript-eslint/no-var-requires": "off",
     "prettier/prettier": ["error"],
     "linebreak-style": ["error", "windows"],
