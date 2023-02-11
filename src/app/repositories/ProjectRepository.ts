@@ -13,6 +13,15 @@ class ProjectRepository {
     return projects;
   }
 
+  async findClientIdByProjectId(id: string) {
+    const project = await Project.findOne({ _id: id })
+      .populate("idClient")
+      .lean()
+      .exec();
+
+    return project.idClient._id;
+  }
+
   async findSome(startIndex) {
     const projects = await Project.find()
       .limit(10)
