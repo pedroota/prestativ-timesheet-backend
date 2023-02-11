@@ -38,7 +38,6 @@ class HoursRepository {
 
   async findWithFilters(filters) {
     // APIURL/hours/filter ? dataI = 2023-01-27 & dataF = 2023-01-28 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
-    console.log(filters);
     if (filters.dataI) {
       const dateIFormated = filters.dataI.split("-");
       const timeINI = new Date(
@@ -266,6 +265,41 @@ class HoursRepository {
     }
   }
 
+  async findByUserId(id: string) {
+    const hours = await Hours.find({ relUser: id })
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        {
+          path: "relClient",
+          select: "_id name valueClient gpClient",
+          populate: {
+            path: "gpClient",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relProject",
+          select: "_id title valueProject gpProject",
+          populate: {
+            path: "gpProject",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+          populate: {
+            path: "gpActivity",
+            select: "name surname",
+          },
+        },
+      ])
+      .lean()
+      .exec();
+
+    return hours;
+  }
+
   async findLatest(timestamp: number) {
     const hours = await Hours.find({ initial: { $gte: timestamp } })
       .populate([
@@ -402,6 +436,7 @@ class HoursRepository {
 
     return hours;
   }
+
   async findByIdAndUpdate({
     id,
     initial,
@@ -439,6 +474,7 @@ class HoursRepository {
       .exec();
     return hours;
   }
+
   async findByIdAndUpdateReleasedCall(id: string, releasedCall: string) {
     const hours = await Hours.findOneAndUpdate(
       { _id: id },

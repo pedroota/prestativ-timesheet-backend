@@ -109,6 +109,7 @@ router.patch(
 
 // Hours Routes
 router.get("/hours", verifyTokenJwt, HoursController.index);
+router.get("/hours/user/:id", verifyTokenJwt, HoursController.indexByUser);
 router.get("/hours/filter", verifyTokenJwt, HoursController.filter);
 router.get("/hours/latest", verifyTokenJwt, HoursController.latest);
 router.get("/hours/:id", verifyTokenJwt, HoursController.show);

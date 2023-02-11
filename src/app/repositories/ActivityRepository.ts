@@ -21,6 +21,15 @@ class ActivityRepository {
     return activities;
   }
 
+  async findProjectIdByActivityId(id: string) {
+    const activity = await Activity.findOne({ _id: id })
+      .populate("project")
+      .lean()
+      .exec();
+
+    return activity.project._id;
+  }
+
   async findActive() {
     const activities = await Activity.find({
       activityValidity: { $gte: Number(Date.now()) },

@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 const HoursRepository = require("../repositories/HoursRepository");
+const ActivityRepository = require("../repositories/ActivityRepository");
+const ProjectRepository = require("../repositories/ProjectRepository");
 
 class HoursController {
   async index(request: Request, response: Response) {
@@ -23,6 +25,24 @@ class HoursController {
     });
 
     return response.json(hours);
+  }
+
+  async indexByUser(request: Request, response: Response) {
+    const { id } = request.params;
+
+    const hours = await HoursRepository.findByUserId(id);
+
+    if (!hours) {
+      return response
+        .status(400)
+        .json({ message: "Nenhum lançamento encontrado para este usuário" });
+    }
+
+    hours.sort(function (x: { initial: number }, y: { initial: number }) {
+      return x.initial - y.initial;
+    });
+
+    return response.status(200).json(hours);
   }
 
   async filter(request: Request, response: Response) {
@@ -77,16 +97,8 @@ class HoursController {
   }
 
   async store(request: Request, response: Response) {
-    const {
-      initial,
-      final,
-      adjustment,
-      relClient,
-      relProject,
-      relActivity,
-      relUser,
-      activityDesc,
-    } = request.body;
+    const { initial, final, adjustment, relActivity, relUser, activityDesc } =
+      request.body;
 
     const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
       relActivity,
@@ -100,13 +112,20 @@ class HoursController {
         .status(400)
         .json({ message: "Conflito no horário informado." });
 
+    const relProject = await ActivityRepository.findProjectIdByActivityId(
+      relActivity
+    );
+    const relClient = await ProjectRepository.findClientIdByProjectId(
+      relProject
+    );
+
     const hours = await HoursRepository.create({
       initial,
       final,
       adjustment,
-      relClient,
-      relProject,
       relActivity,
+      relProject,
+      relClient,
       relUser,
       activityDesc,
       createdAt: Date.now(),
@@ -122,8 +141,6 @@ class HoursController {
       initial,
       final,
       adjustment,
-      relClient,
-      relProject,
       relActivity,
       relUser,
       approvedGP,
@@ -133,14 +150,21 @@ class HoursController {
       activityDesc,
     } = request.body;
 
+    const relProject = await ActivityRepository.findProjectIdByActivityId(
+      relActivity
+    );
+    const relClient = await ProjectRepository.findClientIdByProjectId(
+      relProject
+    );
+
     const updatedHours = await HoursRepository.findByIdAndUpdate({
       id,
       initial,
       final,
       adjustment,
-      relClient,
-      relProject,
       relActivity,
+      relProject,
+      relClient,
       relUser,
       approvedGP,
       billable,
@@ -154,6 +178,7 @@ class HoursController {
       updatedHours,
     });
   }
+
   async updateReleasedCall(request: Request, response: Response) {
     const { id } = request.params;
     const { releasedCall } = request.body;

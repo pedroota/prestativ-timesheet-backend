@@ -17,7 +17,6 @@ class UserRepository {
         },
         { path: "role" },
       ])
-
       .lean()
       .exec();
 
