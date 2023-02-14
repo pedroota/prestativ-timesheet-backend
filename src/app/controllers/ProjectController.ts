@@ -45,10 +45,16 @@ class ProjectController {
         .status(422)
         .json({ message: "Um projeto com este nome já foi cadastrado" });
 
+    const client = await Client.findById(idClient);
+    if (!client)
+      return response
+        .status(404)
+        .json({ message: "O cliente especificado não foi encontrado" });
+
     const project = await ProjectRepository.create({
       title,
       idClient,
-      valueProject,
+      valueProject: !valueProject ? client.valueClient : valueProject,
       gpProject,
       description,
       createdAt: Date.now(),
@@ -56,11 +62,6 @@ class ProjectController {
     });
 
     // Populate the projects property inside the Client Schema with the actual id from the project
-    const client = await Client.findById(idClient);
-    if (!client)
-      return response
-        .status(404)
-        .json({ message: "O cliente especificado não foi encontrado" });
     client.projects.push(project._id);
     client.save();
 
