@@ -77,6 +77,12 @@ class ActivityController {
         .status(422)
         .json({ message: "Uma atividade com este nome já foi cadastrado" });
 
+    const actualProject = await Project.findById(project);
+    if (!actualProject)
+      return response
+        .status(404)
+        .json({ message: "O projeto especificado não foi encontrado" });
+
     if (!activityValidity) {
       const date = new Date();
       date.setMonth(date.getMonth() + 1);
@@ -86,7 +92,9 @@ class ActivityController {
     const activity = await ActivityRepository.create({
       title,
       project,
-      valueActivity,
+      valueActivity: !valueActivity
+        ? actualProject.valueProject
+        : valueActivity,
       gpActivity,
       description,
       users,
@@ -110,11 +118,6 @@ class ActivityController {
     }
 
     // Populate the activities property inside the Project Schema with the actual id from the activity
-    const actualProject = await Project.findById(project);
-    if (!actualProject)
-      return response
-        .status(404)
-        .json({ message: "O projeto especificado não foi encontrado" });
     actualProject.activities.push(activity._id);
     actualProject.save();
 
