@@ -137,17 +137,42 @@ class ActivityController {
       activityValidity,
     } = request.body;
 
+    const actualProject = await Project.findById(project);
+    if (!actualProject)
+      return response
+        .status(404)
+        .json({ message: "O projeto especificado não foi encontrado" });
+
     const updatedActivity = await ActivityRepository.findByIdAndUpdate({
       id,
       title,
       project,
-      valueActivity,
+      valueActivity: !valueActivity
+        ? actualProject.valueProject
+        : valueActivity,
       gpActivity,
       description,
       users,
       closedScope,
       activityValidity,
     });
+
+    await updatedActivity.save();
+
+    // Populate the activities property inside the User Schema with the actual id from the activity
+    for (const key in users) {
+      const user = await User.findById(users[key]);
+      if (!user) {
+        return response
+          .status(400)
+          .json({ message: "O usuário especificado não foi encontrado." });
+      }
+      // Verifies if the user already have the id registered
+      if (!user.activities.includes(updatedActivity._id)) {
+        user.activities.push(updatedActivity._id);
+        user.save();
+      }
+    }
 
     return response
       .status(200)
