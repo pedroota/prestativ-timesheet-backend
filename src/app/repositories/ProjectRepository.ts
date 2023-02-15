@@ -4,6 +4,7 @@ class ProjectRepository {
   async findAll() {
     const projects = await Project.find()
       .populate([
+        { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
       ])
@@ -15,7 +16,11 @@ class ProjectRepository {
 
   async findClientIdByProjectId(id: string) {
     const project = await Project.findOne({ _id: id })
-      .populate("idClient")
+      .populate([
+        { path: "activities" },
+        { path: "idClient", select: "_id name" },
+        { path: "gpProject", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -27,6 +32,7 @@ class ProjectRepository {
       .limit(10)
       .skip(startIndex)
       .populate([
+        { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
       ])
@@ -38,7 +44,11 @@ class ProjectRepository {
 
   async findByName(name: string) {
     const project = Project.findOne({ name: name })
-      .populate("activities")
+      .populate([
+        { path: "activities" },
+        { path: "idClient", select: "_id name" },
+        { path: "gpProject", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
@@ -90,7 +100,11 @@ class ProjectRepository {
         activities,
       }
     )
-      .populate("activities")
+      .populate([
+        { path: "activities" },
+        { path: "idClient", select: "_id name" },
+        { path: "gpProject", select: "_id name surname" },
+      ])
       .lean()
       .exec();
     return project;
@@ -98,7 +112,11 @@ class ProjectRepository {
 
   async findById(id: string) {
     const project = await Project.findOne({ _id: id })
-      .populate("activities")
+      .populate([
+        { path: "activities" },
+        { path: "idClient", select: "_id name" },
+        { path: "gpProject", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 
