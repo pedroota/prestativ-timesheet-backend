@@ -143,6 +143,15 @@ class ActivityController {
         .status(404)
         .json({ message: "O projeto especificado não foi encontrado" });
 
+    const activity = await ActivityRepository.findById(id);
+    if (!activity)
+      return response
+        .status(400)
+        .json({ message: "A atividade não foi encontrada" });
+
+    const removedUsers = activity.users.filter((user) => !users.includes(user));
+    console.log(removedUsers);
+
     const updatedActivity = await ActivityRepository.findByIdAndUpdate({
       id,
       title,
@@ -172,6 +181,15 @@ class ActivityController {
         user.activities.push(updatedActivity._id);
         user.save();
       }
+    }
+
+    // Remove the activity id's from the removed users
+    for (const key in removedUsers) {
+      const user = await User.findById(users[key]);
+      const indexActivity = user.findIndex(
+        (element) => element === activity._id
+      );
+      user.splice(indexActivity, 1);
     }
 
     return response
