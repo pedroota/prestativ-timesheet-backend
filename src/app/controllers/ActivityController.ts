@@ -157,8 +157,6 @@ class ActivityController {
       activityValidity,
     });
 
-    await updatedActivity.save();
-
     // Populate the activities property inside the User Schema with the actual id from the activity
     for (const key in users) {
       const user = await User.findById(users[key]);
