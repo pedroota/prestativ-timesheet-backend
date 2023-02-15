@@ -6,6 +6,16 @@ const UserRepository = require("../repositories/UserRepository");
 const RoleRepository = require("../repositories/RoleRepository");
 const mailer = require("../modules/mailer");
 
+type updatedUser = {
+  id: string;
+  name: string;
+  surname: string;
+  email: string;
+  password?: string;
+  role: string;
+  typeField: string;
+  activities: string[];
+};
 class UsersController {
   async index(request: Request, response: Response) {
     const { role } = request.query;
@@ -128,19 +138,23 @@ class UsersController {
     const { name, surname, email, password, role, typeField, activities } =
       request.body;
 
-    const salt = await bcrypt.genSalt(12);
-    const passwordHash = await bcrypt.hash(password, salt);
-
-    const updatedUser = await UserRepository.findByIdAndUpdate({
+    let updatedUser: updatedUser = {
       id,
       name,
       surname,
       email,
-      password: passwordHash,
       role,
       typeField,
       activities,
-    });
+    };
+
+    if (password && password.trim() !== "") {
+      const salt = await bcrypt.genSalt(12);
+      const passwordHash = await bcrypt.hash(password, salt);
+      updatedUser.password = passwordHash;
+    }
+
+    updatedUser = await UserRepository.findByIdAndUpdate(updatedUser);
 
     return response
       .status(200)
