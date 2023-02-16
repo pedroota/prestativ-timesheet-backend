@@ -300,8 +300,26 @@ class HoursRepository {
     return hours;
   }
 
-  async findLatest(timestamp: number) {
-    const hours = await Hours.find({ initial: { $gte: timestamp } })
+  async findLatest() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const firstDayOfTheMonthTimestamp = new Date(year, month, 1).getTime();
+    const lastDatOfTheMonthTimestamp = new Date(
+      year,
+      month + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ).getTime();
+    const hours = await Hours.find({
+      $and: [
+        { initial: { $gte: firstDayOfTheMonthTimestamp } },
+        { initial: { $lte: lastDatOfTheMonthTimestamp } },
+      ],
+    })
       .populate([
         { path: "relUser", select: "_id name surname" },
         {

@@ -50,10 +50,7 @@ class HoursController {
     // APIURL/hours/filter ? dataI = 2023-01-27 & dataF = 2023-01-28 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
     // se o filter estiver vazio ele irá retornar tudo
     if (Object.keys(filters).length === 0 || !filters) {
-      const today = new Date();
-      today.setMonth(-1);
-      const timestamp = today.getTime();
-      const hours = await HoursRepository.findLatest(timestamp);
+      const hours = await HoursRepository.findLatest();
       hours.sort(function (x: { initial: number }, y: { initial: number }) {
         return x.initial - y.initial;
       });
