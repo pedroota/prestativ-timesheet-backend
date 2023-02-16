@@ -38,22 +38,10 @@ class ActivityController {
 
     if (!activity)
       return response
-        .status(400)
+        .status(204)
         .json({ message: "Nenhuma atividade ativa encontrada." });
 
-    if (activity.length === 0)
-      return response
-        .status(200)
-        .json({ message: "Nenhuma atividade ativa encontrada." });
-
-    return response.status(200).json({
-      message: `${activity.length} Atividade${
-        activity.length > 1 ? "s" : ""
-      } ativa${activity.length > 1 ? "s" : ""} encontrada${
-        activity.length > 1 ? "s" : ""
-      }`,
-      activity,
-    });
+    return response.status(200).json(activity);
   }
 
   async store(request: Request, response: Response) {
