@@ -138,7 +138,6 @@ class ActivityController {
         .json({ message: "A atividade não foi encontrada" });
 
     const removedUsers = activity.users.filter((user) => !users.includes(user));
-    console.log(removedUsers);
 
     const updatedActivity = await ActivityRepository.findByIdAndUpdate({
       id,
@@ -171,11 +170,13 @@ class ActivityController {
 
     // Remove the activity id's from the removed users
     for (const key in removedUsers) {
-      const user = await User.findById(users[key]);
-      const indexActivity = user.findIndex(
-        (element) => element === activity._id
-      );
-      user.splice(indexActivity, 1);
+      const user = await User.findById(removedUsers[key]);
+      if (user.activities.includes(updatedActivity._id)) {
+        const indexActivity = user.activities.findIndex(
+          (element) => element === updatedActivity._id
+        );
+        user.activities.splice(indexActivity, 1);
+      }
     }
 
     return response
