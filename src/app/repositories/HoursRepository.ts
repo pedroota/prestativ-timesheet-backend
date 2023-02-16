@@ -300,8 +300,26 @@ class HoursRepository {
     return hours;
   }
 
-  async findLatest(timestamp: number) {
-    const hours = await Hours.find({ initial: { $gte: timestamp } })
+  async findLatest() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth();
+    const firstDayOfTheMonthTimestamp = new Date(year, month, 1).getTime();
+    const lastDatOfTheMonthTimestamp = new Date(
+      year,
+      month + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ).getTime();
+    const hours = await Hours.find({
+      $and: [
+        { initial: { $gte: firstDayOfTheMonthTimestamp } },
+        { initial: { $lte: lastDatOfTheMonthTimestamp } },
+      ],
+    })
       .populate([
         { path: "relUser", select: "_id name surname" },
         {
@@ -335,7 +353,115 @@ class HoursRepository {
     return hours;
   }
 
-  async findSome(startIndex) {
+  async findSpecificMonth(timestamp: number) {
+    const specificDay = new Date(timestamp);
+    const year = specificDay.getFullYear();
+    const month = specificDay.getMonth();
+    const firstDayOfTheMonthTimestamp = new Date(year, month, 1).getTime();
+    const lastDatOfTheMonthTimestamp = new Date(
+      year,
+      month + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ).getTime();
+    const hours = await Hours.find({
+      $and: [
+        { initial: { $gte: firstDayOfTheMonthTimestamp } },
+        { initial: { $lte: lastDatOfTheMonthTimestamp } },
+      ],
+    })
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        {
+          path: "relClient",
+          select: "_id name valueClient gpClient",
+          populate: {
+            path: "gpClient",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relProject",
+          select: "_id title valueProject gpProject",
+          populate: {
+            path: "gpProject",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+          populate: {
+            path: "gpActivity",
+            select: "name surname",
+          },
+        },
+      ])
+      .lean()
+      .exec();
+
+    return hours;
+  }
+
+  async findSpecificMonthPaginated(timestamp: number, startIndex: number) {
+    const specificDay = new Date(timestamp);
+    const year = specificDay.getFullYear();
+    const month = specificDay.getMonth();
+    const firstDayOfTheMonthTimestamp = new Date(year, month, 1).getTime();
+    const lastDatOfTheMonthTimestamp = new Date(
+      year,
+      month + 1,
+      0,
+      23,
+      59,
+      59,
+      999
+    ).getTime();
+    const hours = await Hours.find({
+      $and: [
+        { initial: { $gte: firstDayOfTheMonthTimestamp } },
+        { initial: { $lte: lastDatOfTheMonthTimestamp } },
+      ],
+    })
+      .limit(10)
+      .skip(startIndex)
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        {
+          path: "relClient",
+          select: "_id name valueClient gpClient",
+          populate: {
+            path: "gpClient",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relProject",
+          select: "_id title valueProject gpProject",
+          populate: {
+            path: "gpProject",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+          populate: {
+            path: "gpActivity",
+            select: "name surname",
+          },
+        },
+      ])
+      .lean()
+      .exec();
+
+    return hours;
+  }
+
+  async findSome(startIndex: number) {
     const hours = await Hours.find()
       .limit(10)
       .skip(startIndex)
