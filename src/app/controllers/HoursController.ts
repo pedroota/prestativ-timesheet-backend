@@ -24,7 +24,7 @@ class HoursController {
       return response.json(hours);
     }
     if (date) {
-      const hours = await HoursRepository.findSpecificMonthPaginated(date);
+      const hours = await HoursRepository.findSpecificMonth(date);
 
       hours.sort(function (x: { initial: number }, y: { initial: number }) {
         return x.initial - y.initial;
