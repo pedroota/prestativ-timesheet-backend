@@ -28,10 +28,13 @@ const ActivitySchema = new Schema<IActivity>({
   valueActivity: {
     type: Number,
   },
-  gpActivity: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  gpActivity: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
   description: {
     type: String,
     required: true,

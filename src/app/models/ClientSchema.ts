@@ -102,11 +102,14 @@ const ClientSchema = new Schema<IClient>({
     type: Number,
     required: true,
   },
-  gpClient: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    required: true,
-  },
+  gpClient: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      required: true,
+      default: [],
+    },
+  ],
   projects: [
     {
       type: mongoose.Types.ObjectId,

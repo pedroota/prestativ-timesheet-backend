@@ -168,7 +168,18 @@ class ActivityRepository {
 
   async findById(id: string) {
     const activity = await Activity.findOne({ _id: id })
-      .populate("users")
+      .populate([
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+      ])
       .lean()
       .exec();
 

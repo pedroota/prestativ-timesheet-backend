@@ -26,10 +26,13 @@ const ProjectSchema = new Schema<IProject>({
   valueProject: {
     type: Number,
   },
-  gpProject: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-  },
+  gpProject: [
+    {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
+      default: [],
+    },
+  ],
   description: {
     type: String,
     required: true,
