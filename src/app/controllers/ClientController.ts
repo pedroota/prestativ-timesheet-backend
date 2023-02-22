@@ -33,7 +33,7 @@ class ClientController {
 
   async store(request: Request, response: Response) {
     const {
-      code,
+      corporateName,
       name,
       cnpj,
       cep,
@@ -59,7 +59,7 @@ class ClientController {
         .json({ message: "Um cliente com este nome já foi cadastrado" });
 
     const client = await ClientRepository.create({
-      code,
+      corporateName,
       name,
       cnpj,
       cep,
@@ -85,7 +85,7 @@ class ClientController {
   async update(request: Request, response: Response) {
     const { id } = request.params;
     const {
-      code,
+      corporateName,
       name,
       cnpj,
       cep,
@@ -105,7 +105,7 @@ class ClientController {
 
     const updatedClient = await ClientRepository.findByIdAndUpdate({
       id,
-      code,
+      corporateName,
       name,
       cnpj,
       cep,
