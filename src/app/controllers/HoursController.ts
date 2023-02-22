@@ -3,6 +3,22 @@ const HoursRepository = require("../repositories/HoursRepository");
 const ActivityRepository = require("../repositories/ActivityRepository");
 const ProjectRepository = require("../repositories/ProjectRepository");
 
+interface Hours {
+  initial: number;
+  final: number;
+  adjustment: number;
+  relClient: string;
+  relProject: string;
+  relActivity: string;
+  relUser: string;
+  approvedGP: boolean;
+  billable: boolean;
+  released: boolean;
+  approved: boolean;
+  releasedCall: string;
+  activityDesc: string;
+}
+
 class HoursController {
   async index(request: Request, response: Response) {
     const page = Number(request.query.page);
@@ -171,34 +187,42 @@ class HoursController {
       released,
       approved,
       activityDesc,
+      releasedCall,
     } = request.body;
 
-    const relProject = await ActivityRepository.findProjectIdByActivityId(
-      relActivity
-    );
-    const relClient = await ProjectRepository.findClientIdByProjectId(
-      relProject
-    );
+    let relProject = null;
+    let relClient = null;
 
-    const updatedHours = await HoursRepository.findByIdAndUpdate({
-      id,
-      initial,
-      final,
-      adjustment,
-      relActivity,
-      relProject,
-      relClient,
-      relUser,
-      approvedGP,
-      billable,
-      released,
-      approved,
-      activityDesc,
-    });
+    if (relActivity) {
+      relProject = await ActivityRepository.findProjectIdByActivityId(
+        relActivity
+      );
+      if (relProject) {
+        relClient = await ProjectRepository.findClientIdByProjectId(relProject);
+      }
+    }
+
+    const updatedHours: Hours = {
+      ...(initial && { initial }),
+      ...(final && { final }),
+      ...(adjustment && { adjustment }),
+      ...(relActivity && { relActivity }),
+      ...(relProject && { relProject }),
+      ...(relClient && { relClient }),
+      ...(relUser && { relUser }),
+      ...(approvedGP && { approvedGP }),
+      ...(billable && { billable }),
+      ...(released && { released }),
+      ...(approved && { approved }),
+      ...(activityDesc && { activityDesc }),
+      ...(releasedCall && { releasedCall }),
+    };
+
+    const updated = await HoursRepository.findByIdAndUpdate(id, updatedHours);
 
     return response.status(200).json({
       message: "Este Lançamento de horas foi atualizado com sucesso.",
-      updatedHours,
+      updated,
     });
   }
 

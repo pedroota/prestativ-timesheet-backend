@@ -563,38 +563,11 @@ class HoursRepository {
     return hours;
   }
 
-  async findByIdAndUpdate({
-    id,
-    initial,
-    final,
-    adjustment,
-    relClient,
-    relProject,
-    relActivity,
-    relUser,
-    approvedGP,
-    billable,
-    released,
-    approved,
-    activityDesc,
-  }) {
+  async findByIdAndUpdate(id, updatedFields) {
     const hours = await Hours.findOneAndUpdate(
       { _id: id },
-      {
-        initial: initial,
-        final: final,
-        adjustment: adjustment,
-        relClient: relClient,
-        relProject: relProject,
-        relActivity: relActivity,
-        relUser: relUser,
-        approvedGP: approvedGP,
-        billable: billable,
-        released: released,
-        approved: approved,
-        activityDesc: activityDesc,
-        updatedAt: Date.now(),
-      }
+      { $set: updatedFields, updatedAt: Date.now() },
+      { new: true }
     )
       .lean()
       .exec();
