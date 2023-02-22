@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const Schema = mongoose.Schema;
 
 interface IClient {
-  code: string;
+  corporateName: string;
   name: string;
   cnpj: string;
   cep: string;
@@ -25,7 +25,7 @@ interface IClient {
 }
 
 const ClientSchema = new Schema<IClient>({
-  code: {
+  corporateName: {
     type: String,
     required: true,
     trim: true,

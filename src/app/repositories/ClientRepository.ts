@@ -40,7 +40,7 @@ class ClientRepository {
   }
 
   async create({
-    code,
+    corporateName,
     name,
     cnpj,
     cep,
@@ -60,7 +60,7 @@ class ClientRepository {
     gpClient,
   }) {
     const client = new Client({
-      code,
+      corporateName,
       name,
       cnpj,
       cep,
@@ -87,7 +87,7 @@ class ClientRepository {
 
   async findByIdAndUpdate({
     id,
-    code,
+    corporateName,
     name,
     cnpj,
     cep,
@@ -108,7 +108,7 @@ class ClientRepository {
     const client = await Client.findOneAndUpdate(
       { _id: id },
       {
-        code,
+        corporateName,
         name,
         cnpj,
         cep,
