@@ -189,17 +189,19 @@ class HoursController {
       activityDesc,
       releasedCall,
     } = request.body;
-  
+
     let relProject = null;
     let relClient = null;
-  
+
     if (relActivity) {
-      relProject = await ActivityRepository.findProjectIdByActivityId(relActivity);
+      relProject = await ActivityRepository.findProjectIdByActivityId(
+        relActivity
+      );
       if (relProject) {
         relClient = await ProjectRepository.findClientIdByProjectId(relProject);
       }
     }
-  
+
     const updatedHours: Hours = {
       ...(initial && { initial }),
       ...(final && { final }),
@@ -215,9 +217,9 @@ class HoursController {
       ...(activityDesc && { activityDesc }),
       ...(releasedCall && { releasedCall }),
     };
-  
+
     const updated = await HoursRepository.findByIdAndUpdate(id, updatedHours);
-  
+
     return response.status(200).json({
       message: "Este Lançamento de horas foi atualizado com sucesso.",
       updated,

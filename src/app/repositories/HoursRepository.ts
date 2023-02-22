@@ -568,7 +568,9 @@ class HoursRepository {
       { _id: id },
       { $set: updatedFields, updatedAt: Date.now() },
       { new: true }
-    ).lean().exec();
+    )
+      .lean()
+      .exec();
     return hours;
   }
 
