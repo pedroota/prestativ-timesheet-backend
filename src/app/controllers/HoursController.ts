@@ -89,7 +89,7 @@ class HoursController {
 
   async filter(request: Request, response: Response) {
     const filters = request.query;
-    // APIURL/hours/filter?dataI=2023-01-27&dataF=2023-01-28&relClient=63d3ea3bbc9cf01242e73c50&relProject=id&relActivity=id&relUser=id
+    // APIURL/hours/filter?dataI=2023-01-01&dataF=2023-01-31&relClient=id&relProject=id&relActivity=id&relUser=id
     // se o filter estiver vazio ele irá retornar tudo
 
     let hours = [];
