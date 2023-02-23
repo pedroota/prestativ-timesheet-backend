@@ -37,232 +37,68 @@ class HoursRepository {
   }
 
   async findWithFilters(filters) {
-    // APIURL/hours/filter ? dataI = 2023-01-27 & dataF = 2023-01-28 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
-    if (filters.dataI) {
-      const dateIFormated = filters.dataI.split("-");
-      const timeINI = new Date(
-        Number(dateIFormated[0]),
-        Number(dateIFormated[1]) - 1,
-        Number(dateIFormated[2]),
-        0,
-        0,
-        0,
-        0
-      ).getTime();
+    const { dataI, dataF, ...filterProps } = filters;
 
-      if (filters.dataI && filters.dataF) {
-        const dateFFormated = filters.dataF.split("-");
-        const timeEND = new Date(
-          Number(dateFFormated[0]),
-          Number(dateFFormated[1]) - 1,
-          Number(dateFFormated[2]),
-          23,
-          59,
-          59,
-          999
-        ).getTime();
+    const timeINI = dataI ? new Date(dataI + "T00:00:00.000Z").getTime() : null;
 
-        delete filters.dataI;
-        delete filters.dataF;
+    const timeEND = dataF ? new Date(dataF + "T23:59:59.999Z").getTime() : null;
 
-        if (Object.keys(filters).length === 0 || !filters) {
-          const hours = await Hours.find({
-            $and: [
-              { initial: { $gte: timeINI } },
-              { initial: { $lte: timeEND } },
-            ],
-          })
-            .populate([
-              { path: "relUser", select: "_id name surname" },
-              {
-                path: "relClient",
-                select: "_id name valueClient gpClient",
-                populate: {
-                  path: "gpClient",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relProject",
-                select: "_id title valueProject gpProject",
-                populate: {
-                  path: "gpProject",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relActivity",
-                select: "_id title valueActivity gpActivity closedScope",
-                populate: {
-                  path: "gpActivity",
-                  select: "name surname",
-                },
-              },
-            ])
-            .lean()
-            .exec();
+    const andFilter = [];
 
-          return hours;
-        } else {
-          const hours = await Hours.find({
-            $and: [{ initial: { $gt: timeINI } }, { final: { $lt: timeEND } }],
-            ...filters,
-          })
-            .populate([
-              { path: "relUser", select: "_id name surname" },
-              {
-                path: "relClient",
-                select: "_id name valueClient gpClient",
-                populate: {
-                  path: "gpClient",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relProject",
-                select: "_id title valueProject gpProject",
-                populate: {
-                  path: "gpProject",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relActivity",
-                select: "_id title valueActivity gpActivity closedScope",
-                populate: {
-                  path: "gpActivity",
-                  select: "name surname",
-                },
-              },
-            ])
-            .lean()
-            .exec();
-
-          return hours;
-        }
-      } else {
-        const timeEND = new Date(
-          Number(dateIFormated[0]),
-          Number(dateIFormated[1]) - 1,
-          Number(dateIFormated[2]),
-          23,
-          59,
-          59,
-          999
-        ).getTime();
-
-        delete filters.dataI;
-
-        if (Object.keys(filters).length === 0 || !filters) {
-          const hours = await Hours.find({
-            $and: [
-              { initial: { $gte: timeINI } },
-              { initial: { $lte: timeEND } },
-            ],
-          })
-            .populate([
-              { path: "relUser", select: "_id name surname" },
-              {
-                path: "relClient",
-                select: "_id name valueClient gpClient",
-                populate: {
-                  path: "gpClient",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relProject",
-                select: "_id title valueProject gpProject",
-                populate: {
-                  path: "gpProject",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relActivity",
-                select: "_id title valueActivity gpActivity closedScope",
-                populate: {
-                  path: "gpActivity",
-                  select: "name surname",
-                },
-              },
-            ])
-            .lean()
-            .exec();
-
-          return hours;
-        } else {
-          const hours = await Hours.find({
-            $and: [{ initial: { $gt: timeINI } }, { final: { $lt: timeEND } }],
-            ...filters,
-          })
-            .populate([
-              { path: "relUser", select: "_id name surname" },
-              {
-                path: "relClient",
-                select: "_id name valueClient gpClient",
-                populate: {
-                  path: "gpClient",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relProject",
-                select: "_id title valueProject gpProject",
-                populate: {
-                  path: "gpProject",
-                  select: "name surname",
-                },
-              },
-              {
-                path: "relActivity",
-                select: "_id title valueActivity gpActivity closedScope",
-                populate: {
-                  path: "gpActivity",
-                  select: "name surname",
-                },
-              },
-            ])
-            .lean()
-            .exec();
-
-          return hours;
-        }
-      }
+    if (timeINI !== null && timeEND == null) {
+      const finalTime = new Date(dataI + "T23:59:59.999Z").getTime();
+      andFilter.push({
+        $and: [
+          { initial: { $gte: timeINI } },
+          { initial: { $lte: finalTime } },
+        ],
+      });
     } else {
-      const hours = await Hours.find(filters)
-        .populate([
-          { path: "relUser", select: "_id name surname" },
-          {
-            path: "relClient",
-            select: "_id name valueClient gpClient",
-            populate: {
-              path: "gpClient",
-              select: "name surname",
-            },
-          },
-          {
-            path: "relProject",
-            select: "_id title valueProject gpProject",
-            populate: {
-              path: "gpProject",
-              select: "name surname",
-            },
-          },
-          {
-            path: "relActivity",
-            select: "_id title valueActivity gpActivity closedScope",
-            populate: {
-              path: "gpActivity",
-              select: "name surname",
-            },
-          },
-        ])
-        .lean()
-        .exec();
+      if (timeINI !== null) {
+        andFilter.push({ initial: { $gte: timeINI } });
+      }
 
-      return hours;
+      if (timeEND !== null) {
+        andFilter.push({ final: { $lte: timeEND } });
+      }
     }
+
+    const filter = andFilter.length > 0 ? { $and: andFilter } : {};
+
+    Object.assign(filter, filterProps);
+
+    const hours = await Hours.find(filter)
+      .populate([
+        { path: "relUser", select: "_id name surname" },
+        {
+          path: "relClient",
+          select: "_id name valueClient gpClient",
+          populate: {
+            path: "gpClient",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relProject",
+          select: "_id title valueProject gpProject",
+          populate: {
+            path: "gpProject",
+            select: "name surname",
+          },
+        },
+        {
+          path: "relActivity",
+          select: "_id title valueActivity gpActivity closedScope",
+          populate: {
+            path: "gpActivity",
+            select: "name surname",
+          },
+        },
+      ])
+      .lean()
+      .exec();
+
+    return hours;
   }
 
   async findByUserId(id: string) {

@@ -89,21 +89,20 @@ class HoursController {
 
   async filter(request: Request, response: Response) {
     const filters = request.query;
-    // APIURL/hours/filter ? dataI = 2023-01-27 & dataF = 2023-01-28 & relClient = 63d3ea3bbc9cf01242e73c50 & relProject = id & relActivity = id & relUser = id
+    // APIURL/hours/filter?dataI=2023-01-27&dataF=2023-01-28&relClient=63d3ea3bbc9cf01242e73c50&relProject=id&relActivity=id&relUser=id
     // se o filter estiver vazio ele irá retornar tudo
+
+    let hours = [];
+
     if (Object.keys(filters).length === 0 || !filters) {
-      const hours = await HoursRepository.findLatest();
-      hours.sort(function (x: { initial: number }, y: { initial: number }) {
-        return x.initial - y.initial;
-      });
-      return response.json(hours);
+      hours = await HoursRepository.findLatest();
     } else {
-      const hours = await HoursRepository.findWithFilters(filters);
-      hours.sort(function (x: { initial: number }, y: { initial: number }) {
-        return x.initial - y.initial;
-      });
-      return response.json(hours);
+      hours = await HoursRepository.findWithFilters(filters);
     }
+
+    hours.sort((x, y) => x.initial - y.initial);
+
+    return response.json(hours);
   }
 
   async latest(_request: Request, response: Response) {
