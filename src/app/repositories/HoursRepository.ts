@@ -479,53 +479,27 @@ class HoursRepository {
   }
 
   async findByIdAndCheck({ id, field, value }) {
-    if (field == "approvedGP") {
-      const hours = await Hours.findOneAndUpdate(
-        { _id: id },
-        {
-          approvedGP: value,
-          updatedAt: Date.now(),
-        }
-      )
-        .lean()
-        .exec();
-      return hours;
-    } else if (field == "billable") {
-      const hours = await Hours.findOneAndUpdate(
-        { _id: id },
-        {
-          billable: value,
-          updatedAt: Date.now(),
-        }
-      )
-        .lean()
-        .exec();
-      return hours;
-    } else if (field == "released") {
-      const hours = await Hours.findOneAndUpdate(
-        { _id: id },
-        {
-          released: value,
-          updatedAt: Date.now(),
-        }
-      )
-        .lean()
-        .exec();
-      return hours;
-    } else if (field == "approved") {
-      const hours = await Hours.findOneAndUpdate(
-        { _id: id },
-        {
-          approved: value,
-          updatedAt: Date.now(),
-        }
-      )
-        .lean()
-        .exec();
-      return hours;
-    } else {
-      return;
+    const validFields = ["approvedGP", "billable", "released", "approved"];
+    if (!validFields.includes(field)) {
+      throw new Error(`Invalid field: ${field}`);
     }
+  
+    const update = {
+      [field]: value,
+      updatedAt: Date.now(),
+    };
+  
+    const hours = await Hours.findOneAndUpdate(
+      { _id: id },
+      update,
+      { new: true, lean: true }
+    ).exec();
+  
+    if (!hours) {
+      throw new Error(`Hours not found: ${id}`);
+    }
+  
+    return hours;
   }
 }
 
