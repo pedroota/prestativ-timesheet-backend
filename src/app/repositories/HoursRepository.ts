@@ -483,22 +483,21 @@ class HoursRepository {
     if (!validFields.includes(field)) {
       throw new Error(`Invalid field: ${field}`);
     }
-  
+
     const update = {
       [field]: value,
       updatedAt: Date.now(),
     };
-  
-    const hours = await Hours.findOneAndUpdate(
-      { _id: id },
-      update,
-      { new: true, lean: true }
-    ).exec();
-  
+
+    const hours = await Hours.findOneAndUpdate({ _id: id }, update, {
+      new: true,
+      lean: true,
+    }).exec();
+
     if (!hours) {
       throw new Error(`Hours not found: ${id}`);
     }
-  
+
     return hours;
   }
 }
