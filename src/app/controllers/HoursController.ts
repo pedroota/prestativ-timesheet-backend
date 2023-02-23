@@ -258,18 +258,25 @@ class HoursController {
   }
 
   async check(request: Request, response: Response) {
-    const { id } = request.params;
-    const { field, value } = request.body;
+    try {
+      const { id } = request.params;
+      const { field, value } = request.body;
 
-    await HoursRepository.findByIdAndCheck({
-      id,
-      field,
-      value,
-    });
+      await HoursRepository.findByIdAndCheck({
+        id,
+        field,
+        value,
+      });
 
-    return response.status(200).json({
-      message: `O campo ${field} foi marcado como ${value}`,
-    });
+      return response.status(200).json({
+        message: `O campo ${field} foi marcado como ${value}`,
+      });
+    } catch (error) {
+      console.error(error);
+      return response.status(500).json({
+        message: "Ocorreu um erro ao tentar atualizar o registro",
+      });
+    }
   }
 }
 
