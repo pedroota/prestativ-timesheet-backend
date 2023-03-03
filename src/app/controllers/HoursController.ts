@@ -139,9 +139,13 @@ class HoursController {
 
     const getFirstDayOfThisMonth = () => {
       const now = new Date();
-      const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 2);
-      firstDayOfMonth.setHours(23, 59, 0, 0);
-      return firstDayOfMonth.getTime() + 1;
+      const today23and59 = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+      today23and59.setHours(23, 59, 0, 0);
+      return today23and59.getTime() + 1;
     };
 
     const hours = await HoursRepository.create({
@@ -161,6 +165,8 @@ class HoursController {
       final,
       adjustment,
       relActivity,
+      relProject,
+      relClient,
       relUser,
       approvedGP,
       billable,
@@ -170,24 +176,13 @@ class HoursController {
       releasedCall,
     } = request.body;
 
+    // reativar essa função depois para não conseguir modificar um lançamento e colocar uma data que já foi lançada
     // const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
     //   relActivity,
     //   relUser,
     //   initial,
     //   final,
     // });
-
-    let relProject = null;
-    let relClient = null;
-
-    if (relActivity) {
-      relProject = await ActivityRepository.findProjectIdByActivityId(
-        relActivity
-      );
-      if (relProject) {
-        relClient = await ProjectRepository.findClientIdByProjectId(relProject);
-      }
-    }
 
     const updatedHours: Hours = {
       ...(initial && { initial }),
