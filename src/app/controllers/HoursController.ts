@@ -100,7 +100,7 @@ class HoursController {
       hours = await HoursRepository.findWithFilters(filters);
     }
 
-    hours.sort((x, y) => x.initial - y.initial);
+    hours.sort((x, y) => y.initial - x.initial);
 
     return response.json(hours);
   }
@@ -135,37 +135,18 @@ class HoursController {
   }
 
   async store(request: Request, response: Response) {
-    const { initial, final, adjustment, relActivity, relUser, activityDesc } =
-      request.body;
+    const { relUser } = request.body;
 
-    const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
-      relActivity,
-      relUser,
-      initial,
-      final,
-    });
-
-    if (alreadyReleased)
-      return response
-        .status(400)
-        .json({ message: "Conflito no horário informado." });
-
-    const relProject = await ActivityRepository.findProjectIdByActivityId(
-      relActivity
-    );
-    const relClient = await ProjectRepository.findClientIdByProjectId(
-      relProject
-    );
+    const getFirstDayOfThisMonth = () => {
+      const now = new Date();
+      const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 2);
+      firstDayOfMonth.setHours(23, 59, 0, 0);
+      return firstDayOfMonth.getTime() + 1;
+    };
 
     const hours = await HoursRepository.create({
-      initial,
-      final,
-      adjustment,
-      relActivity,
-      relProject,
-      relClient,
+      initial: getFirstDayOfThisMonth(),
       relUser,
-      activityDesc,
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -188,6 +169,13 @@ class HoursController {
       activityDesc,
       releasedCall,
     } = request.body;
+
+    // const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
+    //   relActivity,
+    //   relUser,
+    //   initial,
+    //   final,
+    // });
 
     let relProject = null;
     let relClient = null;
