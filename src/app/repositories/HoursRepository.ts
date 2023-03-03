@@ -61,6 +61,9 @@ class HoursRepository {
       if (timeEND !== null) {
         andFilter.push({ final: { $lte: timeEND } });
       }
+      andFilter.push({
+        $or: [{ initial: { $exists: false } }, { initial: null }],
+      });
     }
 
     const filter = andFilter.length > 0 ? { $and: andFilter } : {};
@@ -369,27 +372,10 @@ class HoursRepository {
     return hours;
   }
 
-  async create({
-    initial,
-    final,
-    adjustment,
-    relClient,
-    relProject,
-    relActivity,
-    relUser,
-    activityDesc,
-    createdAt,
-    updatedAt,
-  }) {
+  async create({ initial, relUser, createdAt, updatedAt }) {
     const hours = new Hours({
       initial,
-      final,
-      adjustment,
-      relClient,
-      relProject,
-      relActivity,
       relUser,
-      activityDesc,
       createdAt,
       updatedAt,
     });

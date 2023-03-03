@@ -23,11 +23,9 @@ interface IHours {
 const HoursSchema = new Schema<IHours>({
   initial: {
     type: Number,
-    required: true,
   },
   final: {
     type: Number,
-    required: true,
   },
   adjustment: {
     type: Number,
@@ -35,22 +33,18 @@ const HoursSchema = new Schema<IHours>({
   relClient: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Client",
-    required: true,
   },
   relProject: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Project",
-    required: true,
   },
   relActivity: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Activity",
-    required: true,
   },
   relUser: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
   },
   approvedGP: {
     type: Boolean,
@@ -73,15 +67,12 @@ const HoursSchema = new Schema<IHours>({
   },
   activityDesc: {
     type: String,
-    required: true,
   },
   createdAt: {
     type: Number,
-    required: true,
   },
   updatedAt: {
     type: Number,
-    required: true,
   },
 });
 
