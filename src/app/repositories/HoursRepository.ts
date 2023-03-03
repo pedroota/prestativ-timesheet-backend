@@ -37,32 +37,56 @@ class HoursRepository {
   }
 
   async findWithFilters(filters) {
-    const { dataI, dataF, ...filterProps } = filters;
-
-    const timeINI = dataI ? new Date(dataI + "T00:00:00.000Z").getTime() : null;
-
-    const timeEND = dataF ? new Date(dataF + "T23:59:59.999Z").getTime() : null;
-
+    const { dataI, dataF, ...otherFilters } = filters;
     const andFilter = [];
+    const filterProps = {};
 
-    if (timeINI !== null && timeEND == null) {
-      const finalTime = new Date(dataI + "T23:59:59.999Z").getTime();
+    // adiciona os filtros adicionais
+    Object.assign(filterProps, otherFilters);
+
+    // adiciona o filtro de dataI e dataF, se estiverem presentes
+    if (dataI !== undefined && dataI !== null) {
+      const dateI = new Date(dataI).getTime();
+      if (dataF !== undefined && dataF !== null) {
+        const dateF = new Date(dataF).getTime();
+        andFilter.push({
+          $and: [{ initial: { $gte: dateI } }, { final: { $lte: dateF } }],
+        });
+      } else {
+        const finalTime = new Date(dataI + "T23:59:59.999Z").getTime();
+        andFilter.push({
+          $and: [
+            { initial: { $gte: dateI } },
+            { initial: { $lte: finalTime } },
+          ],
+        });
+      }
+    } else if (dataF !== undefined && dataF !== null) {
+      const dateF = new Date(dataF).getTime();
+      const finalTime = new Date(dataF + "T23:59:59.999Z").getTime();
       andFilter.push({
-        $and: [
-          { initial: { $gte: timeINI } },
-          { initial: { $lte: finalTime } },
-        ],
+        $and: [{ initial: { $gte: dateF } }, { initial: { $lte: finalTime } }],
       });
     } else {
-      if (timeINI !== null) {
-        andFilter.push({ initial: { $gte: timeINI } });
-      }
-
-      if (timeEND !== null) {
-        andFilter.push({ final: { $lte: timeEND } });
-      }
+      // busca pelo mês atual
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = today.getMonth();
+      const firstDayOfTheMonthTimestamp = new Date(year, month, 1).getTime();
+      const lastDatOfTheMonthTimestamp = new Date(
+        year,
+        month + 1,
+        0,
+        23,
+        59,
+        59,
+        999
+      ).getTime();
       andFilter.push({
-        $or: [{ initial: { $exists: false } }, { initial: null }],
+        $and: [
+          { initial: { $gte: firstDayOfTheMonthTimestamp } },
+          { initial: { $lte: lastDatOfTheMonthTimestamp } },
+        ],
       });
     }
 
