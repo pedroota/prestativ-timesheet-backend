@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 const HoursRepository = require("../repositories/HoursRepository");
-const ActivityRepository = require("../repositories/ActivityRepository");
-const ProjectRepository = require("../repositories/ProjectRepository");
+// const ActivityRepository = require("../repositories/ActivityRepository");
+// const ProjectRepository = require("../repositories/ProjectRepository");
 
 interface Hours {
   initial: number;
@@ -177,12 +177,18 @@ class HoursController {
     } = request.body;
 
     // reativar essa função depois para não conseguir modificar um lançamento e colocar uma data que já foi lançada
-    // const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
-    //   relActivity,
-    //   relUser,
-    //   initial,
-    //   final,
-    // });
+    const alreadyReleased = await HoursRepository.findHoursPostedInThatPeriod({
+      relActivity,
+      relUser,
+      initial,
+      final,
+    });
+
+    if (alreadyReleased) {
+      return response.status(409).json({
+        message: "Já houve um Lançamento de Horas nesse período.",
+      });
+    }
 
     const updatedHours: Hours = {
       ...(initial && { initial }),
