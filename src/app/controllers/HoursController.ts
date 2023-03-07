@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 const HoursRepository = require("../repositories/HoursRepository");
-// const ActivityRepository = require("../repositories/ActivityRepository");
-// const ProjectRepository = require("../repositories/ProjectRepository");
+const ActivityRepository = require("../repositories/ActivityRepository");
+const ProjectRepository = require("../repositories/ProjectRepository");
 
 interface Hours {
   initial: number;
