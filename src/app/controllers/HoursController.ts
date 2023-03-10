@@ -154,9 +154,7 @@ class HoursController {
     const createHours: Hours = {
       ...(initial && { initial }),
       ...(final && { final }),
-      ...(adjustment
-        ? { adjustment: adjustment }
-        : { adjustment: 0 }),
+      ...(adjustment ? { adjustment: adjustment } : { adjustment: 0 }),
       ...(relActivity && { relActivity }),
       ...(relProject && { relProject }),
       ...(relClient && { relClient }),
