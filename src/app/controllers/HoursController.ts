@@ -135,25 +135,41 @@ class HoursController {
   }
 
   async store(request: Request, response: Response) {
-    const { relUser } = request.body;
+    const {
+      initial,
+      final,
+      adjustment,
+      relActivity,
+      relProject,
+      relClient,
+      relUser,
+      approvedGP,
+      billable,
+      released,
+      approved,
+      activityDesc,
+      releasedCall,
+    } = request.body;
 
-    const getFirstDayOfThisMonth = () => {
-      const now = new Date();
-      const today23and59 = new Date(
-        now.getFullYear(),
-        now.getMonth(),
-        now.getDate()
-      );
-      today23and59.setHours(23, 59, 0, 0);
-      return today23and59.getTime() + 1;
+    const createHours: Hours = {
+      ...(initial && { initial }),
+      ...(final && { final }),
+      ...(adjustment
+        ? { adjustment: adjustment }
+        : { adjustment: 0 }),
+      ...(relActivity && { relActivity }),
+      ...(relProject && { relProject }),
+      ...(relClient && { relClient }),
+      ...(relUser && { relUser }),
+      ...(approvedGP && { approvedGP }),
+      ...(billable && { billable }),
+      ...(released && { released }),
+      ...(approved && { approved }),
+      ...(activityDesc && { activityDesc }),
+      ...(releasedCall && { releasedCall }),
     };
 
-    const hours = await HoursRepository.create({
-      initial: getFirstDayOfThisMonth(),
-      relUser,
-      createdAt: Date.now(),
-      updatedAt: Date.now(),
-    });
+    const hours = await HoursRepository.create(createHours);
 
     return response.status(200).json(hours);
   }

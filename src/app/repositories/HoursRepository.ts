@@ -396,12 +396,11 @@ class HoursRepository {
     return hours;
   }
 
-  async create({ initial, relUser, createdAt, updatedAt }) {
+  async create(createHours) {
     const hours = new Hours({
-      initial,
-      relUser,
-      createdAt,
-      updatedAt,
+      ...createHours,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
     });
 
     await hours.save();
