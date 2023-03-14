@@ -6,6 +6,7 @@ const RoleController = require("./app/controllers/RoleController");
 const ClientController = require("./app/controllers/ClientController");
 const ProjectController = require("./app/controllers/ProjectController");
 const ActivityController = require("./app/controllers/ActivityController");
+const BusinessController = require("./app/controllers/BusinessController");
 const HoursController = require("./app/controllers/HoursController");
 const LogController = require("./app/controllers/LogController");
 import { verifyTokenJwt } from "./app/middlewares/verifyTokenJwt";
@@ -134,5 +135,12 @@ router.get("/logs/:id", verifyTokenJwt, LogController.show);
 router.post("/logs", verifyTokenJwt, createLogs, LogController.store);
 router.put("/logs/:id", verifyTokenJwt, createLogs, LogController.update);
 router.delete("/logs/:id", verifyTokenJwt, createLogs, LogController.delete);
+
+// Business Unit Routes
+router.get("/business", verifyTokenJwt, BusinessController.index);
+router.get("/business/:id", verifyTokenJwt, BusinessController.show);
+router.post("/business", verifyTokenJwt, BusinessController.store);
+router.put("/business/:id", verifyTokenJwt, BusinessController.update);
+router.delete("/business/:id", verifyTokenJwt, BusinessController.delete);
 
 module.exports = router;
