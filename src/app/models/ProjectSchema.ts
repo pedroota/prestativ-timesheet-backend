@@ -11,6 +11,7 @@ interface IProject {
   createdAt: number;
   updatedAt: number;
   activities: mongoose.Types.ObjectId;
+  businessUnit: mongoose.Schema.Types.ObjectId;
 }
 
 const ProjectSchema = new Schema<IProject>({
@@ -52,6 +53,11 @@ const ProjectSchema = new Schema<IProject>({
       default: [],
     },
   ],
+  businessUnit: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business",
+    required: false,
+  },
 });
 
 const Project = mongoose.model<IProject>("Project", ProjectSchema);

@@ -13,6 +13,7 @@ interface IActivity {
   activityValidity: number;
   createdAt: number;
   updatedAt: number;
+  businessUnit: mongoose.Schema.Types.ObjectId;
 }
 
 const ActivitySchema = new Schema<IActivity>({
@@ -54,6 +55,11 @@ const ActivitySchema = new Schema<IActivity>({
   activityValidity: {
     type: Number,
     required: true,
+  },
+  businessUnit: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business",
+    required: false,
   },
   createdAt: {
     type: Number,

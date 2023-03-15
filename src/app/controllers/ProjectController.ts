@@ -33,8 +33,14 @@ class ProjectController {
   }
 
   async store(request: Request, response: Response) {
-    const { title, idClient, valueProject, gpProject, description } =
-      request.body;
+    const {
+      title,
+      idClient,
+      valueProject,
+      gpProject,
+      description,
+      businessUnit,
+    } = request.body;
 
     const isProjectAlreadyRegistered = await ProjectRepository.findByName(
       title
@@ -57,6 +63,7 @@ class ProjectController {
       valueProject: !valueProject ? client.valueClient : valueProject,
       gpProject,
       description,
+      ...(businessUnit && { businessUnit }),
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -70,8 +77,14 @@ class ProjectController {
 
   async update(request: Request, response: Response) {
     const { id } = request.params;
-    const { title, idClient, valueProject, gpProject, description } =
-      request.body;
+    const {
+      title,
+      idClient,
+      valueProject,
+      gpProject,
+      description,
+      businessUnit,
+    } = request.body;
 
     const updatedProject = await ProjectRepository.findByIdAndUpdate({
       id,
@@ -80,6 +93,7 @@ class ProjectController {
       valueProject,
       gpProject,
       description,
+      ...(businessUnit && { businessUnit }),
     });
 
     return response

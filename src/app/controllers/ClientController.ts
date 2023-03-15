@@ -49,6 +49,7 @@ class ClientController {
       payDay,
       valueClient,
       gpClient,
+      businessUnit,
     } = request.body;
 
     const isClientAlreadyRegistered = await ClientRepository.findByName(name);
@@ -77,6 +78,7 @@ class ClientController {
       payDay,
       valueClient,
       gpClient,
+      ...(businessUnit && { businessUnit }),
     });
 
     return response.status(200).json(client);
@@ -101,6 +103,7 @@ class ClientController {
       payDay,
       valueClient,
       gpClient,
+      businessUnit,
     } = request.body;
 
     const updatedClient = await ClientRepository.findByIdAndUpdate({
@@ -121,6 +124,7 @@ class ClientController {
       payDay,
       valueClient,
       gpClient,
+      ...(businessUnit && { businessUnit }),
     });
 
     return response
