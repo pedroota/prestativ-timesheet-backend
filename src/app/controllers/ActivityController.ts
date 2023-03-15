@@ -53,6 +53,7 @@ class ActivityController {
       description,
       users,
       closedScope,
+      businessUnit,
     } = request.body;
     let { activityValidity } = request.body;
 
@@ -88,6 +89,7 @@ class ActivityController {
       users,
       closedScope,
       activityValidity,
+      ...(businessUnit && { businessUnit }),
       createdAt: Date.now(),
       updatedAt: Date.now(),
     });
@@ -123,6 +125,7 @@ class ActivityController {
       users,
       closedScope,
       activityValidity,
+      businessUnit,
     } = request.body;
 
     const actualProject = await Project.findById(project);
@@ -151,6 +154,7 @@ class ActivityController {
       users,
       closedScope,
       activityValidity,
+      ...(businessUnit && { businessUnit }),
     });
 
     // Populate the activities property inside the User Schema with the actual id from the activity

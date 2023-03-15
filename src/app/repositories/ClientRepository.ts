@@ -6,6 +6,14 @@ class ClientRepository {
       .populate([
         { path: "projects", populate: { path: "activities" } },
         { path: "gpClient", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -20,6 +28,14 @@ class ClientRepository {
       .populate([
         { path: "projects", populate: { path: "activities" } },
         { path: "gpClient", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -32,6 +48,14 @@ class ClientRepository {
       .populate([
         { path: "projects", populate: { path: "activities" } },
         { path: "gpClient", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -58,6 +82,7 @@ class ClientRepository {
     payDay,
     valueClient,
     gpClient,
+    businessUnit,
   }) {
     const client = new Client({
       corporateName,
@@ -78,6 +103,7 @@ class ClientRepository {
       payDay,
       valueClient,
       gpClient,
+      businessUnit,
     });
 
     await client.save();
@@ -104,6 +130,7 @@ class ClientRepository {
     valueClient,
     gpClient,
     projects,
+    businessUnit,
   }) {
     const client = await Client.findOneAndUpdate(
       { _id: id },
@@ -126,11 +153,20 @@ class ClientRepository {
         valueClient,
         gpClient,
         projects,
+        businessUnit,
       }
     )
       .populate([
         { path: "projects", populate: { path: "activities" } },
         { path: "gpClient", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -143,6 +179,14 @@ class ClientRepository {
       .populate([
         { path: "projects", populate: { path: "activities" } },
         { path: "gpClient", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();

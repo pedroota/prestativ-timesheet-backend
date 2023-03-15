@@ -7,6 +7,14 @@ class ProjectRepository {
         { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -20,6 +28,14 @@ class ProjectRepository {
         { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -35,6 +51,14 @@ class ProjectRepository {
         { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -48,6 +72,14 @@ class ProjectRepository {
         { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -61,6 +93,7 @@ class ProjectRepository {
     valueProject,
     gpProject,
     description,
+    businessUnit,
     createdAt,
     updatedAt,
   }) {
@@ -70,6 +103,7 @@ class ProjectRepository {
       valueProject,
       gpProject,
       description,
+      businessUnit,
       createdAt,
       updatedAt,
     });
@@ -87,6 +121,7 @@ class ProjectRepository {
     gpProject,
     description,
     activities,
+    businessUnit,
   }) {
     const project = await Project.findOneAndUpdate(
       { _id: id },
@@ -98,12 +133,21 @@ class ProjectRepository {
         description: description,
         updatedAt: Date.now(),
         activities,
+        businessUnit,
       }
     )
       .populate([
         { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -116,6 +160,14 @@ class ProjectRepository {
         { path: "activities" },
         { path: "idClient", select: "_id name" },
         { path: "gpProject", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();

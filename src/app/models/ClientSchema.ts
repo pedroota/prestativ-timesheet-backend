@@ -22,6 +22,7 @@ interface IClient {
   valueClient: number;
   gpClient: mongoose.Schema.Types.ObjectId;
   projects: mongoose.Types.ObjectId;
+  businessUnit: mongoose.Schema.Types.ObjectId;
 }
 
 const ClientSchema = new Schema<IClient>({
@@ -117,6 +118,11 @@ const ClientSchema = new Schema<IClient>({
       default: [],
     },
   ],
+  businessUnit: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Business",
+    required: false,
+  },
 });
 
 const Client = mongoose.model<IClient>("Client", ClientSchema);

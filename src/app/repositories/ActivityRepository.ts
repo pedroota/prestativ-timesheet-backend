@@ -14,6 +14,14 @@ class ActivityRepository {
         },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -45,6 +53,14 @@ class ActivityRepository {
         },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
@@ -103,6 +119,7 @@ class ActivityRepository {
     users,
     closedScope,
     activityValidity,
+    businessUnit,
     createdAt,
     updatedAt,
   }) {
@@ -115,6 +132,7 @@ class ActivityRepository {
       users,
       closedScope,
       activityValidity,
+      businessUnit,
       createdAt,
       updatedAt,
     });
@@ -133,6 +151,7 @@ class ActivityRepository {
     users,
     closedScope,
     activityValidity,
+    businessUnit,
   }) {
     const activity = await Activity.findOneAndUpdate(
       { _id: id },
@@ -146,6 +165,7 @@ class ActivityRepository {
         updatedAt: Date.now(),
         closedScope: closedScope,
         activityValidity: activityValidity,
+        businessUnit: businessUnit,
       }
     )
       .populate([
