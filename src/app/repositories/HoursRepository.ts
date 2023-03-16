@@ -7,27 +7,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -99,27 +129,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -134,27 +194,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -187,27 +277,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -240,27 +360,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -295,27 +445,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -332,27 +512,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -367,27 +577,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name surname",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name surname",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name surname",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()
@@ -454,27 +694,57 @@ class HoursRepository {
         { path: "relUser", select: "_id name surname" },
         {
           path: "relClient",
-          select: "_id name valueClient gpClient",
-          populate: {
-            path: "gpClient",
-            select: "name",
-          },
+          select: "_id name valueClient gpClient businessUnit",
+          populate: [
+            {
+              path: "gpClient",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relProject",
-          select: "_id title valueProject gpProject",
-          populate: {
-            path: "gpProject",
-            select: "name",
-          },
+          select: "_id title valueProject gpProject businessUnit",
+          populate: [
+            {
+              path: "gpProject",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
         {
           path: "relActivity",
-          select: "_id title valueActivity gpActivity closedScope",
-          populate: {
-            path: "gpActivity",
-            select: "name",
-          },
+          select: "_id title valueActivity gpActivity businessUnit closedScope",
+          populate: [
+            {
+              path: "gpActivity",
+              select: "_id name surname",
+            },
+            {
+              path: "businessUnit",
+              select: "_id nameBU relUser",
+              populate: {
+                path: "relUser",
+                select: "_id name surname",
+              },
+            },
+          ],
         },
       ])
       .lean()

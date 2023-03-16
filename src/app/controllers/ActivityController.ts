@@ -84,7 +84,7 @@ class ActivityController {
       valueActivity: !valueActivity
         ? actualProject.valueProject
         : valueActivity,
-      gpActivity,
+      ...(gpActivity && { gpActivity }),
       description,
       users,
       closedScope,
@@ -149,7 +149,7 @@ class ActivityController {
       valueActivity: !valueActivity
         ? actualProject.valueProject
         : valueActivity,
-      gpActivity,
+      ...(gpActivity && { gpActivity }),
       description,
       users,
       closedScope,
