@@ -61,7 +61,7 @@ class ProjectController {
       title,
       idClient,
       valueProject: !valueProject ? client.valueClient : valueProject,
-      gpProject,
+      ...(gpProject && { gpProject }),
       description,
       ...(businessUnit && { businessUnit }),
       createdAt: Date.now(),
@@ -91,7 +91,7 @@ class ProjectController {
       title,
       idClient,
       valueProject,
-      gpProject,
+      ...(gpProject && { gpProject }),
       description,
       ...(businessUnit && { businessUnit }),
     });
