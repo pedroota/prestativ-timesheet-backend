@@ -77,7 +77,7 @@ class ClientController {
       billingLimit,
       payDay,
       valueClient,
-      gpClient,
+      ...(gpClient && { gpClient }),
       ...(businessUnit && { businessUnit }),
     });
 
@@ -123,7 +123,7 @@ class ClientController {
       billingLimit,
       payDay,
       valueClient,
-      gpClient,
+      ...(gpClient && { gpClient }),
       ...(businessUnit && { businessUnit }),
     });
 
