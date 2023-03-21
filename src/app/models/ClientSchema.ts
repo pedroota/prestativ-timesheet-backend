@@ -107,7 +107,6 @@ const ClientSchema = new Schema<IClient>({
     {
       type: mongoose.Types.ObjectId,
       ref: "User",
-      required: true,
       default: [],
     },
   ],
