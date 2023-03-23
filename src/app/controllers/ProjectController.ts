@@ -60,7 +60,7 @@ class ProjectController {
     const project = await ProjectRepository.create({
       title,
       idClient,
-      valueProject: !valueProject ? client.valueClient : valueProject,
+      valueProject: !valueProject ? client.valueClient : valueProject || 0,
       ...(gpProject && { gpProject }),
       description,
       ...(businessUnit && { businessUnit }),
@@ -90,7 +90,7 @@ class ProjectController {
       id,
       title,
       idClient,
-      valueProject,
+      valueProject: valueProject ? valueProject : 0,
       ...(gpProject && { gpProject }),
       description,
       ...(businessUnit && { businessUnit }),
