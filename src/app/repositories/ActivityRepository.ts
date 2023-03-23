@@ -31,7 +31,26 @@ class ActivityRepository {
 
   async findProjectIdByActivityId(id: string) {
     const activity = await Activity.findOne({ _id: id })
-      .populate("project")
+      .populate([
+        {
+          path: "project",
+          select: "_id title idClient",
+          populate: {
+            path: "idClient",
+            select: "name",
+          },
+        },
+        { path: "gpActivity", select: "_id name surname" },
+        { path: "users", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
+      ])
       .lean()
       .exec();
 
@@ -199,6 +218,14 @@ class ActivityRepository {
         },
         { path: "gpActivity", select: "_id name surname" },
         { path: "users", select: "_id name surname" },
+        {
+          path: "businessUnit",
+          select: "_id nameBU relUser",
+          populate: {
+            path: "relUser",
+            select: "_id name surname",
+          },
+        },
       ])
       .lean()
       .exec();
