@@ -43,8 +43,8 @@ class ClientRepository {
     return clients;
   }
 
-  async findByName(name: string) {
-    const client = Client.findOne({ name: name })
+  async findByCNPJ(cnpj: string) {
+    const client = Client.findOne({ cnpj: cnpj })
       .populate([
         { path: "projects", populate: { path: "activities" } },
         { path: "gpClient", select: "_id name surname" },
