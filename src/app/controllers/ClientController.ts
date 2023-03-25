@@ -128,12 +128,12 @@ class ClientController {
       businessUnit,
     } = request.body;
 
-    const isClientAlreadyRegistered = await ClientRepository.findByName(name);
+    const isClientAlreadyRegistered = await ClientRepository.findByCNPJ(cnpj);
 
     if (isClientAlreadyRegistered)
       return response
         .status(422)
-        .json({ message: "Um cliente com este nome já foi cadastrado" });
+        .json({ message: "Um cliente com este CNPJ já foi cadastrado" });
 
     const client = await ClientRepository.create({
       corporateName,
